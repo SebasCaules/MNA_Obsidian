@@ -44,46 +44,54 @@ CLAUDE.md        # Schema del wiki (workflows ingest/query/lint)
 
 ## Descargar a tu computadora
 
-El repo es privado → todos los comandos requieren auth. Si nunca lo usaste:
+El repo es **privado** → git necesita auth. Configuración una sola vez:
 
 ```bash
-brew install gh           # solo la primera vez
-gh auth login             # OAuth via browser, marcar HTTPS
+# si nunca usaste gh, instalalo y logueate (deja el token en el keychain)
+brew install gh && gh auth login
+gh auth setup-git              # le dice a git que use ese token
 ```
+
+(Alternativa sin `gh`: configurar SSH con `ssh-keygen` y subir la pubkey a GitHub, y usar `git@github.com:SebasCaules/MNA_Obsidian.git` en los comandos de abajo.)
 
 ### Clonar todo el repo (recomendado)
 
 ```bash
-gh repo clone SebasCaules/MNA_Obsidian
+git clone https://github.com/SebasCaules/MNA_Obsidian.git
 cd MNA_Obsidian
 ```
 
-Para actualizarlo cuando se agreguen cosas: `git pull` desde la carpeta.
+Para actualizarlo después: `git pull` desde la carpeta.
 
-### Bajar solo los scripts Casio (sin el resto)
+### Bajar solo los scripts Casio (sparse-checkout)
 
 ```bash
-mkdir -p MNA_casio && cd MNA_casio
-gh api repos/SebasCaules/MNA_Obsidian/tarball \
-  | tar -xz --strip-components=2 -- '*/study/casio'
+git clone --depth 1 --filter=blob:none --sparse \
+  https://github.com/SebasCaules/MNA_Obsidian.git MNA_casio
+cd MNA_casio
+git sparse-checkout set study/casio
+ls study/casio/        # main.py, mat.py, io_util.py + 12 módulos + README.md
 ```
 
-Te deja la carpeta `casio/` con los 17 archivos `.py` + `README.md` lista para arrastrar a la calculadora.
+Te deja un repo livianito con solo los 17 archivos `.py` + el README. Cuando quieras actualizar: `git pull`.
 
 ### Bajar solo el cheatsheet HTML
 
 ```bash
-gh api repos/SebasCaules/MNA_Obsidian/contents/study/MNA_Cheatsheet.html \
-  -H "Accept: application/vnd.github.raw" > MNA_Cheatsheet.html
-open MNA_Cheatsheet.html       # se abre en tu browser default
+git clone --depth 1 --filter=blob:none --sparse \
+  https://github.com/SebasCaules/MNA_Obsidian.git MNA_html
+cd MNA_html
+git sparse-checkout set study/MNA_Cheatsheet.html
+open study/MNA_Cheatsheet.html   # se abre en tu browser default
 ```
 
 ### Bajar solo el wiki (markdown) para consulta offline
 
 ```bash
-mkdir -p MNA_wiki && cd MNA_wiki
-gh api repos/SebasCaules/MNA_Obsidian/tarball \
-  | tar -xz --strip-components=2 -- '*/wiki'
+git clone --depth 1 --filter=blob:none --sparse \
+  https://github.com/SebasCaules/MNA_Obsidian.git MNA_wiki
+cd MNA_wiki
+git sparse-checkout set wiki
 ```
 
 Abrilo con Obsidian (`File → Open vault → MNA_wiki`) o con cualquier editor de markdown.
@@ -92,7 +100,7 @@ Abrilo con Obsidian (`File → Open vault → MNA_wiki`) o con cualquier editor 
 
 1. Conectar la calculadora por USB.
 2. En la calc: `MENU → LINK → F4 (CABLE)` → elegir "USB Mass Storage".
-3. En la PC la calc aparece como pendrive. Arrastrar todo el contenido de la carpeta `casio/` a la raíz del pendrive (o a una subcarpeta `PYTHON/`).
+3. En la PC la calc aparece como pendrive. Arrastrar todo el contenido de la carpeta `study/casio/` a la raíz del pendrive (o a una subcarpeta `PYTHON/`).
 4. Eject seguro. Desconectar.
 5. En la calc: `MENU → PYTHON → seleccionar main → EXE`.
 
