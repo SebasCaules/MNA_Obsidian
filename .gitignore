@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Obsidian local workspace state (no la cache compartida)
+.obsidian/workspace*
+.obsidian/cache
+.obsidian/appearance.json
+
+# Python / scripts
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editors
+.vscode/
+.idea/
+
+# OS / sistema
+Thumbs.db
+*.swp
+*.swo

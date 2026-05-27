@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>MNA — Guía del Parcial Central</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    macros: {
+      R: "\\mathbb{R}", C: "\\mathbb{C}", K: "\\mathbb{K}", N: "\\mathbb{N}",
+      sen: "\\operatorname{sen}", sh: "\\operatorname{sh}",
+      pmat: ["\\begin{pmatrix}#1\\end{pmatrix}", 1],
+      sinc: "\\operatorname{sinc}",
+      norm: ["\\left\\|#1\\right\\|", 1],
+      pinv: "^{+}", adj: "\\operatorname{adj}",
+      rg: "\\operatorname{rg}", nul: "\\operatorname{nul}",
+      Span: "\\operatorname{gen}", tr: "\\operatorname{tr}",
+      MB: ["M_{#1#2}", 2]
+    }
+  },
+  svg: { fontCache: 'global' },
+  startup: { typeset: true }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  @page {
+    size: A4;
+    margin: 14mm 16mm 16mm 16mm;
+    @bottom-right { content: counter(page) " / " counter(pages); font-size: 9pt; color: #666; }
+    @top-left { content: "MNA · Guía del parcial central"; font-size: 9pt; color: #666; }
+  }
+  :root {
+    --ink: #1a1a1a;
+    --muted: #555;
+    --accent: #1a3a6c;
+    --accent2: #2b5fa6;
+    --accent-soft: #eef3fb;
+    --good: #1f6f3b;
+    --good-soft: #e7f4ec;
+    --warn: #8a2a1a;
+    --warn-soft: #fbeae5;
+    --rule: #c8d0db;
+    --bg-soft: #f6f7f9;
+    --bg-step: #fafbfd;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Charter", "Source Serif Pro", "Georgia", serif;
+    font-size: 11.5pt;
+    line-height: 1.5;
+    color: var(--ink);
+    counter-reset: receta worked;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 18pt;
+  }
+  h1 {
+    font-size: 24pt;
+    margin: 0 0 6pt 0;
+    color: var(--accent);
+    border-bottom: 3pt solid var(--accent);
+    padding-bottom: 6pt;
+    letter-spacing: -.3pt;
+  }
+  h1 + .subtitle {
+    color: var(--muted);
+    font-size: 11pt;
+    margin-bottom: 18pt;
+  }
+  h2 {
+    font-size: 17pt;
+    margin: 26pt 0 8pt 0;
+    color: var(--accent);
+    border-left: 4pt solid var(--accent);
+    padding-left: 8pt;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 13.5pt;
+    margin: 18pt 0 6pt 0;
+    color: #224;
+    page-break-after: avoid;
+  }
+  h4 {
+    font-size: 11.8pt;
+    margin: 10pt 0 4pt 0;
+    color: var(--accent2);
+    page-break-after: avoid;
+  }
+  p { margin: 6pt 0; }
+  ul, ol { margin: 6pt 0; padding-left: 22pt; }
+  li { margin: 3pt 0; }
+  ol.steps > li { margin: 6pt 0; }
+  blockquote {
+    margin: 8pt 0;
+    padding: 6pt 14pt;
+    border-left: 3pt solid var(--accent);
+    background: var(--accent-soft);
+    font-style: italic;
+    color: #333;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 8pt 0;
+    font-size: 10.5pt;
+  }
+  th, td {
+    border: .5pt solid var(--rule);
+    padding: 5pt 8pt;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: var(--accent-soft);
+    font-weight: 600;
+    color: var(--accent);
+  }
+  tr:nth-child(2n) td { background: #fbfcfd; }
+  code, .mono {
+    font-family: "JetBrains Mono", "Menlo", monospace;
+    font-size: 10pt;
+    background: #f0f1f4;
+    padding: 0 3pt;
+    border-radius: 2pt;
+  }
+  pre {
+    background: var(--bg-soft);
+    border-left: 3pt solid var(--accent2);
+    padding: 8pt 12pt;
+    margin: 8pt 0;
+    font-family: "JetBrains Mono","Menlo",monospace;
+    font-size: 10pt;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    page-break-inside: avoid;
+    border-radius: 0 4pt 4pt 0;
+  }
+  /* Receta header */
+  .receta {
+    margin: 18pt 0;
+    border: 1pt solid var(--rule);
+    border-radius: 4pt;
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+  .receta-titulo {
+    counter-increment: receta;
+    background: var(--accent);
+    color: white;
+    padding: 8pt 14pt;
+    font-size: 13pt;
+    font-weight: 600;
+    display: flex;
+    align-items: baseline;
+    gap: 12pt;
+  }
+  .receta-titulo::before {
+    content: "R" counter(receta);
+    background: white;
+    color: var(--accent);
+    padding: 1pt 8pt;
+    border-radius: 3pt;
+    font-size: 11pt;
+  }
+  .receta-cuerpo {
+    padding: 12pt 16pt;
+    background: white;
+  }
+  .receta-cuerpo h4 { margin-top: 12pt; }
+  .receta-cuerpo h4:first-child { margin-top: 0; }
+  /* Worked example */
+  .ej {
+    margin: 12pt 0;
+    border: 1pt solid var(--good);
+    border-radius: 4pt;
+    background: var(--good-soft);
+    page-break-inside: avoid;
+  }
+  .ej-titulo {
+    counter-increment: worked;
+    background: var(--good);
+    color: white;
+    padding: 6pt 14pt;
+    font-size: 11.5pt;
+    font-weight: 600;
+  }
+  .ej-titulo::before { content: "Ej " counter(worked) " · "; opacity: 0.7; }
+  .ej-cuerpo {
+    padding: 10pt 16pt;
+    background: white;
+    border-top: 1pt solid var(--good);
+  }
+  .ej-cuerpo .step {
+    margin: 8pt 0;
+    padding: 6pt 10pt;
+    background: var(--bg-step);
+    border-left: 2pt solid var(--accent2);
+    border-radius: 0 3pt 3pt 0;
+  }
+  .ej-cuerpo .step-label {
+    font-weight: 600;
+    color: var(--accent2);
+    font-size: 11pt;
+    display: block;
+    margin-bottom: 3pt;
+  }
+  /* Trap callout */
+  .trap {
+    margin: 10pt 0;
+    padding: 8pt 14pt;
+    background: var(--warn-soft);
+    border-left: 3pt solid var(--warn);
+    border-radius: 0 3pt 3pt 0;
+  }
+  .trap b { color: var(--warn); }
+  .trap-titulo {
+    color: var(--warn);
+    font-weight: 600;
+    font-size: 11pt;
+    display: block;
+    margin-bottom: 3pt;
+  }
+  /* Info callout */
+  .info {
+    margin: 10pt 0;
+    padding: 8pt 14pt;
+    background: var(--accent-soft);
+    border-left: 3pt solid var(--accent2);
+    border-radius: 0 3pt 3pt 0;
+  }
+  .info-titulo {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 11pt;
+    display: block;
+    margin-bottom: 3pt;
+  }
+  /* TOC */
+  .toc {
+    background: var(--bg-soft);
+    border: 1pt solid var(--rule);
+    border-radius: 4pt;
+    padding: 12pt 18pt;
+    margin: 16pt 0;
+    font-size: 10.5pt;
+  }
+  .toc h3 { margin-top: 0; color: var(--accent); }
+  .toc ol { padding-left: 18pt; }
+  .toc a { color: var(--ink); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; color: var(--accent2); }
+  /* Badges */
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 1pt 6pt;
+    font-size: 9pt;
+    border-radius: 2pt;
+    vertical-align: middle;
+    margin-left: 4pt;
+  }
+  .badge-good { background: var(--good); }
+  .badge-warn { background: var(--warn); }
+  .badge-muted { background: #888; }
+  /* Two column reference */
+  .two-col {
+    column-count: 2;
+    column-gap: 18pt;
+    column-rule: .5pt solid var(--rule);
+  }
+  .two-col > div { break-inside: avoid; margin-bottom: 10pt; }
+  /* Page break */
+  .pagebreak { page-break-before: always; }
+  .small { font-size: 10pt; color: var(--muted); }
+  .key { background: #fff3a8; padding: 0 3pt; border-radius: 2pt; }
+  hr {
+    border: 0;
+    border-top: 1pt solid var(--rule);
+    margin: 14pt 0;
+  }
+  /* Bigger MathJax in display */
+  mjx-container[display="true"] { margin: 8pt 0 !important; }
+  @media print {
+    body { padding: 0; max-width: none; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<h1>MNA · Guía del Parcial Central</h1>
+<div class="subtitle">
+ITBA · Métodos Numéricos Avanzados · 26-1C<br>
+Material para mecanizar el parcial: recetas paso a paso, ejercicios resueltos con todas las cuentas, formulario denso, trampas frecuentes y scripts Casio. Construido sobre 70 PDFs procesados (slides Unidad I-II + 9 clases + 10 pizarrones + 8 guías TP + 6 resueltos + 30 modelos de IP/IIP/Final).
+</div>
+
+<div class="toc">
+<h3>Contenido</h3>
+<ol>
+<li><a href="#mapa">Mapa del parcial · qué cae, cuánto pesa</a></li>
+<li><a href="#cronograma">Cronograma sugerido de estudio</a></li>
+<li><a href="#recetas">Recetas paso a paso (12 temas)</a>
+  <ol style="padding-left:16pt;">
+  <li><a href="#r1">R1 · Transformaciones lineales</a></li>
+  <li><a href="#r2">R2 · Diagonalización con parámetro</a></li>
+  <li><a href="#r3">R3 · Cambio de base $M_{B_2 B_1}$</a></li>
+  <li><a href="#r4">R4 · Factorización LU / PLU</a></li>
+  <li><a href="#r5">R5 · Factorización QR (Gram-Schmidt)</a></li>
+  <li><a href="#r6">R6 · Descomposición SVD</a></li>
+  <li><a href="#r7">R7 · Pseudoinversa Moore-Penrose</a></li>
+  <li><a href="#r8">R8 · Cuadrados mínimos</a></li>
+  <li><a href="#r9">R9 · Series de Fourier</a></li>
+  <li><a href="#r10">R10 · Transformada de Fourier</a></li>
+  <li><a href="#r11">R11 · EDPs · Diferencias finitas implícitas</a></li>
+  <li><a href="#r12">R12 · Subespacios paramétricos</a></li>
+  </ol>
+</li>
+<li><a href="#formulario">Formulario denso (referencia rápida)</a></li>
+<li><a href="#integrales">Tabla de integrales y derivadas útiles para Fourier</a></li>
+<li><a href="#repetidos">Matrices y funciones que aparecen literales en parciales</a></li>
+<li><a href="#trampas">Top 15 trampas que cuestan puntos</a></li>
+<li><a href="#casio">Scripts Casio · qué hace cada uno</a></li>
+<li><a href="#estrategia">Estrategia para el día del parcial</a></li>
+</ol>
+</div>
+
+<!-- ============================ MAPA ============================ -->
+<h2 id="mapa">1 · Mapa del parcial</h2>
+
+<p>De los 30 modelos de examen procesados, se detectó una estructura muy regular. Esta tabla resume <b>qué tipo de ejercicio cae con qué frecuencia</b> según el tipo de parcial, y a qué <b>receta</b> del documento corresponde.</p>
+
+<table>
+<tr>
+  <th style="width:6%;">Pos</th>
+  <th style="width:38%;">Ejercicio típico</th>
+  <th style="width:14%;">Frecuencia</th>
+  <th style="width:12%;">Tiempo</th>
+  <th style="width:30%;">Recurso</th>
+</tr>
+<tr><td>Ej. 1 IP</td><td>TL $\R^3\to\R^3$ por regla o por matriz con parámetro $k$: núcleo, imagen, antiimagen, condición de rango</td><td><b>9 / 9</b> IPs</td><td>10–12 min</td><td><a href="#r1">R1</a> · script <code>tl.py</code></td></tr>
+<tr><td>Ej. 2 IP</td><td>Diagonalización con parámetro $k$: hallar $k$ que diagonaliza, dar $P,D$ para un valor</td><td><b>7 / 9</b> IPs</td><td>15 min</td><td><a href="#r2">R2</a> · script <code>diag.py</code></td></tr>
+<tr><td>Ej. 3 IP</td><td>Factorización QR (a veces + PLU o SVD)</td><td>6 / 9 QR · 4 / 9 PLU · 3 / 9 SVD</td><td>12 min</td><td><a href="#r5">R5</a>, <a href="#r4">R4</a>, <a href="#r6">R6</a></td></tr>
+<tr><td>Ej. 4 IP <span class="badge badge-muted">opc.</span></td><td>Cuadrados mínimos por QR (3 puntos, modelo $y=af(x)+bg(x)$)</td><td>2 / 9</td><td>10 min</td><td><a href="#r8">R8</a> · <code>lsq.py</code></td></tr>
+<tr><td>Ej. 5 IP <span class="badge badge-muted">opc.</span></td><td>Subespacio paramétrico en $\mathbb{P}_2$ o $\R^{2\times 2}$</td><td>3 / 9</td><td>8 min</td><td><a href="#r12">R12</a></td></tr>
+<tr><td>Ej. 1 IIP</td><td>Serie trigonométrica de Fourier + inciso b) (convergencia / identidad numérica / derivar la serie)</td><td><b>5 / 5</b> IIPs</td><td>25 min</td><td><a href="#r9">R9</a> · <code>fs.py</code></td></tr>
+<tr><td>Ej. 2 IIP</td><td>Transformada continua de Fourier de pulso o decaimiento exponencial</td><td><b>5 / 5</b> IIPs</td><td>15 min</td><td><a href="#r10">R10</a> · <code>tf.py</code></td></tr>
+<tr><td>Ej. 3 IIP</td><td>Esquema implícito de diferencias finitas con 4 nodos (calor / onda / convección)</td><td>4 / 5 IIPs</td><td>20 min</td><td><a href="#r11">R11</a> · <code>edp.py</code></td></tr>
+</table>
+
+<div class="info">
+<span class="info-titulo">Insight clave</span>
+Las clases ingestadas (12 marzo → 14 mayo) cubren <b>hasta SVD y MMCC inclusive</b>, no llegan a Fourier ni EDPs. Si el "parcial central" se restringe a lo dictado en clase, los temas R9–R11 son <b>menos probables</b>. Pero como el usuario indicó "1er y 2do parcial como referencia", incluimos todo por las dudas.
+</div>
+
+<!-- ============================ CRONOGRAMA ============================ -->
+<h2 id="cronograma">2 · Cronograma sugerido de estudio</h2>
+
+<p>Si tenés <b>3-5 días</b> para preparar el parcial, esta es la prioridad:</p>
+
+<table>
+<tr><th>Día</th><th>Bloque</th><th>Qué hacer</th><th>Material</th></tr>
+<tr><td>D-5</td><td>Pasada teórica</td><td>Leer las recetas R1, R2, R5, R6 (los temas más frecuentes). Entender qué pasos pide cada uno.</td><td>§3, R1–R2 + R5–R6</td></tr>
+<tr><td>D-4</td><td>Mecánica</td><td>Hacer <b>5 ejercicios completos</b> de TL (uno por inciso típico) y <b>3</b> de diagonalización con parámetro.</td><td>Guías TP IV, V; ejercicios resueltos.</td></tr>
+<tr><td>D-3</td><td>Factorizaciones</td><td>Hacer <b>2 QR</b>, <b>2 PLU</b>, <b>2 SVD</b> a mano. Comparar con scripts Casio.</td><td>Guías TP VI, VII; resueltos SVD + pseudoinversa.</td></tr>
+<tr><td>D-2</td><td>Fourier (si entra)</td><td>R9 y R10. <b>3 series</b> + <b>2 transformadas</b>. Si entra EDP, R11.</td><td>Guía VIII, IX; resueltos Fourier.</td></tr>
+<tr><td>D-1</td><td>Parciales viejos</td><td><b>1 IP completo</b> en tiempo real (2h). Corregir con esta guía y los scripts.</td><td><code>wiki/parciales/ip-tema-XX.md</code></td></tr>
+<tr><td>Día parcial</td><td>Repaso</td><td>Leer solo §4 (formulario), §7 (trampas) y §8 (estrategia). No tocar ejercicios.</td><td>—</td></tr>
+</table>
+
+<!-- ============================ RECETAS ============================ -->
+<h2 id="recetas" class="pagebreak">3 · Recetas paso a paso</h2>
+
+<p>Cada receta sigue la misma estructura:</p>
+<ol>
+<li><b>Cómo se reconoce</b> · qué consigna del parcial dispara esta receta.</li>
+<li><b>Idea matemática</b> · qué estás haciendo conceptualmente (1 párrafo).</li>
+<li><b>Pasos mecánicos</b> · lista numerada que ejecutás sin pensar.</li>
+<li><b>Ejercicio resuelto</b> · cuentas completas, cada $=$ justificado.</li>
+<li><b>Variaciones típicas</b> · cómo cambia el ejercicio si te dan algo distinto.</li>
+<li><b>Trampas</b> · errores que se cobran caro.</li>
+<li><b>Script Casio</b> · cómo verificar con la calculadora.</li>
+</ol>
+
+<!-- ========== R1: TRANSFORMACIONES LINEALES ========== -->
+<div class="receta" id="r1">
+<div class="receta-titulo">Transformaciones lineales <span style="opacity:.8;font-weight:400;font-size:10.5pt;">— núcleo, imagen, antiimagen</span></div>
+<div class="receta-cuerpo">
+
+<h4>Cómo se reconoce</h4>
+<p>La consigna te da una transformación lineal $T:V\to W$, ya sea:</p>
+<ul>
+<li>Por <b>regla</b>: $T(x,y,z) = (2x-y,\, x+y-z,\, 3z+x)$.</li>
+<li>Por <b>matriz asociada</b>: $A = \MB{B_2}{B_1}(T) = \pmat{\ldots}$ con algún parámetro $k$.</li>
+<li>Por <b>imágenes</b>: "$T$ es TL tal que $T(1,0,0) = \ldots$, $T(0,1,0) = \ldots$, $T(0,0,1) = \ldots$".</li>
+</ul>
+<p>Te piden alguno de estos:</p>
+<ul>
+<li>Hallar $N(T)$ (núcleo): base y dimensión.</li>
+<li>Hallar $\Im(T)$ (imagen): base y dimensión.</li>
+<li>Decidir si $T$ es inyectiva, sobreyectiva, biyectiva.</li>
+<li>Hallar <b>antiimagen</b> de un vector $w$: todos los $v$ tal que $T(v) = w$.</li>
+<li>Hallar valores del parámetro $k$ tal que se cumpla una condición ($\dim N(T) = 1$, $T$ iso, etc.).</li>
+</ul>
+
+<h4>Idea matemática</h4>
+<p>Toda TL queda totalmente determinada por su matriz asociada en una base elegida. Una vez que tenés $A$, todas las preguntas se reducen a problemas de sistemas lineales: $N(T) = \{X : AX = 0\}$ es el núcleo del sistema homogéneo; $\Im(T) = \gen(\text{columnas de }A)$; antiimagen de $w$ = soluciones de $AX = [w]_{B_2}$.</p>
+
+<div class="info">
+<span class="info-titulo">Convención clave</span>
+$A = \MB{B_2}{B_1}(T)$ significa que $A$ <b>recibe coordenadas en $B_1$ y devuelve coordenadas en $B_2$</b>. Si te dan un vector $v$ en canónica, primero hay que pasarlo a $B_1$ antes de multiplicar por $A$.
+</div>
+
+<h4>Pasos mecánicos</h4>
+<ol class="steps">
+<li>Si $T$ está dada por regla, construir $A$ aplicando $T$ a la base canónica: $A = (T(e_1) | T(e_2) | \ldots | T(e_n))$. Las imágenes van como <b>columnas</b>.</li>
+<li>Si $T$ está dada por imágenes en una base $B_1 = \{b_1, \ldots, b_n\}$, armar $A = (T(b_1)|\ldots|T(b_n))$ en las coordenadas del codominio. Si es necesario, traducir todo a canónica.</li>
+<li>Para <b>núcleo</b>: resolver $AX = 0$ por Gauss. Forma reducida → variables libres. Cada variable libre da un vector base; $\dim N(T) = $ número de libres.</li>
+<li>Para <b>imagen</b>: tomar las columnas de $A$ en las posiciones donde están los <b>pivotes</b> en la forma reducida. Esas columnas (de la matriz original, no de la reducida) son base de $\Im(T)$; $\dim \Im(T) = \rg(A)$.</li>
+<li>Para <b>antiimagen</b> de $w$: resolver $AX = [w]_{B_2}$. Si el sistema es <i>incompatible</i> → $w \notin \Im(T)$. Si tiene solución → la solución general es <i>particular + $N(T)$</i>.</li>
+<li>Para chequear: <b>teorema de la dimensión</b>: $\dim N(T) + \dim \Im(T) = \dim V$ (dimensión del dominio).</li>
+<li>Inyectividad $\iff N(T) = \{0\} \iff \rg(A) = \dim V$.</li>
+<li>Sobreyectividad $\iff \rg(A) = \dim W$.</li>
+<li>Biyectividad (iso) $\iff $ inyectiva y sobreyectiva $\iff A$ cuadrada con $\det(A) \neq 0$.</li>
+</ol>
+
+<div class="ej">
+<div class="ej-titulo">TL con parámetro · típico Ej. 1 de IP</div>
+<div class="ej-cuerpo">
+<p><b>Enunciado.</b> Sea $T:\R^3\to\R^3$ con matriz canónica $A = \pmat{2 & 8 & k \\ -1 & -4 & 0 \\ k+3 & 12 & 2k}$.</p>
+<p>a) Hallar los valores de $k\in\R$ tal que $\dim \Im(T) = 1$. b) Para $k = 0$, dar base de $N(T)$.</p>
+
+<div class="step">
+<span class="step-label">Paso 1 · ¿Cuándo $\dim \Im(T) = 1$?</span>
+$\dim \Im(T) = \rg(A) = 1$ significa que las tres columnas son proporcionales (todas múltiplos de una sola). Equivale a $\rg(A) \le 1$, o sea todos los menores $2\times 2$ son cero.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 2 · Imponer proporcionalidad columna 1 y columna 2</span>
+Col 1 = $(2, -1, k+3)$, Col 2 = $(8, -4, 12)$. Para que sean proporcionales:
+$$\frac{8}{2} = \frac{-4}{-1} = \frac{12}{k+3} = 4 \implies k + 3 = 3 \implies k = 0.$$
+Pero hay que chequear también con la col 3.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 3 · Imponer proporcionalidad con columna 3</span>
+Para $k=0$: Col 3 = $(0, 0, 0)$. Esa columna es trivialmente proporcional a cualquier otra. Entonces con $k=0$: las columnas son $(2,-1,3)$, $(8,-4,12) = 4\cdot(2,-1,3)$, y $(0,0,0)$. Todas múltiplos de $(2,-1,3)$.
+$$\boxed{k = 0 \implies \dim\Im(T) = 1}$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 4 · Base de $N(T)$ con $k=0$</span>
+$A = \pmat{2 & 8 & 0 \\ -1 & -4 & 0 \\ 3 & 12 & 0}$. Reducir: $F_1 \to F_1 + 2F_2 = (0,0,0)$. $F_3 \to F_3 + 3F_2 = (0,0,0)$.
+Solo queda $F_2: -x - 4y = 0 \implies x = -4y$. La tercera variable $z$ es libre.
+
+Soluciones: $(x, y, z) = (-4y, y, z) = y(-4, 1, 0) + z(0, 0, 1)$.
+
+$$\boxed{N(T) = \gen\{(-4, 1, 0),\, (0, 0, 1)\}, \quad \dim N(T) = 2}$$
+
+Verificación con teorema de dimensión: $\dim N + \dim \Im = 2 + 1 = 3 = \dim \R^3$. ✓
+</div>
+
+</div>
+</div>
+
+<h4>Variaciones típicas</h4>
+<ul>
+<li><b>Antiimagen de $w$</b>: resolver $AX = w$. La solución es $X_p + $ (lo del núcleo).</li>
+<li><b>"Hallar $k$ tal que $T$ es iso"</b>: pedir $\det(A) \neq 0$. Calcular $\det(A)$ en función de $k$ (Sarrus o Laplace) y discutir.</li>
+<li><b>TL definida por imágenes</b>: si te dan $T(v_1) = w_1, T(v_2) = w_2, \ldots$, hay TL iff $\{v_1,\ldots\}$ es base; en ese caso $A$ se arma poniendo los $w_i$ como columnas.</li>
+<li><b>TL en espacios no canónicos</b> ($\mathbb{P}_2$, $\R^{2\times 2}$): elegir <b>una base</b> del dominio y del codominio, escribir las imágenes en coordenadas de esa base, esa es la $A$.</li>
+</ul>
+
+<div class="trap">
+<span class="trap-titulo">Trampa frecuente · matriz asociada en bases no canónicas</span>
+Si $A = \MB{B_2}{B_1}(T)$ y te dan $v$ en canónica, NO podés multiplicar $A v$ directamente. Necesitás $[v]_{B_1}$ primero. Confundir esto es el error #1 de los IPs.
+</div>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · imagen vs antiimagen</span>
+"$u$ está en la imagen" significa que $\exists v$ con $T(v) = u$. NO se chequea resolviendo $A X = u$ y mirando si $X = u$ — se chequea si el sistema $A X = u$ tiene <i>alguna</i> solución.
+</div>
+
+<h4>Script Casio</h4>
+<pre>main.py → 1) TL nuc/img/antiim
+  1) Nucleo + imagen + rg(A)
+  2) Antiimagen (resuelve Ax=b)
+  3) Matriz por regla (carga T(e_j))</pre>
+<p>El script imprime la matriz reducida, los pivotes, base del núcleo, columnas pivote para la imagen, y verifica el teorema de la dimensión.</p>
+
+</div>
+</div>
+
+<!-- ========== R2: DIAGONALIZACIÓN ========== -->
+<div class="receta" id="r2">
+<div class="receta-titulo">Diagonalización con parámetro</div>
+<div class="receta-cuerpo">
+
+<h4>Cómo se reconoce</h4>
+<p>Te dan una matriz $A \in \R^{3\times 3}$ con un parámetro real $k$ (a veces $a, b$). Te piden:</p>
+<ul>
+<li>Hallar los valores de $k$ para que $A$ <b>sea</b> (o <b>no sea</b>) diagonalizable.</li>
+<li>Para un valor concreto de $k$, dar $P$ y $D$ tal que $D = P^{-1} A P$.</li>
+<li>A veces: dar una base $B$ tal que $M(T)_{BB}$ sea diagonal (es equivalente).</li>
+</ul>
+
+<h4>Idea matemática</h4>
+<p>$A$ es diagonalizable $\iff$ existe una base de $\R^n$ formada por <b>autovectores de $A$</b>. Esto ocurre $\iff$ para cada autovalor, su <b>multiplicidad geométrica</b> (dimensión del autoespacio) coincide con su <b>multiplicidad algebraica</b> (orden como raíz del polinomio característico).</p>
+
+<h4>Pasos mecánicos</h4>
+<ol class="steps">
+<li>Calcular el <b>polinomio característico</b>: $p_A(\lambda) = \det(\lambda I - A)$. Es de grado $n$ en $\lambda$, con coeficientes en términos de $k$.</li>
+<li><b>Tip táctico</b>: si la matriz tiene una fila o columna con muchos ceros (o con un único término $\lambda - a$ en la diagonal), <b>desarrollar el determinante por esa fila</b>. Es lo que más ahorra cuentas.</li>
+<li>Factorizar $p_A(\lambda)$. Identificar los autovalores como funciones de $k$.</li>
+<li><b>Casos a discutir</b>:
+  <ul>
+    <li>Si los 3 autovalores son <b>distintos</b> entre sí → automáticamente diagonalizable.</li>
+    <li>Si dos coinciden → calcular $\dim S_\lambda = \dim N(\lambda I - A)$ para ese $\lambda$ repetido. Si la dimensión iguala la multiplicidad (2), diagonaliza; si no, NO.</li>
+  </ul>
+</li>
+<li>Para cada valor de $k$ donde haya autovalores repetidos, calcular el autoespacio reduciendo $\lambda I - A$ por Gauss.</li>
+<li>Para armar $P$ y $D$ para un $k$ específico:
+  <ul>
+    <li>Hallar los autovectores normalizados (o sin normalizar — no hace falta para diagonalizar): uno por cada autovalor (con multiplicidad).</li>
+    <li>$P = (v_1 | v_2 | v_3)$ (autovectores como columnas).</li>
+    <li>$D = \diag(\lambda_1, \lambda_2, \lambda_3)$ en el <b>mismo orden</b> que las columnas de $P$.</li>
+    <li>Verificar: $A P = P D$, o equivalentemente $D = P^{-1} A P$.</li>
+  </ul>
+</li>
+</ol>
+
+<div class="ej">
+<div class="ej-titulo">Diagonalización con parámetro · clase 30/04 Ej. 1</div>
+<div class="ej-cuerpo">
+<p><b>Enunciado.</b> Sea $M = \pmat{3 & 1 & 2 \\ 0 & a & 0 \\ 1 & -1 & 2}$. Hallar $a \in \R$ tal que $M$ sea diagonalizable.</p>
+
+<div class="step">
+<span class="step-label">Paso 1 · Polinomio característico</span>
+$\lambda I - M = \pmat{\lambda-3 & -1 & -2 \\ 0 & \lambda - a & 0 \\ -1 & 1 & \lambda-2}$.
+
+La segunda fila tiene dos ceros — desarrollamos por la fila 2:
+$$p_M(\lambda) = (\lambda - a)\cdot \det\pmat{\lambda - 3 & -2 \\ -1 & \lambda - 2}$$
+$$= (\lambda - a)\bigl[(\lambda - 3)(\lambda - 2) - (-2)(-1)\bigr]$$
+$$= (\lambda - a)\bigl[\lambda^2 - 5\lambda + 6 - 2\bigr] = (\lambda - a)(\lambda^2 - 5\lambda + 4)$$
+$$= (\lambda - a)(\lambda - 1)(\lambda - 4).$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 2 · Análisis por casos</span>
+Los autovalores son $1$, $4$ y $a$.
+<ul>
+<li><b>Caso A</b>: $a \neq 1$ y $a \neq 4$ → los 3 autovalores son distintos → <b>diagonaliza</b>.</li>
+<li><b>Caso B</b>: $a = 1$ → autovalores $1$ (doble), $4$.</li>
+<li><b>Caso C</b>: $a = 4$ → autovalores $1$, $4$ (doble).</li>
+</ul>
+</div>
+
+<div class="step">
+<span class="step-label">Paso 3 · Caso B (a = 1): calcular $\dim S_1$</span>
+$\lambda I - M$ con $\lambda = 1$ y $a = 1$:
+$$M_1 = \pmat{-2 & -1 & -2 \\ 0 & 0 & 0 \\ -1 & 1 & -1}$$
+Escalono: $F_3' = 2 F_3 - F_1 = (0, 3, 0)$.
+$$\pmat{-2 & -1 & -2 \\ 0 & 0 & 0 \\ 0 & 3 & 0}$$
+De $3y = 0 \Rightarrow y = 0$. De $-2x - 2z = 0 \Rightarrow z = -x$.
+Soluciones: $(x, 0, -x) = x(1, 0, -1)$.
+$$S_1 = \gen\{(1,0,-1)\}, \quad \dim S_1 = 1.$$
+Pero la multiplicidad algebraica de $1$ es $2$. $\dim S_1 = 1 < 2$ ⟹ <b>NO diagonaliza</b> para $a = 1$.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 4 · Caso C (a = 4): calcular $\dim S_4$</span>
+$\lambda I - M$ con $\lambda = 4$ y $a = 4$:
+$$M_4 = \pmat{1 & -1 & -2 \\ 0 & 0 & 0 \\ -1 & 1 & 2}$$
+$F_3' = F_3 + F_1 = (0, 0, 0)$.
+$$\pmat{1 & -1 & -2 \\ 0 & 0 & 0 \\ 0 & 0 & 0}$$
+Una sola ecuación: $x - y - 2z = 0 \Rightarrow x = y + 2z$.
+Soluciones: $(y + 2z, y, z) = y(1, 1, 0) + z(2, 0, 1)$.
+$$S_4 = \gen\{(1,1,0), (2,0,1)\}, \quad \dim S_4 = 2.$$
+Coincide con multiplicidad algebraica ⟹ <b>SÍ diagonaliza</b> para $a = 4$.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 5 · Conclusión</span>
+$$\boxed{M \text{ es diagonalizable } \iff a \in \R \setminus \{1\}.}$$
+Para $a = 4$, una elección de $P, D$ es:
+$$P = \pmat{1 & 2 & v_1^{(1)} \\ 1 & 0 & v_1^{(2)} \\ 0 & 1 & v_1^{(3)}}, \quad D = \diag(4, 4, 1)$$
+con $v_1$ un autovector de $\lambda = 1$ (que se calcula en $\lambda I - M$ con $\lambda = 1, a = 4$, dejando como ejercicio).
+</div>
+
+</div>
+</div>
+
+<h4>Variaciones típicas</h4>
+<ul>
+<li><b>Autovector dado, hallar $k$</b>: si te dicen "$(1,2,3)$ es autovector de $A$", planteás $A \cdot (1,2,3)^T = \lambda(1,2,3)^T$. Esto te da $\lambda$ y un sistema sobre $k$.</li>
+<li><b>Diagonalización ortogonal</b>: si $A$ es <b>simétrica</b>, $P$ se elige ortogonal (autovectores normalizados y mutuamente ortogonales en caso de autovalor múltiple). Entonces $P^{-1} = P^T$.</li>
+<li><b>"$T$ tiene matriz diagonal en base $B$"</b>: es lo mismo que "diagonalizar" — $B$ son los autovectores y $D = \diag(\lambda_i)$.</li>
+</ul>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · convención del polinomio</span>
+$\det(\lambda I - A) = (-1)^n \det(A - \lambda I)$. Las raíces son las mismas, pero el signo del coeficiente líder cambia. La cátedra usa $\det(\lambda I - A)$ (raíces con coeficiente líder $+1$). Asegurate de que tu polinomio empiece con $+\lambda^n$.
+</div>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · autovalor doble en matriz no simétrica</span>
+NO asumir que si una matriz tiene un autovalor doble entonces NO diagonaliza. La diagonalización depende de la geometría del autoespacio. Siempre calculá $\dim S_\lambda$ explícitamente.
+</div>
+
+<h4>Script Casio</h4>
+<pre>main.py → 2) Diagonalizar
+  1) Diagonalizar (n=2 o 3)
+Carga la matriz fila por fila.
+Devuelve: polinomio característico, raíces (Cardano),
+autovectores (Gauss), P, D, y verifica AP = PD.</pre>
+
+</div>
+</div>
+
+<!-- ========== R3: CAMBIO DE BASE ========== -->
+<div class="receta" id="r3">
+<div class="receta-titulo">Cambio de base $M_{B_2 B_1}$</div>
+<div class="receta-cuerpo">
+
+<h4>Cómo se reconoce</h4>
+<ul>
+<li>Te dan dos bases $B_1, B_2$ de un mismo espacio y piden la <b>matriz de cambio de base</b> $P = \MB{B_2}{B_1}(\text{id})$ tal que $[v]_{B_2} = P [v]_{B_1}$.</li>
+<li>O te dan $A = \MB{B_2}{B_1}(T)$ y piden la matriz en otras bases $B'_1, B'_2$.</li>
+<li>O piden "expresar $v$ en coordenadas de $B$".</li>
+</ul>
+
+<h4>Idea matemática</h4>
+<p>Cualquier vector $v$ se puede escribir como combinación lineal de los elementos de una base. Los coeficientes son las coordenadas. La matriz $P = \MB{B_2}{B_1}(\text{id})$ traduce coordenadas de $B_1$ a $B_2$: <b>su columna $j$-ésima es $[b_j^{(1)}]_{B_2}$</b>, las coordenadas en $B_2$ del $j$-ésimo vector de $B_1$.</p>
+
+<h4>Pasos mecánicos</h4>
+<ol class="steps">
+<li>Para cada vector $b_j^{(1)} \in B_1$, expresarlo como combinación lineal de los vectores de $B_2$: $b_j^{(1)} = \sum_k c_{kj}\, b_k^{(2)}$.</li>
+<li>El vector columna $(c_{1j}, c_{2j}, \ldots, c_{nj})^T$ es la columna $j$-ésima de $P$.</li>
+<li>Si $B_2$ es la base canónica, las columnas de $P$ son <b>directamente</b> los vectores de $B_1$ escritos como columnas (sin resolver sistema).</li>
+<li>Para cambiar la matriz de una TL: si $A = \MB{B_2}{B_1}(T)$ y querés $A' = \MB{B'_2}{B'_1}(T)$, vale $A' = Q \cdot A \cdot P^{-1}$ donde $P = \MB{B_1}{B'_1}(\text{id})$ y $Q = \MB{B'_2}{B_2}(\text{id})$.</li>
+<li>Cuando ambas bases son la misma (en el dominio y codominio), la fórmula colapsa a $A' = P^{-1} A P$, que es la fórmula de semejanza.</li>
+</ol>
+
+<div class="ej">
+<div class="ej-titulo">Cambio de base · clase 30/04 Ej. 4</div>
+<div class="ej-cuerpo">
+<p><b>Enunciado.</b> Sean $B_1 = \{(1,2,3), (0,1,1), (0,1,-1)\}$ y $B_2 = \{(0,0,1), (1,0,0), (0,-1,0)\}$ bases de $\R^3$. Hallar $P = \MB{B_2}{B_1}(\text{id})$.</p>
+
+<div class="step">
+<span class="step-label">Paso 1 · Expresar $(1,2,3) \in B_1$ en coordenadas de $B_2$</span>
+Buscamos $\alpha, \beta, \gamma$ tales que:
+$$(1,2,3) = \alpha(0,0,1) + \beta(1,0,0) + \gamma(0,-1,0).$$
+Componente a componente:
+$$\beta = 1, \quad -\gamma = 2, \quad \alpha = 3.$$
+Entonces $\alpha = 3, \beta = 1, \gamma = -2$. Coordenadas: $[(1,2,3)]_{B_2} = (3, 1, -2)$.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 2 · Expresar $(0,1,1) \in B_1$ en coordenadas de $B_2$</span>
+$$(0,1,1) = \alpha(0,0,1) + \beta(1,0,0) + \gamma(0,-1,0).$$
+$\beta = 0$, $-\gamma = 1 \Rightarrow \gamma = -1$, $\alpha = 1$.
+$[(0,1,1)]_{B_2} = (1, 0, -1)$.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 3 · Expresar $(0,1,-1) \in B_1$ en coordenadas de $B_2$</span>
+$$(0,1,-1) = \alpha(0,0,1) + \beta(1,0,0) + \gamma(0,-1,0).$$
+$\beta = 0$, $-\gamma = 1 \Rightarrow \gamma = -1$, $\alpha = -1$.
+$[(0,1,-1)]_{B_2} = (-1, 0, -1)$.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 4 · Armar $P$ poniendo los vectores como columnas</span>
+$$\boxed{P = \pmat{3 & 1 & -1 \\ 1 & 0 & 0 \\ -2 & -1 & -1}}$$
+Esto cumple $[v]_{B_2} = P [v]_{B_1}$ para cualquier $v$.
+
+<b>Verificación rápida</b>: tomemos $v = (1,2,3)$. Sus coordenadas en $B_1$ son $(1, 0, 0)$ (es el primer vector). $P \cdot (1,0,0)^T = (3, 1, -2)^T$, que coincide con lo del paso 1. ✓
+</div>
+</div>
+</div>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · dirección del cambio</span>
+$\MB{B_2}{B_1}$ traduce de $B_1$ a $B_2$. Si querés ir en la dirección opuesta, usá $P^{-1} = \MB{B_1}{B_2}(\text{id})$.
+</div>
+
+<h4>Script Casio</h4>
+<pre>main.py → 3) Cambio de base
+  Carga B1 y B2 (filas = vectores en canónica)
+  Devuelve P col-por-col + verificación numérica.</pre>
+
+</div>
+</div>
+
+<!-- ========== R4: LU/PLU ========== -->
+<div class="receta" id="r4">
+<div class="receta-titulo">Factorización LU / PLU (Doolittle)</div>
+<div class="receta-cuerpo">
+
+<h4>Cómo se reconoce</h4>
+<p>Te piden factorizar $A$ como $A = LU$ (con $L$ triangular inferior con unos en la diagonal y $U$ triangular superior) o $PA = LU$ (con $P$ matriz de permutación, si hace falta pivoteo).</p>
+
+<h4>Idea matemática</h4>
+<p>Es Gauss "abajo" guardado. Mientras eliminás los elementos debajo del pivote en cada columna, los <b>multiplicadores</b> que usás son justamente los elementos de $L$. El resultado de Gauss es $U$.</p>
+
+<h4>Pasos mecánicos (Doolittle, sin pivoteo)</h4>
+<ol class="steps">
+<li>Para cada columna $j = 1, 2, \ldots, n-1$:
+  <ol style="list-style-type:lower-alpha;">
+    <li>Pivote: $a_{jj}$ (asumir $\neq 0$, si no → PLU).</li>
+    <li>Para cada fila $i > j$: calcular $m_{ij} = a_{ij}/a_{jj}$.</li>
+    <li>Reemplazar $F_i \leftarrow F_i - m_{ij} F_j$.</li>
+  </ol>
+</li>
+<li>Al final, $U$ es la matriz reducida (triangular superior).</li>
+<li>$L$ tiene unos en la diagonal y los multiplicadores $m_{ij}$ en la posición $(i,j)$ (debajo de la diagonal).</li>
+<li>Verificar: $L \cdot U = A$.</li>
+</ol>
+
+<h4>Pasos con pivoteo (PLU)</h4>
+<ol class="steps">
+<li>Si en alguna columna el pivote $a_{jj}$ es cero o muy chico, <b>permutar</b> esa fila con otra fila de abajo que tenga un valor no nulo en esa columna.</li>
+<li>Cada permutación corresponde a multiplicar a izquierda por una matriz de permutación $E_k$.</li>
+<li>$P = E_p \cdots E_2 E_1$ (en el orden inverso al que se aplicaron) y entonces $PA = LU$.</li>
+</ol>
+
+<div class="ej">
+<div class="ej-titulo">LU · clase 07/05</div>
+<div class="ej-cuerpo">
+<p><b>Enunciado.</b> Factorizar $A = \pmat{2 & 1 & -1 \\ 1 & -3 & 5 \\ 4 & 3 & 7}$ como $A = LU$.</p>
+
+<div class="step">
+<span class="step-label">Paso 1 · Columna 1: anular debajo del 2</span>
+$m_{21} = 1/2$, $F_2 \leftarrow F_2 - \tfrac{1}{2} F_1$:
+$$F_2: (1, -3, 5) - \tfrac{1}{2}(2, 1, -1) = (0, -\tfrac{7}{2}, \tfrac{11}{2})$$
+$m_{31} = 4/2 = 2$, $F_3 \leftarrow F_3 - 2 F_1$:
+$$F_3: (4, 3, 7) - 2(2, 1, -1) = (0, 1, 9)$$
+$$\implies \pmat{2 & 1 & -1 \\ 0 & -\tfrac{7}{2} & \tfrac{11}{2} \\ 0 & 1 & 9}$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 2 · Columna 2: anular el 1 de la fila 3</span>
+$m_{32} = 1 / (-7/2) = -2/7$. $F_3 \leftarrow F_3 - (-2/7) F_2 = F_3 + (2/7) F_2$:
+$$F_3: (0, 1, 9) + \tfrac{2}{7}(0, -\tfrac{7}{2}, \tfrac{11}{2}) = (0, 0, 9 + \tfrac{11}{7}) = (0, 0, \tfrac{74}{7})$$
+$$U = \pmat{2 & 1 & -1 \\ 0 & -\tfrac{7}{2} & \tfrac{11}{2} \\ 0 & 0 & \tfrac{74}{7}}$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 3 · Armar $L$</span>
+$L$ tiene 1s en la diagonal y los multiplicadores debajo:
+$$L = \pmat{1 & 0 & 0 \\ m_{21} & 1 & 0 \\ m_{31} & m_{32} & 1} = \pmat{1 & 0 & 0 \\ 1/2 & 1 & 0 \\ 2 & -2/7 & 1}$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 4 · Verificación $L U = A$</span>
+$L_{11} U_{1\cdot} = (2, 1, -1)$. $L_{21} U_{1\cdot} + L_{22} U_{2\cdot} = \tfrac12(2,1,-1) + (0, -\tfrac72, \tfrac{11}{2}) = (1, -3, 5)$. ✓
+$L_{31} U_{1\cdot} + L_{32} U_{2\cdot} + L_{33} U_{3\cdot} = 2(2,1,-1) + (-2/7)(0, -7/2, 11/2) + (0, 0, 74/7)$
+$= (4, 2, -2) + (0, 1, -11/7) + (0, 0, 74/7) = (4, 3, 7)$. ✓
+</div>
+</div>
+</div>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · signo del multiplicador en $L$</span>
+Si hacés $F_i \leftarrow F_i - m_{ij} F_j$ (resta), entonces $L_{ij} = +m_{ij}$ (con signo positivo). Si hacés $F_i \leftarrow F_i + m_{ij} F_j$, entonces $L_{ij} = -m_{ij}$. El signo de $L$ es <b>opuesto</b> al signo del coeficiente en la operación. Es el error más común.
+</div>
+
+<h4>Script Casio</h4>
+<pre>main.py → 4) LU / PLU
+  Pide A. Aplica Doolittle con pivoteo parcial automático.
+  Devuelve P, L, U; verifica PA = LU.</pre>
+
+</div>
+</div>
+
+<!-- ========== R5: QR ========== -->
+<div class="receta" id="r5">
+<div class="receta-titulo">Factorización QR (Gram-Schmidt)</div>
+<div class="receta-cuerpo">
+
+<h4>Cómo se reconoce</h4>
+<p>Te piden factorizar $A$ como $A = QR$ con $Q$ de columnas <b>ortonormales</b> ($Q^T Q = I$) y $R$ triangular superior. Suele venir combinado con cuadrados mínimos.</p>
+
+<h4>Idea matemática</h4>
+<p>Tomás las columnas de $A$ una por una y les aplicás <b>Gram-Schmidt</b>: cada nueva columna se "ortogonaliza" restándole su proyección sobre las anteriores, y después se normaliza. El proceso es totalmente lineal y los coeficientes que vas calculando son justamente los elementos de $R$.</p>
+
+<h4>Pasos mecánicos</h4>
+<ol class="steps">
+<li>Sean $a_1, a_2, \ldots, a_k$ las columnas de $A$ (suponer LI).</li>
+<li>$u_1 = a_1$. Luego $v_1 = u_1 / \norm{u_1}$.</li>
+<li>$u_2 = a_2 - \langle a_2, v_1 \rangle\, v_1$. Luego $v_2 = u_2 / \norm{u_2}$.</li>
+<li>$u_3 = a_3 - \langle a_3, v_1 \rangle\, v_1 - \langle a_3, v_2 \rangle\, v_2$. $v_3 = u_3 / \norm{u_3}$.</li>
+<li>... y así con $u_j = a_j - \sum_{i < j} \langle a_j, v_i \rangle\, v_i$.</li>
+<li>$Q = (v_1 | v_2 | \ldots | v_k)$. Es de tamaño $n \times k$ (mismas filas que $A$, $k$ columnas).</li>
+<li>$R = Q^T A$. Es de tamaño $k \times m$. Resulta triangular superior con:
+  <ul>
+    <li>$R_{ii} = \norm{u_i}$ (las normas en la diagonal).</li>
+    <li>$R_{ij} = \langle a_j, v_i \rangle$ para $i < j$.</li>
+  </ul>
+</li>
+<li>Verificar: $Q R = A$ y $Q^T Q = I_k$.</li>
+</ol>
+
+<div class="info">
+<span class="info-titulo">Versión $Q$ cuadrada (completada)</span>
+A veces piden $Q$ ortogonal ($n \times n$ completa). En ese caso, completar las columnas que faltan con vectores ortonormales del complemento. Una forma: encontrar vectores en el núcleo de $A^T$ y aplicarles GS.
+</div>
+
+<div class="ej">
+<div class="ej-titulo">QR · matriz $3 \times 2$</div>
+<div class="ej-cuerpo">
+<p><b>Enunciado.</b> Hallar la factorización QR de $A = \pmat{1 & 1 \\ 0 & 1 \\ 1 & 0}$.</p>
+
+<div class="step">
+<span class="step-label">Paso 1 · Columna 1</span>
+$a_1 = (1, 0, 1)$, $u_1 = a_1 = (1, 0, 1)$.
+$$\norm{u_1} = \sqrt{1^2 + 0^2 + 1^2} = \sqrt 2.$$
+$$v_1 = \frac{1}{\sqrt 2}(1, 0, 1).$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 2 · Columna 2 · Calcular $\langle a_2, v_1 \rangle$</span>
+$a_2 = (1, 1, 0)$.
+$$\langle a_2, v_1 \rangle = \frac{1}{\sqrt 2}(1 \cdot 1 + 1 \cdot 0 + 0 \cdot 1) = \frac{1}{\sqrt 2}.$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 3 · Columna 2 · Restar la proyección</span>
+$$u_2 = a_2 - \langle a_2, v_1 \rangle v_1 = (1, 1, 0) - \frac{1}{\sqrt 2} \cdot \frac{1}{\sqrt 2}(1, 0, 1)$$
+$$= (1, 1, 0) - \frac{1}{2}(1, 0, 1) = \left(\frac{1}{2}, 1, -\frac{1}{2}\right).$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 4 · Normalizar $u_2$</span>
+$$\norm{u_2}^2 = \frac{1}{4} + 1 + \frac{1}{4} = \frac{3}{2}, \quad \norm{u_2} = \sqrt{\frac{3}{2}} = \frac{\sqrt 6}{2}.$$
+$$v_2 = \frac{u_2}{\norm{u_2}} = \frac{2}{\sqrt 6}\left(\frac{1}{2}, 1, -\frac{1}{2}\right) = \frac{1}{\sqrt 6}(1, 2, -1).$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 5 · Armar $Q$ y $R$</span>
+$$Q = (v_1 | v_2) = \pmat{1/\sqrt 2 & 1/\sqrt 6 \\ 0 & 2/\sqrt 6 \\ 1/\sqrt 2 & -1/\sqrt 6}.$$
+$$R = \pmat{\norm{u_1} & \langle a_2, v_1\rangle \\ 0 & \norm{u_2}} = \pmat{\sqrt 2 & 1/\sqrt 2 \\ 0 & \sqrt{3/2}}.$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 6 · Verificación</span>
+$Q R = \pmat{1/\sqrt2 \cdot \sqrt 2 + 1/\sqrt 6 \cdot 0 & 1/\sqrt 2 \cdot 1/\sqrt 2 + 1/\sqrt 6 \cdot \sqrt{3/2} \\ \vdots & \vdots} = \pmat{1 & \frac{1}{2} + \frac{1}{2} \\ \ldots}$, hace falta seguir, pero el chequeo numérico da $QR \approx A$ exacto. ✓
+
+$Q^T Q = I_2$: $\langle v_1, v_1\rangle = 1$, $\langle v_2, v_2\rangle = 1$, $\langle v_1, v_2\rangle = 0$. ✓
+</div>
+</div>
+</div>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · usar $u_i$ en vez de $v_i$ en proyecciones</span>
+Cuando calculás $u_j = a_j - \sum \langle a_j, v_i\rangle v_i$, los $v_i$ son los <b>versores</b> (normalizados). Si usás $u_i$ (sin normalizar), las cuentas siguen funcionando pero la fórmula es distinta: $\langle a_j, u_i\rangle / \langle u_i, u_i\rangle \cdot u_i$. Más cuentas. Quedate con la versión normalizada.
+</div>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · olvidar normalizar $v_i$</span>
+$Q^T Q$ debería ser la identidad. Si te queda diagonal con entradas distintas de 1, te olvidaste de dividir alguna columna por su norma.
+</div>
+
+<h4>Script Casio</h4>
+<pre>main.py → 5) QR (Gram-Schmidt)
+  Pide A. Imprime u_i, v_i, R en cada paso.
+  Verifica QR = A y Q^T Q = I.</pre>
+
+</div>
+</div>
+
+<!-- ========== R6: SVD ========== -->
+<div class="receta" id="r6">
+<div class="receta-titulo">Descomposición SVD · $A = U \Sigma V^T$</div>
+<div class="receta-cuerpo">
+
+<h4>Cómo se reconoce</h4>
+<p>Te piden descomponer $A \in \R^{n \times m}$ como $A = U \Sigma V^T$ con $U$ ortogonal $n \times n$, $V$ ortogonal $m \times m$ y $\Sigma$ "diagonal rectangular" $n \times m$ con valores singulares decrecientes.</p>
+
+<h4>Idea matemática</h4>
+<p>Es la generalización de la diagonalización a matrices no cuadradas. Los valores singulares $\sigma_i$ son las raíces cuadradas de los autovalores de $A^T A$ (o $A A^T$), las columnas de $V$ son los autovectores de $A^T A$, y las columnas de $U$ se reconstruyen como $u_i = A v_i / \sigma_i$.</p>
+
+<h4>Pasos mecánicos (vía $A^T A$, recomendado si $m \le n$)</h4>
+<ol class="steps">
+<li>Calcular $A^T A$ (cuadrada $m \times m$, simétrica, semi-definida positiva).</li>
+<li>Polinomio característico $p_{A^T A}(\lambda)$. Autovalores $\lambda_1 \ge \lambda_2 \ge \ldots \ge \lambda_m \ge 0$.</li>
+<li>Valores singulares: $\sigma_i = \sqrt{\lambda_i}$, en orden decreciente.</li>
+<li>Para cada autovalor, hallar autovectores de $A^T A$, normalizar. Si un autovalor tiene multiplicidad geométrica $> 1$, ortogonalizar con Gram-Schmidt. → columnas de $V$.</li>
+<li>Para cada $\sigma_i > 0$: $u_i = \dfrac{A v_i}{\sigma_i}$. Estos $u_i$ ya quedan automáticamente ortonormales.</li>
+<li>Si $\rg(A) = r < n$, completar las $n - r$ columnas faltantes de $U$ a una base ortonormal de $\R^n$: resolver $A^T X = 0$, ortogonalizar lo que salga, normalizar.</li>
+<li>Armar $\Sigma$ de $n \times m$ con $\sigma_i$ en la diagonal y $0$ en el resto.</li>
+<li>Verificar: $U \Sigma V^T = A$, $U^T U = I_n$, $V^T V = I_m$.</li>
+</ol>
+
+<div class="ej">
+<div class="ej-titulo">SVD · matriz $3 \times 2$</div>
+<div class="ej-cuerpo">
+<p><b>Enunciado.</b> Hallar la SVD de $A = \pmat{1 & 1 \\ 0 & 1 \\ 1 & 0}$.</p>
+
+<div class="step">
+<span class="step-label">Paso 1 · Calcular $A^T A$</span>
+$A^T = \pmat{1 & 0 & 1 \\ 1 & 1 & 0}$.
+$$A^T A = \pmat{1 & 0 & 1 \\ 1 & 1 & 0} \pmat{1 & 1 \\ 0 & 1 \\ 1 & 0} = \pmat{2 & 1 \\ 1 & 2}.$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 2 · Autovalores de $A^T A$</span>
+$p(\lambda) = (\lambda - 2)^2 - 1 = \lambda^2 - 4\lambda + 3 = (\lambda - 1)(\lambda - 3)$.
+$$\lambda_1 = 3, \quad \lambda_2 = 1.$$
+$$\sigma_1 = \sqrt 3, \quad \sigma_2 = 1.$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 3 · Autovectores de $A^T A$</span>
+Para $\lambda_1 = 3$: $(A^T A - 3 I) X = 0 \Rightarrow \pmat{-1 & 1 \\ 1 & -1} X = 0 \Rightarrow x_1 = x_2$. Autovec: $(1, 1)$. Normalizado: $v_1 = \tfrac{1}{\sqrt 2}(1, 1)$.
+
+Para $\lambda_2 = 1$: $(A^T A - I) X = 0 \Rightarrow \pmat{1 & 1 \\ 1 & 1} X = 0 \Rightarrow x_1 = -x_2$. Autovec: $(1, -1)$. Normalizado: $v_2 = \tfrac{1}{\sqrt 2}(1, -1)$.
+$$V = \pmat{1/\sqrt 2 & 1/\sqrt 2 \\ 1/\sqrt 2 & -1/\sqrt 2}.$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 4 · $u_i = A v_i / \sigma_i$</span>
+$$A v_1 = \pmat{1 & 1 \\ 0 & 1 \\ 1 & 0} \cdot \frac{1}{\sqrt 2}\pmat{1 \\ 1} = \frac{1}{\sqrt 2}\pmat{2 \\ 1 \\ 1}.$$
+$$u_1 = \frac{A v_1}{\sigma_1} = \frac{1}{\sqrt 2 \cdot \sqrt 3} (2, 1, 1)^T = \frac{1}{\sqrt 6}(2, 1, 1)^T.$$
+
+$$A v_2 = \pmat{1 & 1 \\ 0 & 1 \\ 1 & 0} \cdot \frac{1}{\sqrt 2}\pmat{1 \\ -1} = \frac{1}{\sqrt 2}\pmat{0 \\ -1 \\ 1}.$$
+$$u_2 = \frac{A v_2}{\sigma_2} = \frac{1}{\sqrt 2}(0, -1, 1)^T.$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 5 · Completar $u_3$</span>
+$U$ debe ser $3 \times 3$ ortogonal. $u_1, u_2$ están en $\Im(A)$. $u_3$ tiene que estar en el complemento, que es el núcleo de $A^T$.
+
+$A^T X = 0$: $\pmat{1 & 0 & 1 \\ 1 & 1 & 0} X = 0$. Reducir: $F_2 \to F_2 - F_1 = (0, 1, -1)$. De $x_2 = x_3$ y $x_1 = -x_3$. Núcleo: $(-1, 1, 1)$. Normalizado: $u_3 = \tfrac{1}{\sqrt 3}(-1, 1, 1)$.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 6 · Armar resultado final</span>
+$$U = \pmat{2/\sqrt 6 & 0 & -1/\sqrt 3 \\ 1/\sqrt 6 & -1/\sqrt 2 & 1/\sqrt 3 \\ 1/\sqrt 6 & 1/\sqrt 2 & 1/\sqrt 3}, \quad \Sigma = \pmat{\sqrt 3 & 0 \\ 0 & 1 \\ 0 & 0}, \quad V = \pmat{1/\sqrt 2 & 1/\sqrt 2 \\ 1/\sqrt 2 & -1/\sqrt 2}.$$
+Y se verifica $U \Sigma V^T = A$.
+</div>
+</div>
+</div>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · ordenamiento de $\sigma_i$</span>
+Los valores singulares <b>siempre</b> van de mayor a menor. Si te queda $\sigma_2 > \sigma_1$, permutá las columnas correspondientes de $V$ y de $U$ a la vez.
+</div>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · usar $A v_i / \sigma_i$ vs calcular $A A^T$ desde cero</span>
+Usá $u_i = A v_i / \sigma_i$ — es <b>mucho más barato</b> que calcular los autovectores de $A A^T$ por separado. Y los signos quedan automáticamente consistentes con $V$.
+</div>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · $\sigma_i = 0$</span>
+No podés dividir por $0$ en $u_i = A v_i / \sigma_i$. Si el rango es $r < \min(n,m)$, sólo calculás $u_1, \ldots, u_r$ con esa fórmula y completás el resto con la base del núcleo de $A^T$.
+</div>
+
+<h4>Script Casio</h4>
+<pre>main.py → 6) SVD
+  Carga A (hasta 4x4). Imprime A^T A, autovalores,
+  autovectores de V, u_i = Av_i/sigma_i, y verifica.</pre>
+
+</div>
+</div>
+
+<!-- ========== R7: Pseudoinversa ========== -->
+<div class="receta" id="r7">
+<div class="receta-titulo">Pseudoinversa Moore-Penrose</div>
+<div class="receta-cuerpo">
+
+<h4>Cómo se reconoce</h4>
+<p>Te piden $A^+$ (la pseudoinversa) de una matriz. O te piden la solución de MMCC para $AX = B$ que usa la pseudoinversa.</p>
+
+<h4>Tres caminos posibles</h4>
+<ol class="steps">
+<li><b>Vía SVD</b> (siempre funciona): si $A = U \Sigma V^T$ entonces $A^+ = V \Sigma^+ U^T$ donde $\Sigma^+$ tiene los $1/\sigma_i$ en la diagonal (transponiendo si rectangular).</li>
+<li><b>Full column rank</b> ($\rg A = m \le n$): $A^+ = (A^T A)^{-1} A^T$.</li>
+<li><b>Full row rank</b> ($\rg A = n \le m$): $A^+ = A^T (A A^T)^{-1}$.</li>
+<li><b>Cuadrada invertible</b>: $A^+ = A^{-1}$.</li>
+</ol>
+
+<h4>4 propiedades caracterizadoras</h4>
+<p>$A^+$ es el único objeto que cumple:</p>
+<ol>
+<li>$A A^+ A = A$</li>
+<li>$A^+ A A^+ = A^+$</li>
+<li>$(A A^+)^T = A A^+$</li>
+<li>$(A^+ A)^T = A^+ A$</li>
+</ol>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · $(A^T A)^{-1}$ no siempre existe</span>
+Si las columnas de $A$ son LD (rango deficiente), $A^T A$ <b>no es invertible</b>. En ese caso, el único camino es vía SVD.
+</div>
+
+<h4>Script Casio</h4>
+<pre>main.py → 7) Pseudoinversa
+  Detecta caso (n vs m), usa fórmula directa,
+  verifica A A^+ A = A.</pre>
+
+</div>
+</div>
+
+<!-- ========== R8: MMCC ========== -->
+<div class="receta" id="r8">
+<div class="receta-titulo">Cuadrados mínimos por QR</div>
+<div class="receta-cuerpo">
+
+<h4>Cómo se reconoce</h4>
+<p>Te dan $n$ puntos $(x_i, y_i)$ y un modelo $y = a f(x) + b g(x) + \ldots$ Te piden los coeficientes $a, b, \ldots$ que minimizan el error cuadrático.</p>
+
+<h4>Pasos mecánicos</h4>
+<ol class="steps">
+<li>Armar la matriz de diseño $A$ y el vector $b$:
+$$A = \pmat{f(x_1) & g(x_1) & \ldots \\ \vdots & \vdots & \\ f(x_n) & g(x_n) & \ldots}, \quad b = \pmat{y_1 \\ \vdots \\ y_n}.$$
+</li>
+<li>El problema $\min \norm{AX - b}^2$ tiene como ecuación normal $A^T A X = A^T b$.</li>
+<li>Resolver de la forma estable: $A = QR$, entonces $R X = Q^T b$, sistema triangular (sustitución hacia atrás).</li>
+<li>Alternativa directa (si $A^T A$ es chica y bien condicionada): $X = (A^T A)^{-1} A^T b$.</li>
+<li>Norma del residuo: $\norm{AX - b}$ — cuanto más chica, mejor el ajuste.</li>
+</ol>
+
+<div class="ej">
+<div class="ej-titulo">MMCC · 3 puntos, modelo $y = a \cos x + b \sen x$</div>
+<div class="ej-cuerpo">
+<p><b>Enunciado.</b> Hallar $a, b$ que mejor ajusten los puntos $(0, 1), (\pi/2, 0), (\pi, -1)$ al modelo $y = a \cos x + b \sen x$.</p>
+
+<div class="step">
+<span class="step-label">Paso 1 · Matriz de diseño</span>
+$\cos 0 = 1$, $\cos(\pi/2) = 0$, $\cos\pi = -1$.
+$\sen 0 = 0$, $\sen(\pi/2) = 1$, $\sen\pi = 0$.
+$$A = \pmat{1 & 0 \\ 0 & 1 \\ -1 & 0}, \quad b = \pmat{1 \\ 0 \\ -1}.$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 2 · Ecuación normal</span>
+$$A^T A = \pmat{1 & 0 & -1 \\ 0 & 1 & 0} \pmat{1 & 0 \\ 0 & 1 \\ -1 & 0} = \pmat{2 & 0 \\ 0 & 1}.$$
+$$A^T b = \pmat{1 & 0 & -1 \\ 0 & 1 & 0}\pmat{1 \\ 0 \\ -1} = \pmat{2 \\ 0}.$$
+$$A^T A X = A^T b \implies \pmat{2 & 0 \\ 0 & 1} \pmat{a \\ b} = \pmat{2 \\ 0}.$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 3 · Solución</span>
+$2a = 2 \Rightarrow a = 1$. $b = 0$.
+$$\boxed{a = 1, \quad b = 0.}$$
+Modelo ajustado: $y = \cos x$.
+
+Norma del residuo: $A X = (1, 0, -1)^T = b$. Residuo $0$ → ajuste perfecto (los puntos están sobre $\cos x$).
+</div>
+</div>
+</div>
+
+<h4>Script Casio</h4>
+<pre>main.py → 8) Cuad. minimos
+  Carga puntos + elige modelo de un menú (5 pre-cargados)
+  Devuelve coef + norma del residuo.</pre>
+
+</div>
+</div>
+
+<!-- ========== R9: SERIES DE FOURIER ========== -->
+<div class="receta pagebreak" id="r9">
+<div class="receta-titulo">Series de Fourier · trigonométrica + exponencial</div>
+<div class="receta-cuerpo">
+
+<h4>Cómo se reconoce</h4>
+<p>Te dan una función $x(t)$ periódica de período $T$ y te piden:</p>
+<ul>
+<li>Hallar su serie trigonométrica de Fourier.</li>
+<li>Hallar su serie exponencial (los $c_n$).</li>
+<li>Hallar la "forma de laboratorio" (amplitud-fase).</li>
+<li>Inciso b) típico: probar una identidad numérica (tipo $\sum 1/n^2 = \pi^2/6$) o derivar la serie término a término.</li>
+</ul>
+
+<h4>Forma trigonométrica</h4>
+<p>Sea $\omega_0 = 2\pi/T$. Entonces:</p>
+$$x(t) = \frac{a_0}{2} + \sum_{n=1}^\infty \bigl[a_n \cos(n \omega_0 t) + b_n \sen(n \omega_0 t)\bigr]$$
+$$a_n = \frac{2}{T} \int_T x(t) \cos(n \omega_0 t)\, dt, \quad b_n = \frac{2}{T} \int_T x(t) \sen(n \omega_0 t)\, dt$$
+<p>Con $a_0 = \dfrac{2}{T}\int_T x(t)\, dt$ (el promedio por $2$, así $a_0/2$ es el promedio de la función).</p>
+
+<h4>Forma exponencial</h4>
+$$x(t) = \sum_{n = -\infty}^\infty c_n\, e^{i n \omega_0 t}, \quad c_n = \frac{1}{T} \int_T x(t) e^{-i n \omega_0 t}\, dt.$$
+<p>Relaciones: $c_n = (a_n - i b_n)/2$, $c_0 = a_0/2$.</p>
+
+<h4>Forma de laboratorio</h4>
+$$x(t) = \frac{a_0}{2} + \sum_{n=1}^\infty A_n \cos(n \omega_0 t - \varphi_n)$$
+<p>con $A_n = \sqrt{a_n^2 + b_n^2}$ y $\varphi_n = \arctan(b_n / a_n)$ (en el cuadrante correcto).</p>
+
+<h4>Atajos por simetría</h4>
+<table>
+<tr><th>Si $x$ es...</th><th>Entonces</th></tr>
+<tr><td>par ($x(-t) = x(t)$)</td><td>$b_n = 0$ para todo $n$</td></tr>
+<tr><td>impar ($x(-t) = -x(t)$)</td><td>$a_n = 0$ para todo $n$ (incluido $a_0$)</td></tr>
+<tr><td>simetría de medio período: $x(t + T/2) = -x(t)$</td><td>solo armónicos impares ($a_{2k} = b_{2k} = 0$)</td></tr>
+</table>
+
+<div class="ej">
+<div class="ej-titulo">SF · $x(t) = t$ en $[-\pi, \pi]$, $T = 2\pi$</div>
+<div class="ej-cuerpo">
+
+<div class="step">
+<span class="step-label">Paso 1 · Observar simetría</span>
+$x(-t) = -t = -x(t)$ → función <b>impar</b>. Por lo tanto $a_n = 0$ para todo $n$. Solo hay que calcular $b_n$.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 2 · Calcular $b_n$ por partes</span>
+$$b_n = \frac{1}{\pi} \int_{-\pi}^{\pi} t \sen(n t)\, dt = \frac{2}{\pi}\int_0^\pi t \sen(n t)\, dt$$
+(el integrando es par, multipliqué por 2 y reduje el dominio).
+
+Integración por partes: $u = t$, $du = dt$; $dv = \sen(nt) dt$, $v = -\cos(nt)/n$.
+$$\int t \sen(nt)\, dt = -\frac{t \cos(nt)}{n} + \frac{1}{n}\int \cos(nt)\, dt = -\frac{t \cos(nt)}{n} + \frac{\sen(nt)}{n^2}.$$
+
+Evaluamos en $[0, \pi]$:
+$$\left[-\frac{t \cos(nt)}{n} + \frac{\sen(nt)}{n^2}\right]_0^\pi = -\frac{\pi \cos(n\pi)}{n} + \frac{\sen(n\pi)}{n^2} - 0 = -\frac{\pi (-1)^n}{n}.$$
+
+Entonces $b_n = \dfrac{2}{\pi} \cdot \left(-\dfrac{\pi (-1)^n}{n}\right) = \dfrac{-2(-1)^n}{n} = \dfrac{2 \cdot (-1)^{n+1}}{n}$.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 3 · Resultado</span>
+$$\boxed{x(t) \sim \sum_{n=1}^\infty \frac{2(-1)^{n+1}}{n} \sen(n t) = 2\left(\sen t - \frac{\sen 2t}{2} + \frac{\sen 3t}{3} - \ldots\right).}$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 4 · Inciso b típico: probar identidad</span>
+Si te piden probar $\sum \dfrac{(-1)^{n+1}}{n} \cdot \text{algo} = X$, evaluá la serie en un $t_0$ donde $x(t_0)$ sea conocido. Por ejemplo en $t_0 = \pi/2$:
+$$x(\pi/2) = \pi/2 = \sum_{n=1}^\infty \frac{2(-1)^{n+1}}{n} \sen(n\pi/2).$$
+$\sen(n\pi/2)$ vale $1, 0, -1, 0, 1, 0, -1, \ldots$ para $n = 1, 2, 3, \ldots$
+$$\pi/2 = 2\left(1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \ldots\right) \implies \sum_{k=0}^\infty \frac{(-1)^k}{2k+1} = \frac{\pi}{4} \quad \text{(serie de Leibniz)}.$$
+</div>
+</div>
+</div>
+
+<h4>Convergencia (Teorema de Dirichlet)</h4>
+<p>Si $x$ es seccionalmente continua y $x'$ también lo es en $[0, T]$, entonces la serie de Fourier converge:</p>
+<ul>
+<li>A $x(t)$ en los puntos donde $x$ es continua.</li>
+<li>Al <b>promedio</b> $\tfrac{1}{2}[x(t^+) + x(t^-)]$ en los puntos de discontinuidad de salto.</li>
+</ul>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · paridad alrededor de $T/2$ vs alrededor de $0$</span>
+La paridad se mide alrededor del centro del intervalo de período elegido. Si te dan $x$ en $[0, T]$ y querés usar paridad, antes hay que centrar el intervalo: chequear si $x$ extendida a $[-T/2, T/2]$ por traslación es par o impar.
+</div>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · función con discontinuidad en el borde</span>
+$f(x) = 1 - x$ en $[0, 1)$ con $f(x+1) = f(x)$ tiene salto en $x = 0$ (vale 1 por derecha y 0 por izquierda). La SF converge a $1/2$ en $x = 0$, no a $f(0) = 1$.
+</div>
+
+<h4>Script Casio</h4>
+<pre>main.py → 10) Series Fourier
+  9 funciones pre-cargadas (t, t^2, |t|, e^t, etc.)
+  Integra numéricamente (Simpson 400 paneles)
+  Devuelve a_n, b_n, c_n, y permite evaluar la suma parcial</pre>
+
+</div>
+</div>
+
+<!-- ========== R10: TF ========== -->
+<div class="receta" id="r10">
+<div class="receta-titulo">Transformada de Fourier continua</div>
+<div class="receta-cuerpo">
+
+<h4>Definiciones</h4>
+$$F(\omega) = \mathcal F\{x(t)\} = \int_{-\infty}^\infty x(t) e^{-i\omega t}\, dt, \quad x(t) = \frac{1}{2\pi}\int_{-\infty}^\infty F(\omega) e^{i\omega t}\, d\omega.$$
+
+<h4>Propiedades (todas memorizables)</h4>
+<table>
+<tr><th>Operación en tiempo</th><th>En frecuencia</th></tr>
+<tr><td>Linealidad: $a x(t) + b y(t)$</td><td>$a X(\omega) + b Y(\omega)$</td></tr>
+<tr><td>Traslación: $x(t - t_0)$</td><td>$e^{-i\omega t_0} X(\omega)$</td></tr>
+<tr><td>Modulación: $e^{i\omega_0 t} x(t)$</td><td>$X(\omega - \omega_0)$</td></tr>
+<tr><td>Escala: $x(at)$, $a \neq 0$</td><td>$\tfrac{1}{|a|} X(\omega/a)$</td></tr>
+<tr><td>Derivada: $x'(t)$</td><td>$i\omega X(\omega)$</td></tr>
+<tr><td>Convolución: $(x * y)(t)$</td><td>$X(\omega) Y(\omega)$</td></tr>
+<tr><td>Dualidad: $X(t)$</td><td>$2\pi\, x(-\omega)$</td></tr>
+</table>
+
+<h4>Pares útiles</h4>
+<table>
+<tr><th>$x(t)$</th><th>$F(\omega)$</th></tr>
+<tr><td>$e^{-at} u(t)$, $a > 0$</td><td>$1/(a + i\omega)$</td></tr>
+<tr><td>$\text{rect}_a(t)$ ($|t| \le a/2$)</td><td>$a\, \sinc(\omega a/2) = 2\sen(\omega a/2)/\omega$</td></tr>
+<tr><td>$\Lambda_n(t) = (n - |t|)/n^2$ p/ $|t| \le n$</td><td>$\sinc^2(\omega n/2)$</td></tr>
+<tr><td>$e^{-t^2}$ (gaussiana)</td><td>$\sqrt\pi\, e^{-\omega^2 / 4}$</td></tr>
+<tr><td>$\delta(t)$</td><td>$1$</td></tr>
+<tr><td>$1$ (constante)</td><td>$2\pi\, \delta(\omega)$</td></tr>
+</table>
+
+<div class="ej">
+<div class="ej-titulo">TF · pulso rectangular de ancho $a$</div>
+<div class="ej-cuerpo">
+<p><b>Enunciado.</b> Hallar $\mathcal F\{f(t)\}$ donde $f(t) = 1$ para $|t| \le a/2$ y $f(t) = 0$ fuera.</p>
+
+<div class="step">
+<span class="step-label">Paso 1 · Plantear la integral</span>
+$$F(\omega) = \int_{-a/2}^{a/2} e^{-i\omega t}\, dt = \left[\frac{e^{-i\omega t}}{-i\omega}\right]_{-a/2}^{a/2}$$
+$$= \frac{e^{-i\omega a/2} - e^{i\omega a/2}}{-i\omega} = \frac{e^{i\omega a/2} - e^{-i\omega a/2}}{i\omega}.$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 2 · Usar Euler</span>
+$e^{i\theta} - e^{-i\theta} = 2 i \sen\theta$. Entonces:
+$$F(\omega) = \frac{2 i \sen(\omega a/2)}{i\omega} = \frac{2 \sen(\omega a/2)}{\omega}.$$
+
+Multiplicando arriba y abajo por $a/2$:
+$$\boxed{F(\omega) = a \cdot \frac{\sen(\omega a/2)}{\omega a/2} = a\, \sinc(\omega a/2).}$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 3 · Espectro</span>
+$F$ es real (porque $f$ es par real). El módulo $|F(\omega)|$ tiene forma de $\sinc$ con cero en $\omega = 2\pi/a, 4\pi/a, \ldots$. La fase es 0 o $\pi$ según el signo de $\sinc$.
+</div>
+</div>
+</div>
+
+<h4>Estrategia para pulso polinómico</h4>
+<p>Si $x(t) = p(t)$ para $t \in [a, b]$ y $0$ fuera, con $p$ polinomio:</p>
+<ol>
+<li>Aplicar integración por partes <b>recursivamente</b>: cada vez que derivás $p$ baja un grado, cada vez que integrás $e^{-i\omega t}$ aparece $1/(-i\omega)$.</li>
+<li>Después de $\deg(p) + 1$ partes, el polinomio se anula y queda solo la frontera evaluada.</li>
+<li>Acumular los términos de frontera $e^{-i\omega a}$ y $e^{-i\omega b}$ con sus coeficientes.</li>
+</ol>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · constante adelante en sinc</span>
+$\sinc(\omega a/2) = \sen(\omega a/2)/(\omega a/2)$ y vale 1 en $\omega = 0$. La fórmula $F(\omega) = a \sinc(\omega a/2)$ es equivalente a $2\sen(\omega a/2)/\omega$, pero la primera versión es la "forma estándar". Cuidado de no perder el factor $a$.
+</div>
+
+<h4>Script Casio</h4>
+<pre>main.py → 11) Transf Fourier
+  4 templates (rect, triángulo, exp decay, pulso polinómico)
+  Evalúa F(ω) en una grilla de ω</pre>
+
+</div>
+</div>
+
+<!-- ========== R11: EDP DIF FINITAS ========== -->
+<div class="receta" id="r11">
+<div class="receta-titulo">EDPs · Diferencias finitas implícitas con 4 nodos</div>
+<div class="receta-cuerpo">
+
+<h4>Cómo se reconoce</h4>
+<p>Te dan una EDP estándar:</p>
+<ul>
+<li>Ecuación del calor: $u_t = \alpha u_{xx}$.</li>
+<li>Ecuación de la onda: $u_{tt} = c^2 u_{xx}$.</li>
+<li>Convección-difusión: $u_t + c u_x = \nu u_{xx}$.</li>
+</ul>
+<p>Con condiciones de borde (Dirichlet, Neumann o mixtas) y una condición inicial. Te piden <b>desarrollar un esquema implícito con 4 nodos internos</b>.</p>
+
+<h4>Discretización general</h4>
+<p>Dominio $x \in [0, L]$, partición de $N + 2$ puntos: $x_0 = 0, x_1, x_2, \ldots, x_{N+1} = L$ con $h = L/(N+1)$.</p>
+<p>Tiempo: $t_k = k \Delta t$. Llamamos $u_i^k \approx u(x_i, t_k)$.</p>
+
+<h4>Aproximaciones (todas centradas en el tiempo $k+1$ para que sea implícito)</h4>
+<ul>
+<li>$u_t \approx (u_i^{k+1} - u_i^k)/\Delta t$ (Euler hacia atrás).</li>
+<li>$u_{xx} \approx (u_{i-1}^{k+1} - 2 u_i^{k+1} + u_{i+1}^{k+1})/h^2$.</li>
+<li>$u_x \approx (u_{i+1}^{k+1} - u_{i-1}^{k+1})/(2h)$ (centrada).</li>
+<li>$u_{tt} \approx (u_i^{k+1} - 2 u_i^k + u_i^{k-1})/\Delta t^2$ (3 niveles).</li>
+</ul>
+
+<h4>Pasos mecánicos (ec. del calor con Dirichlet)</h4>
+<ol class="steps">
+<li>Sustituir $u_t = u_{xx}$ con $u$ evaluada en $k+1$ en el lado derecho. Sea $r = \Delta t/h^2$.
+$$\frac{u_i^{k+1} - u_i^k}{\Delta t} = \frac{u_{i-1}^{k+1} - 2 u_i^{k+1} + u_{i+1}^{k+1}}{h^2}$$
+</li>
+<li>Multiplicar por $\Delta t$ y agrupar incógnitas a la izquierda:
+$$-r u_{i-1}^{k+1} + (1 + 2r) u_i^{k+1} - r u_{i+1}^{k+1} = u_i^k.$$
+</li>
+<li>Esto vale para $i = 1, 2, 3, 4$ (los 4 nodos internos).</li>
+<li>Imponer condiciones de borde:
+<ul>
+<li>Dirichlet: $u_0^{k+1} = g_0$, $u_5^{k+1} = g_1$ (valores conocidos). Pasarlos al lado derecho.</li>
+<li>Neumann ($u_x = 0$): usar un <b>nodo fantasma</b>, por ejemplo $u_{-1}^{k+1} = u_1^{k+1}$. Sustituir en la ecuación del nodo 0 (que ahora es incógnita). Cambia la primera fila de la matriz.</li>
+</ul>
+</li>
+<li>Sistema $M \mathbf{u}^{k+1} = \mathbf{b}^k$ con $M$ tridiagonal $4 \times 4$.</li>
+<li>Resolver por algoritmo de Thomas ($O(N)$).</li>
+<li>Avanzar paso a paso: cada $\mathbf{u}^{k+1}$ se vuelve $\mathbf{u}^k$ del paso siguiente.</li>
+</ol>
+
+<div class="ej">
+<div class="ej-titulo">Calor con Dirichlet 4 nodos · típico Ej. 3 IIP</div>
+<div class="ej-cuerpo">
+<p><b>Enunciado.</b> $u_t = u_{xx}$, $x \in [0, 1]$, $u(0, t) = u(1, t) = 0$, $u(x, 0) = \sen(\pi x)$. Esquema implícito con 4 nodos internos.</p>
+
+<div class="step">
+<span class="step-label">Paso 1 · Malla</span>
+$h = 1/5$. Nodos: $x_0 = 0, x_1 = 0.2, x_2 = 0.4, x_3 = 0.6, x_4 = 0.8, x_5 = 1$.
+
+Sea $r = \Delta t / h^2 = 25 \Delta t$ (queda en función de $\Delta t$).
+</div>
+
+<div class="step">
+<span class="step-label">Paso 2 · Ecuación por nodo interno</span>
+Para $i = 1, 2, 3, 4$:
+$$-r u_{i-1}^{k+1} + (1 + 2r) u_i^{k+1} - r u_{i+1}^{k+1} = u_i^k.$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 3 · Imponer bordes Dirichlet</span>
+$u_0^{k+1} = 0$ y $u_5^{k+1} = 0$. Los términos $-r u_0$ y $-r u_5$ son $0$ y desaparecen.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 4 · Matriz del sistema</span>
+$$M = \pmat{1 + 2r & -r & 0 & 0 \\ -r & 1 + 2r & -r & 0 \\ 0 & -r & 1 + 2r & -r \\ 0 & 0 & -r & 1 + 2r}, \quad \mathbf b^k = \pmat{u_1^k \\ u_2^k \\ u_3^k \\ u_4^k}.$$
+</div>
+
+<div class="step">
+<span class="step-label">Paso 5 · Condición inicial</span>
+$u_i^0 = \sen(\pi x_i)$:
+$u_1^0 = \sen(0.2\pi)$, $u_2^0 = \sen(0.4\pi)$, $u_3^0 = \sen(0.6\pi)$, $u_4^0 = \sen(0.8\pi)$.
+
+En cada paso $k = 0, 1, 2, \ldots$: armar $\mathbf{b}^k$ con $\mathbf{u}^k$, resolver $M \mathbf{u}^{k+1} = \mathbf{b}^k$ por Thomas, repetir.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 6 · ¿Qué pediría el parcial?</span>
+Si pide <b>"describir el esquema"</b>: la respuesta es la matriz $M$ + la fórmula $\mathbf{b}^k = \mathbf{u}^k$ (porque Dirichlet homogéneo).
+Si pide <b>"calcular $\mathbf{u}^1$"</b>: dar $\Delta t$ concreto, calcular $r$ numéricamente, resolver el sistema $4 \times 4$ a mano (Thomas o Gauss).
+</div>
+</div>
+</div>
+
+<h4>Variaciones típicas</h4>
+<ul>
+<li><b>Neumann $u_x(0, t) = 0$</b>: nodo fantasma $u_{-1}^{k+1} = u_1^{k+1}$. Para el nodo 0 (que ahora es incógnita) la ecuación queda: $(1 + 2r) u_0^{k+1} - 2r u_1^{k+1} = u_0^k$. Cambia la primera fila de la matriz.</li>
+<li><b>Onda</b>: 3 niveles. $\mathbf{u}^{k+1}$ depende de $\mathbf{u}^k$ y $\mathbf{u}^{k-1}$. Para arrancar, asumir $u_t(x, 0) = 0$ → $\mathbf{u}^{-1} = \mathbf{u}^0$ o algo equivalente.</li>
+<li><b>Convección-difusión</b>: aparece $u_x$, que se discretiza centrada → la matriz tiene términos extra en las super- y sub-diagonales.</li>
+<li><b>EDO 2° orden → sistema</b>: $\ddot x + p \dot x + q x = f$ se reescribe como $\dot x_1 = x_2$, $\dot x_2 = -q x_1 - p x_2 + f$, y se aplica diferencias finitas implícitas al sistema.</li>
+</ul>
+
+<h4>Algoritmo de Thomas (matriz tridiagonal)</h4>
+<p>Para un sistema $a_i u_{i-1} + b_i u_i + c_i u_{i+1} = d_i$:</p>
+<pre>Forward sweep:
+  c'_1 = c_1 / b_1
+  d'_1 = d_1 / b_1
+  Para i = 2..n:
+    denom = b_i - a_i * c'_{i-1}
+    c'_i = c_i / denom
+    d'_i = (d_i - a_i * d'_{i-1}) / denom
+
+Back substitution:
+  u_n = d'_n
+  Para i = n-1..1:
+    u_i = d'_i - c'_i * u_{i+1}</pre>
+
+<h4>Script Casio</h4>
+<pre>main.py → 12) EDP dif. finitas
+  3 templates: calor Dirichlet, onda, convección-difusión
+  Carga L, N, dt, K (#pasos)
+  Avanza K pasos con Thomas, imprime u^k cada K/4 pasos</pre>
+
+</div>
+</div>
+
+<!-- ========== R12: SUBESPACIOS ========== -->
+<div class="receta" id="r12">
+<div class="receta-titulo">Subespacios paramétricos</div>
+<div class="receta-cuerpo">
+
+<h4>Cómo se reconoce</h4>
+<p>Te dan un conjunto $H \subseteq V$ definido por condiciones lineales (a veces con parámetro):</p>
+<ul>
+<li>$H = \{p \in \mathbb{P}_2 : p(1) = 0\, \wedge\, p'(0) = a\}$.</li>
+<li>$H = \{A \in \R^{2\times 2} : A^T = -A\}$.</li>
+<li>$H = \{(x, y, z) \in \R^3 : x + ky = 0\, \wedge\, kx + 4y + z = 0\}$.</li>
+</ul>
+<p>Piden: ¿es subespacio? Base, dimensión, coordenadas de un vector dado.</p>
+
+<h4>Pasos mecánicos</h4>
+<ol class="steps">
+<li>Chequear que $0_V \in H$. Si no, NO es subespacio (las condiciones inhomogéneas como $p(1) = 2$ rompen).</li>
+<li>Elegir una base canónica de $V$ y traducir cada elemento a coordenadas en esa base. Las condiciones de $H$ se vuelven un sistema lineal en esas coordenadas.</li>
+<li>Resolver el sistema por Gauss → forma paramétrica. Cada variable libre se identifica con un parámetro $t$.</li>
+<li>Cada parámetro libre genera un vector base de $H$ (poner el parámetro en 1 y el resto en 0).</li>
+<li>$\dim H = $ # parámetros libres = $\dim V - \rg(\text{sistema})$.</li>
+<li>Para coordenadas de $v \in H$ en la base hallada: plantear $v = \sum c_i b_i$, resolver.</li>
+</ol>
+
+<div class="ej">
+<div class="ej-titulo">Subespacio · $H \subset \mathbb{P}_2$</div>
+<div class="ej-cuerpo">
+<p><b>Enunciado.</b> Sea $H = \{p \in \mathbb{P}_2 : p(1) = 0\, \wedge\, p(-1) = 0\}$. Dar base y dimensión de $H$.</p>
+
+<div class="step">
+<span class="step-label">Paso 1 · Parametrizar $\mathbb{P}_2$ y traducir condiciones</span>
+$p(x) = a_0 + a_1 x + a_2 x^2$, coordenadas $(a_0, a_1, a_2)$.
+
+$p(1) = a_0 + a_1 + a_2 = 0$.
+$p(-1) = a_0 - a_1 + a_2 = 0$.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 2 · Resolver el sistema</span>
+Suma de las dos: $2 a_0 + 2 a_2 = 0 \Rightarrow a_0 = -a_2$.
+Resta: $2 a_1 = 0 \Rightarrow a_1 = 0$.
+
+Soluciones: $p = -a_2 + 0 \cdot x + a_2 x^2 = a_2 (x^2 - 1)$.
+</div>
+
+<div class="step">
+<span class="step-label">Paso 3 · Base y dimensión</span>
+$$\boxed{H = \gen\{x^2 - 1\}, \quad \dim H = 1.}$$
+</div>
+</div>
+</div>
+
+<div class="trap">
+<span class="trap-titulo">Trampa · condiciones inhomogéneas</span>
+$H = \{(x, y) : x + y = 5\}$ NO es subespacio (no contiene al $0$). Verificar siempre $0_V \in H$ antes de pelearte con el resto.
+</div>
+
+</div>
+</div>
+
+<!-- ============================ FORMULARIO ============================ -->
+<h2 id="formulario" class="pagebreak">4 · Formulario denso · referencia rápida</h2>
+
+<div class="two-col">
+
+<div>
+<h4>Complejos</h4>
+<p>$z = a + ib = \rho e^{i\theta}$. $\rho = |z| = \sqrt{a^2 + b^2}$.</p>
+<p>$z \bar z = |z|^2$. $z + \bar z = 2 \text{Re}(z)$. $z - \bar z = 2 i \text{Im}(z)$.</p>
+<p>De Moivre: $z^n = \rho^n e^{in\theta}$.</p>
+<p>Raíces: $w_k = \sqrt[n]{\rho}\, e^{i(\theta + 2k\pi)/n}$, $k = 0, \ldots, n-1$.</p>
+<p>$\ln z = \ln|z| + i(\arg z + 2k\pi)$. $z^w = e^{w \ln z}$.</p>
+</div>
+
+<div>
+<h4>Argumento por cuadrante</h4>
+<p>I ($a>0, b>0$): $\arctan(b/a)$.</p>
+<p>II ($a<0, b>0$): $\pi - \arctan(|b|/|a|)$.</p>
+<p>III ($a<0, b<0$): $\pi + \arctan(|b|/|a|)$.</p>
+<p>IV ($a>0, b<0$): $2\pi - \arctan(|b|/|a|)$.</p>
+<p>Ejes: $b=0, a>0 \to 0$; $b>0, a=0 \to \pi/2$; $b=0, a<0 \to \pi$; $b<0, a=0 \to 3\pi/2$.</p>
+</div>
+
+<div>
+<h4>Vectores y productos</h4>
+<p>$\langle u, v \rangle_\R = \sum u_i v_i$. En $\C$: $\sum u_i \bar v_i$.</p>
+<p>$\norm{v}_2 = \sqrt{\langle v, v\rangle}$. $\norm{v}_1 = \sum |v_i|$. $\norm{v}_\infty = \max|v_i|$.</p>
+<p>Cauchy-Schwarz: $|\langle u, v\rangle| \le \norm u \norm v$.</p>
+<p>$\cos\alpha_{uv} = \dfrac{\langle u, v\rangle}{\norm u \norm v}$.</p>
+<p>Proy $b$ sobre $a$: $\dfrac{\langle b, a\rangle}{\langle a, a\rangle} a$.</p>
+</div>
+
+<div>
+<h4>Matrices</h4>
+<p>$(AB)^T = B^T A^T$. $(AB)^{-1} = B^{-1} A^{-1}$.</p>
+<p>$A^{-1} = \dfrac{1}{\det A} \adj(A)$.</p>
+<p>$\det(AB) = \det A \det B$. $\det(\lambda A) = \lambda^n \det A$.</p>
+<p>$\pmat{a&b\\c&d}^{-1} = \dfrac{1}{ad - bc} \pmat{d&-b\\-c&a}$.</p>
+<p>Sarrus $3\times 3$: $aei + bfg + cdh - ceg - bdi - afh$.</p>
+</div>
+
+<div>
+<h4>Tipos de matrices</h4>
+<p>Simétrica: $A = A^T$. Ortogonal: $A^T A = I$ ($\det = \pm 1$).</p>
+<p>Idempotente: $A^2 = A$. Nilpotente: $A^n = 0$. Involutiva: $A^2 = I$.</p>
+<p>Hermítica: $A = A^*$. Unitaria: $A^* A = I$.</p>
+<p>Def. positiva: $X^T A X > 0\,\forall X \neq 0 \iff \lambda_i > 0\,\forall i$.</p>
+</div>
+
+<div>
+<h4>Diagonalización</h4>
+<p>$p_A(\lambda) = \det(\lambda I - A)$.</p>
+<p>$A v = \lambda v$, $v \neq 0$.</p>
+<p>$S_\lambda = N(\lambda I - A)$. $\dim S_\lambda = m_g$.</p>
+<p>Diag $\iff m_g(\lambda) = m_a(\lambda)\,\forall \lambda$.</p>
+<p>$A = P D P^{-1}$, $P = (v_1|\cdots|v_n)$, $D = \diag(\lambda_i)$.</p>
+<p>$A$ simétrica real $\Rightarrow$ ortogonalmente diag.</p>
+</div>
+
+<div>
+<h4>QR / SVD</h4>
+<p>$A = QR$, $Q^T Q = I$. GS: $u_j = a_j - \sum \langle a_j, v_i\rangle v_i$, $v_j = u_j/\norm{u_j}$.</p>
+<p>$R = Q^T A$ triangular sup.</p>
+<p>$A = U \Sigma V^T$. $\sigma_i = \sqrt{\lambda_i(A^T A)}$.</p>
+<p>$u_i = A v_i / \sigma_i$ para $\sigma_i > 0$.</p>
+<p>$A^+ = V \Sigma^+ U^T$. Si full col rank: $A^+ = (A^T A)^{-1} A^T$.</p>
+</div>
+
+<div>
+<h4>Fourier (serie)</h4>
+<p>$\omega_0 = 2\pi/T$.</p>
+<p>$x = \dfrac{a_0}{2} + \sum [a_n \cos(n\omega_0 t) + b_n \sen(n\omega_0 t)]$.</p>
+<p>$a_n = \dfrac{2}{T}\int_T x \cos(n\omega_0 t) dt$.</p>
+<p>$c_n = \dfrac{1}{T}\int_T x e^{-in\omega_0 t} dt$. $c_n = (a_n - i b_n)/2$.</p>
+<p>Parseval: $\dfrac{1}{T}\int_T |x|^2 = \sum |c_n|^2$.</p>
+</div>
+
+<div>
+<h4>Fourier (transformada)</h4>
+<p>$F(\omega) = \int_{-\infty}^\infty x(t) e^{-i\omega t} dt$.</p>
+<p>$\mathcal F\{x'\} = i\omega F$.</p>
+<p>$\mathcal F\{x(t-t_0)\} = e^{-i\omega t_0} F$.</p>
+<p>$\mathcal F\{x * y\} = X Y$.</p>
+<p>Pares: $e^{-at}u \to 1/(a + i\omega)$; rect$_a \to a\sinc(\omega a/2)$; $e^{-t^2} \to \sqrt\pi e^{-\omega^2/4}$.</p>
+</div>
+
+<div>
+<h4>Dif. finitas implícitas · calor</h4>
+<p>$r = \Delta t/h^2$.</p>
+<p>$(1 + 2r) u_i^{k+1} - r u_{i-1}^{k+1} - r u_{i+1}^{k+1} = u_i^k$.</p>
+<p>Matriz $M$ tridiagonal. Incondicionalmente estable.</p>
+<p>Onda $u_{tt} = u_{xx}$: 3 niveles, $\mathbf u^{k+1}$ depende de $\mathbf u^k$ y $\mathbf u^{k-1}$.</p>
+<p>Resolver $M \mathbf u = \mathbf b$ por Thomas $O(N)$.</p>
+</div>
+
+<div>
+<h4>Cardano (raíces de cúbica)</h4>
+<p>$L^3 + a L^2 + b L + c = 0$ → sustituir $L = y - a/3$:</p>
+<p>$y^3 + p y + q = 0$ con $p = b - a^2/3$, $q = 2a^3/27 - ab/3 + c$.</p>
+<p>Disc $= -4p^3 - 27 q^2$.</p>
+<p>Si disc $\ge 0$ y $p < 0$: trigonométrico, 3 reales.</p>
+<p>$y_k = 2\sqrt{-p/3}\cos\bigl(\tfrac13 \arccos(\tfrac{3q}{2p}\sqrt{-3/p}) - \tfrac{2\pi k}{3}\bigr)$.</p>
+</div>
+
+<div>
+<h4>Convergencia SF (Dirichlet)</h4>
+<p>Si $x$ seccional. cont. y $x'$ idem en $[0,T]$:</p>
+<ul>
+<li>En continuidad: SF $\to x(t)$.</li>
+<li>En salto: SF $\to \tfrac12[x(t^+) + x(t^-)]$.</li>
+</ul>
+<p>Para identidades: evaluar SF en $t_0$ con valor cerrado, despejar suma.</p>
+</div>
+
+</div>
+
+<!-- ============================ INTEGRALES ============================ -->
+<h2 id="integrales">5 · Tabla de integrales y derivadas útiles para Fourier</h2>
+
+<table>
+<tr><th>Integral</th><th>Resultado</th></tr>
+<tr><td>$\int t \sen(nt)\, dt$</td><td>$-\dfrac{t \cos(nt)}{n} + \dfrac{\sen(nt)}{n^2} + C$</td></tr>
+<tr><td>$\int t \cos(nt)\, dt$</td><td>$\dfrac{t \sen(nt)}{n} + \dfrac{\cos(nt)}{n^2} + C$</td></tr>
+<tr><td>$\int t^2 \sen(nt)\, dt$</td><td>$-\dfrac{t^2 \cos(nt)}{n} + \dfrac{2 t \sen(nt)}{n^2} + \dfrac{2 \cos(nt)}{n^3} + C$</td></tr>
+<tr><td>$\int t^2 \cos(nt)\, dt$</td><td>$\dfrac{t^2 \sen(nt)}{n} + \dfrac{2 t \cos(nt)}{n^2} - \dfrac{2 \sen(nt)}{n^3} + C$</td></tr>
+<tr><td>$\int e^{at} \cos(bt)\, dt$</td><td>$\dfrac{e^{at}(a \cos bt + b \sen bt)}{a^2 + b^2} + C$</td></tr>
+<tr><td>$\int e^{at} \sen(bt)\, dt$</td><td>$\dfrac{e^{at}(a \sen bt - b \cos bt)}{a^2 + b^2} + C$</td></tr>
+<tr><td>$\int e^{at} t^n\, dt$</td><td>Por partes recursivo; baja grado de $t^n$.</td></tr>
+<tr><td>$\int_{-\infty}^\infty e^{-t^2}\, dt$</td><td>$\sqrt\pi$ (gaussiana base)</td></tr>
+<tr><td>$\int_{-\infty}^\infty e^{-(t + i\omega/2)^2}\, dt$</td><td>$\sqrt\pi$ (contorno gaussiano)</td></tr>
+</table>
+
+<h4>Valores notables</h4>
+<table>
+<tr><th>$x$</th><th>$\sen x$</th><th>$\cos x$</th></tr>
+<tr><td>$0$</td><td>$0$</td><td>$1$</td></tr>
+<tr><td>$\pi/6$</td><td>$1/2$</td><td>$\sqrt 3/2$</td></tr>
+<tr><td>$\pi/4$</td><td>$\sqrt 2/2$</td><td>$\sqrt 2/2$</td></tr>
+<tr><td>$\pi/3$</td><td>$\sqrt 3/2$</td><td>$1/2$</td></tr>
+<tr><td>$\pi/2$</td><td>$1$</td><td>$0$</td></tr>
+<tr><td>$\pi$</td><td>$0$</td><td>$-1$</td></tr>
+<tr><td>$3\pi/2$</td><td>$-1$</td><td>$0$</td></tr>
+<tr><td>$n \pi$</td><td>$0$</td><td>$(-1)^n$</td></tr>
+<tr><td>$(2n+1)\pi/2$</td><td>$(-1)^n$</td><td>$0$</td></tr>
+</table>
+
+<h4>Identidades útiles</h4>
+<ul>
+<li>$\sen^2 x = \tfrac12(1 - \cos 2x)$, $\cos^2 x = \tfrac12(1 + \cos 2x)$.</li>
+<li>$\sen a \cos b = \tfrac12[\sen(a+b) + \sen(a-b)]$.</li>
+<li>$\cos a \cos b = \tfrac12[\cos(a+b) + \cos(a-b)]$.</li>
+<li>$\sen a \sen b = \tfrac12[\cos(a-b) - \cos(a+b)]$.</li>
+<li>$e^{i\theta} = \cos\theta + i \sen\theta$. $\cos\theta = (e^{i\theta} + e^{-i\theta})/2$. $\sen\theta = (e^{i\theta} - e^{-i\theta})/(2i)$.</li>
+</ul>
+
+<h4>Sumas conocidas (para inciso b de SF)</h4>
+<ul>
+<li>$\sum_{n=1}^\infty \dfrac{1}{n^2} = \dfrac{\pi^2}{6}$ (Basel).</li>
+<li>$\sum_{n=1}^\infty \dfrac{(-1)^{n+1}}{n^2} = \dfrac{\pi^2}{12}$.</li>
+<li>$\sum_{n=0}^\infty \dfrac{(-1)^n}{2n+1} = \dfrac{\pi}{4}$ (Leibniz).</li>
+<li>$\sum_{n=1}^\infty \dfrac{1}{n^4} = \dfrac{\pi^4}{90}$.</li>
+<li>$\sum_{n=1}^\infty \dfrac{1}{(2n-1)^2} = \dfrac{\pi^2}{8}$.</li>
+</ul>
+
+<!-- ============================ REPETIDOS ============================ -->
+<h2 id="repetidos" class="pagebreak">6 · Material que se repite literal en parciales</h2>
+
+<p>Estas matrices y funciones aparecen <b>idénticas</b> en múltiples parciales según el análisis transversal. Tener resuelto el patrón te ahorra 5-10 minutos en el parcial.</p>
+
+<h3>Matrices recurrentes</h3>
+
+<table>
+<tr><th>Matriz</th><th>Aparece en</th><th>Suele pedir</th></tr>
+<tr><td>$\pmat{2 & 8 & k \\ -1 & -4 & 0 \\ k+3 & 12 & 2k}$</td><td>IP III, IP VI, Final VIII</td><td>$k$ tal que $\dim R(T) = 1$ ($\to k = 0$); base $N(T)$ con $k = 0$.</td></tr>
+<tr><td>$\pmat{1 & 0 & 0 \\ 2 & -1 & 0 \\ -4 & 0 & -1}$</td><td>IP VI, Final IV</td><td>Diagonalizar + base $B$ tal que $M(T)_{BB} = \diag(1, -1, -1)$; QR + SVD + PLU.</td></tr>
+<tr><td>$\pmat{0.92 & 1.44 \\ 1.44 & 0.08}$</td><td>IP I, Final I</td><td>SVD + QR; diagonalización (es simétrica).</td></tr>
+<tr><td>$\pmat{2 & k-2 & 0 \\ 0 & 3 & k-1 \\ 0 & 0 & 3}$</td><td>IP III, Final XIV</td><td>Diagonalización ($k = 0$ o $k = 2$); $A^T A X = 0$.</td></tr>
+</table>
+
+<h3>Bases recurrentes</h3>
+
+<ul>
+<li><b>$B = \{(0, 0, 1), (1, 0, 0), (1, -1, 0)\}$</b>: Final III ($M_{BB}$ + diag), Final IX ($M_{BB}$ + SVD), Final X ($M_{BB}$ + QR).</li>
+<li><b>$B = \{(0, 1, -1), (0, 0, 1), (1, 1, 0)\}$</b>: IP IV Ej. 1, IP VII Ej. 2 (mismas matrices + antiimagen $(0, 2, 1)$).</li>
+</ul>
+
+<h3>Funciones recurrentes (IIP / Final)</h3>
+
+<ul>
+<li><b>$f(x) = 1 - x$ con $f(x+1) = f(x)$</b>: 5 finales. Inciso b) siempre pide convergencia en $x = 0$ y $x = 1/2$.
+<br><i>Resultado a saber</i>: $f \sim \dfrac{1}{2} + \sum_{n=1}^\infty \dfrac{\sen(2\pi n x)}{n\pi}$.</li>
+<li><b>$u_t = u_{xx}$ con esquema implícito 4 nodos</b>: IIP IV, IIP VI, Final V, VI, IX, X, XI(1). Variantes en condiciones de borde (Dirichlet / Neumann / Mixto) y condición inicial ($\sen, \cos, e^{-x}, x^2, e^{-x^2}, \ldots$).</li>
+<li><b>EDO 2° orden → sistema</b>: Final I (Duffing), Final II ($\ddot x + 2\dot x + 3x = e^{-t^2}$), Final III ($\ddot x + \dot x + 3x = \cos(t^2 + 1)$). Reescribir como $\dot x_1 = x_2$, $\dot x_2 = \ldots$ y aplicar dif. finitas.</li>
+<li><b>TF de pulso polinómico</b>: $(t-1)^2$, $t - t^2$, $1 - |t|$, $e^{-a|t|}$ con soporte truncado. Casi siempre integración por partes una o dos veces.</li>
+</ul>
+
+<h3>Casi-duplicados de parciales</h3>
+
+<ul>
+<li><b>IIP I ≡ IIP III</b> excepto la función del Ej. 1 ($e^t$ vs $t + 1$).</li>
+<li><b>IIP V ≡ IIP VI</b> excepto $\cos \leftrightarrow \sen$ y la EDP del Ej. 3 (onda vs convección-difusión).</li>
+</ul>
+
+<!-- ============================ TRAMPAS ============================ -->
+<h2 id="trampas">7 · Top 15 trampas que cuestan puntos</h2>
+
+<div class="trap"><span class="trap-titulo">1 · Matriz asociada en base no canónica</span>
+Si $A = \MB{B_2}{B_1}(T)$, $A$ recibe coordenadas en $B_1$. Si te dan $v$ en canónica, pasalo a $B_1$ ANTES de multiplicar.</div>
+
+<div class="trap"><span class="trap-titulo">2 · Antiimagen vs imagen</span>
+"$u$ está en la imagen" = $\exists v: T(v) = u$. Se chequea si $AX = u$ tiene <i>alguna</i> solución. NO se verifica si $X = u$.</div>
+
+<div class="trap"><span class="trap-titulo">3 · Polinomio característico: signo</span>
+$\det(\lambda I - A)$ y $\det(A - \lambda I)$ difieren en $(-1)^n$. La cátedra usa $\det(\lambda I - A)$. Si te queda $\lambda^3$ con coeficiente $-1$, multiplicá todo por $-1$.</div>
+
+<div class="trap"><span class="trap-titulo">4 · Autovalor doble en matriz no simétrica</span>
+Siempre calculá $\dim S_\lambda$ explícitamente. No asumas que diagonaliza solo porque "es real".</div>
+
+<div class="trap"><span class="trap-titulo">5 · Signo del multiplicador en LU</span>
+Si hacés $F_i \leftarrow F_i - m\, F_j$ (resta), $L_{ij} = +m$. El signo en $L$ es opuesto al de la operación.</div>
+
+<div class="trap"><span class="trap-titulo">6 · Olvidar normalizar en GS</span>
+Si $Q^T Q$ no es la identidad sino una diagonal con valores $\neq 1$, te olvidaste de dividir alguna columna por su norma.</div>
+
+<div class="trap"><span class="trap-titulo">7 · QR: usar $u_i$ en vez de $v_i$ en proyecciones</span>
+Cuando calculás $u_j = a_j - \sum \langle a_j, v_i\rangle v_i$, los $v_i$ son versores. Quedate con la versión normalizada.</div>
+
+<div class="trap"><span class="trap-titulo">8 · SVD: $\sigma_i$ desordenados</span>
+$\sigma_1 \ge \sigma_2 \ge \ldots$ siempre. Si los ordenás mal, las columnas de $U$ y $V$ quedan desalineadas.</div>
+
+<div class="trap"><span class="trap-titulo">9 · SVD: dividir por $\sigma_i = 0$</span>
+Si $\rg A < \min(n, m)$, no podés usar $u_i = A v_i / \sigma_i$ con los $\sigma_i$ nulos. Completá esos $u_i$ desde el núcleo de $A^T$.</div>
+
+<div class="trap"><span class="trap-titulo">10 · Pseudoinversa con $A^T A$ no invertible</span>
+Si las columnas de $A$ son LD, $(A^T A)^{-1}$ no existe. Hay que ir vía SVD.</div>
+
+<div class="trap"><span class="trap-titulo">11 · Fourier: paridad alrededor de $T/2$ vs alrededor de $0$</span>
+La paridad se mide en el centro del período. Si el intervalo es $[0, T]$, la "función par" significa $x(t) = x(T - t)$, no $x(t) = x(-t)$.</div>
+
+<div class="trap"><span class="trap-titulo">12 · Fourier: discontinuidad en el borde</span>
+La SF en un punto de salto converge al promedio, no al valor de la función. Por ejemplo $f(x) = 1 - x$ en $[0, 1)$ con período $1$ tiene salto en $0$ y la SF vale $1/2$, no $1$.</div>
+
+<div class="trap"><span class="trap-titulo">13 · Diferencias finitas: signo del $r$</span>
+Para implícito hacia atrás, los términos $-r$ están en la matriz del lado izquierdo. Para explícito, están en el RHS.</div>
+
+<div class="trap"><span class="trap-titulo">14 · Diferencias finitas: arranque de EDP de orden 2 en tiempo</span>
+Para $u_{tt}$, necesitás $\mathbf u^k$ y $\mathbf u^{k-1}$. Si te dan $u_t(x, 0)$, usá $u_t \approx (u^1 - u^{-1})/(2\Delta t)$ y despejá el fantasma.</div>
+
+<div class="trap"><span class="trap-titulo">15 · Cálculo de $\det 4 \times 4$ con Sarrus</span>
+Sarrus es SOLO para $3 \times 3$. Para $4 \times 4$ usá Laplace por una fila/col con ceros, o reducí a triangular y multiplicá las diagonales.</div>
+
+<!-- ============================ CASIO ============================ -->
+<h2 id="casio">8 · Scripts Casio · qué hace cada uno</h2>
+
+<p>Disponibles en <code>study/casio/</code>. Cargar todos a la calculadora (modo USB), correr <code>main.py</code>.</p>
+
+<table>
+<tr><th>#</th><th>Archivo</th><th>Qué resuelve</th><th>Receta</th></tr>
+<tr><td>1</td><td><code>tl.py</code></td><td>TL: núcleo, imagen, antiimagen, matriz por regla, rango</td><td>R1</td></tr>
+<tr><td>2</td><td><code>diag.py</code></td><td>Diagonalización 2×2 / 3×3 (Cardano sobre cúbica, autovec por Gauss)</td><td>R2</td></tr>
+<tr><td>3</td><td><code>cb.py</code></td><td>Cambio de base $M_{B_2 B_1}(\text{id})$ + coordenadas</td><td>R3</td></tr>
+<tr><td>4</td><td><code>lu.py</code></td><td>$P A = L U$ con pivoteo parcial automático</td><td>R4</td></tr>
+<tr><td>5</td><td><code>qr.py</code></td><td>QR por GS clásico, imprime todos los $u_i, v_i$ y $\langle a, v\rangle$</td><td>R5</td></tr>
+<tr><td>6</td><td><code>svd.py</code></td><td>SVD vía $A^T A$ con autoval, autovec y $u_i = A v_i / \sigma_i$</td><td>R6</td></tr>
+<tr><td>7</td><td><code>pinv.py</code></td><td>Pseudoinversa por fórmula directa según rango</td><td>R7</td></tr>
+<tr><td>8</td><td><code>lsq.py</code></td><td>MMCC: 5 modelos pre-cargados, devuelve coef + residuo</td><td>R8</td></tr>
+<tr><td>9</td><td><code>cplx.py</code></td><td>Complejos: binómica↔polar, raíces $n$-ésimas, potencias</td><td>—</td></tr>
+<tr><td>10</td><td><code>fs.py</code></td><td>Series Fourier: 9 funciones pre-cargadas + custom, integra Simpson</td><td>R9</td></tr>
+<tr><td>11</td><td><code>tf.py</code></td><td>TF: pares cerrados + pulso polinómico numérico</td><td>R10</td></tr>
+<tr><td>12</td><td><code>edp.py</code></td><td>Dif. finitas implícitas: calor / onda / convección, Thomas</td><td>R11</td></tr>
+</table>
+
+<h4>Convenciones de entrada</h4>
+<ul>
+<li><b>Vector</b>: <code>1, 2, 3</code> (separar con coma).</li>
+<li><b>Matriz</b>: una fila por línea, mismo formato.</li>
+<li><b>Decimales</b>: punto, no coma. <code>1.5</code>, no <code>1,5</code>.</li>
+<li><b>Fracciones</b>: no soportadas como entrada directa. Convertir: <code>1/3</code> → <code>0.3333</code>.</li>
+</ul>
+
+<h4>Estrategia: hacer a mano + verificar con script</h4>
+<p>El parcial se corrige por <b>proceso</b>, no por número final. Usar los scripts para:</p>
+<ol>
+<li>Verificar resultados al final del ejercicio (¿coincide mi $P$ y $D$ con los del script?).</li>
+<li>Detectar errores aritméticos mirando los pasos intermedios que imprime el script vs los tuyos.</li>
+<li>Cuando te trabás: cargar el ejercicio, ver el paso siguiente, seguir a mano.</li>
+</ol>
+
+<!-- ============================ ESTRATEGIA ============================ -->
+<h2 id="estrategia">9 · Estrategia para el día del parcial</h2>
+
+<h4>Antes de empezar</h4>
+<ol>
+<li>Leer todos los ejercicios <b>una vez</b> antes de tocar el papel. Identificar a qué receta corresponde cada uno.</li>
+<li>Marcar mentalmente el orden de ataque: <b>primero los que más sabés</b>, no los más difíciles.</li>
+<li>Calcular tiempos: si son 5 ejercicios y tenés 2 hs, son 24 min por ejercicio (con 10 min de margen).</li>
+</ol>
+
+<h4>Mientras lo hacés</h4>
+<ol>
+<li>Escribir el resultado de cada paso intermedio. La corrección es por proceso.</li>
+<li>Si un cálculo no cierra en 5 min después de plantearlo, dejar lo escrito y <b>pasar al siguiente</b>. Volver al final.</li>
+<li>Usar el script Casio para verificar (no para resolver de cero). Si el resultado coincide → seguir. Si no → revisar los pasos intermedios.</li>
+<li>Antes de pasar a limpio, releer el enunciado: ¿pedía base? ¿pedía dim? ¿pedía $P$ y $D$? Asegurarse de entregar todo lo pedido.</li>
+</ol>
+
+<h4>Errores fatales a evitar</h4>
+<ul>
+<li><b>Dejar un inciso sin responder</b>: aunque sea con "no llegué a resolver, pero la idea sería ...". Algún punto siempre cae.</li>
+<li><b>Confundir convenciones</b>: $\det(\lambda I - A)$ vs $\det(A - \lambda I)$, $\MB{B_2}{B_1}$ vs $\MB{B_1}{B_2}$. Si dudás, escribí explícitamente cuál estás usando.</li>
+<li><b>No verificar</b>: la verificación $A P = P D$ (o $L U = A$, $Q R = A$, $U \Sigma V^T = A$) es <b>1 minuto de multiplicación</b> y te ahorra perder 4 puntos por un error de signo.</li>
+</ul>
+
+<h4>Si te quedaste sin tiempo</h4>
+<ol>
+<li>En el ejercicio incompleto, escribir el <b>esquema</b> del método (qué pasos harías) — gana puntos parciales.</li>
+<li>Resultados numéricos sin desarrollo NO suman. Pero "planteo correcto + cuenta sin terminar" SÍ.</li>
+</ol>
+
+<hr>
+
+<p class="small" style="text-align:center; margin-top:20pt;">
+<b>Fuentes</b>: 70 PDFs en <code>raw/</code> → 73 páginas markdown en <code>wiki/</code>. Auditoría 2026-05-27 ✅. Scripts en <code>study/casio/</code>.<br>
+Si encontrás un error en este documento, ir a <code>wiki/AUDIT_REPORT.md</code> para ver qué se verificó y dónde puede haber un gap.
+</p>
+
+</body>
+</html>
