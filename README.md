@@ -42,6 +42,60 @@ CLAUDE.md        # Schema del wiki (workflows ingest/query/lint)
 3. **Profundizar un tema**: ir a `wiki/00-mapa-temas.md` → ubicar el tema → seguir los links a teoría / clase / pizarrón / guía / parcial correspondiente.
 4. **Agregar fuente nueva**: dropear PDF en `raw/`, pedirle a Claude "ingestar X". Se actualiza el wiki automáticamente.
 
+## Descargar a tu computadora
+
+El repo es privado → todos los comandos requieren auth. Si nunca lo usaste:
+
+```bash
+brew install gh           # solo la primera vez
+gh auth login             # OAuth via browser, marcar HTTPS
+```
+
+### Clonar todo el repo (recomendado)
+
+```bash
+gh repo clone SebasCaules/MNA_Obsidian
+cd MNA_Obsidian
+```
+
+Para actualizarlo cuando se agreguen cosas: `git pull` desde la carpeta.
+
+### Bajar solo los scripts Casio (sin el resto)
+
+```bash
+mkdir -p MNA_casio && cd MNA_casio
+gh api repos/SebasCaules/MNA_Obsidian/tarball \
+  | tar -xz --strip-components=2 -- '*/study/casio'
+```
+
+Te deja la carpeta `casio/` con los 17 archivos `.py` + `README.md` lista para arrastrar a la calculadora.
+
+### Bajar solo el cheatsheet HTML
+
+```bash
+gh api repos/SebasCaules/MNA_Obsidian/contents/study/MNA_Cheatsheet.html \
+  -H "Accept: application/vnd.github.raw" > MNA_Cheatsheet.html
+open MNA_Cheatsheet.html       # se abre en tu browser default
+```
+
+### Bajar solo el wiki (markdown) para consulta offline
+
+```bash
+mkdir -p MNA_wiki && cd MNA_wiki
+gh api repos/SebasCaules/MNA_Obsidian/tarball \
+  | tar -xz --strip-components=2 -- '*/wiki'
+```
+
+Abrilo con Obsidian (`File → Open vault → MNA_wiki`) o con cualquier editor de markdown.
+
+### Transferir los scripts a la Casio fx-CG50
+
+1. Conectar la calculadora por USB.
+2. En la calc: `MENU → LINK → F4 (CABLE)` → elegir "USB Mass Storage".
+3. En la PC la calc aparece como pendrive. Arrastrar todo el contenido de la carpeta `casio/` a la raíz del pendrive (o a una subcarpeta `PYTHON/`).
+4. Eject seguro. Desconectar.
+5. En la calc: `MENU → PYTHON → seleccionar main → EXE`.
+
 ## Stats
 
 - 70 PDFs en `raw/` (~3 MB total)
