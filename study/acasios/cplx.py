@@ -21,72 +21,76 @@ def arg_pi(a, b):
     return 2 * PI - math.atan(abs(b) / abs(a))
 
 def bin_to_pol():
-    print("z = a + i*b")
-    a = ask_float("a: ")
-    b = ask_float("b: ")
+    print("z=a+i*b")
+    a = ask_float("a:")
+    b = ask_float("b:")
     rho = (a * a + b * b) ** 0.5
     th = arg_pi(a, b)
-    step("Modulo y argumento")
-    print("rho = {:.6g}".format(rho))
-    print("theta = {:.6g}".format(th))
-    print("       = {:.4f} pi".format(th / PI))
-    print("z = {:.4g} * e^(i*{:.4g})".format(rho, th))
+    step("modulo,arg")
+    print("rho={:.6g}".format(rho))
+    print("th={:.6g}".format(th))
+    print("  ={:.4f}pi".format(th / PI))
+    print("z={:.4g}e^(i*{:.4g})".format(rho, th))
     pause()
 
 def pol_to_bin():
-    print("z = rho * e^(i*th)")
-    rho = ask_float("rho: ")
-    th = ask_float("theta (rad): ")
+    print("z=rho*e^(i th)")
+    rho = ask_float("rho:")
+    th = ask_float("th(rad):")
     a = rho * math.cos(th)
     b = rho * math.sin(th)
-    step("Forma binomica")
-    print("z = {:.6g} + i*{:.6g}".format(a, b))
+    step("Binomica")
+    print("z={:.6g}".format(a))
+    print(" +i*{:.6g}".format(b))
     pause()
 
 def roots():
-    print("Raices n-esimas de z")
-    a = ask_float("Re(z): ")
-    b = ask_float("Im(z): ")
-    n = ask_int("n: ")
+    print("Raices n-es z")
+    a = ask_float("Re(z):")
+    b = ask_float("Im(z):")
+    n = ask_int("n:")
     rho = (a * a + b * b) ** 0.5
     th = arg_pi(a, b)
     rn = rho ** (1.0 / n)
-    step("rho^(1/n) = {:.6g}".format(rn))
-    print("theta base = {:.6g}".format(th))
+    step("rho^1/n={:.4g}".format(rn))
+    print("th base={:.4g}".format(th))
     for k in range(n):
         ak = (th + 2 * PI * k) / n
         wa = rn * math.cos(ak)
         wb = rn * math.sin(ak)
-        print("w{} = {:.4g} + i*{:.4g}".format(k, wa, wb))
-        print("   arg = {:.4g} pi".format(ak / PI))
+        print("w{}={:.4g}".format(k, wa))
+        print(" +i*{:.4g}".format(wb))
+        print(" arg={:.3g}pi".format(ak / PI))
+        if (k + 1) % 2 == 0:
+            pause()
     pause()
 
 def power():
-    print("z^n con z = a+ib")
-    a = ask_float("a: ")
-    b = ask_float("b: ")
-    n = ask_int("n: ")
+    print("z^n, z=a+ib")
+    a = ask_float("a:")
+    b = ask_float("b:")
+    n = ask_int("n:")
     rho = (a * a + b * b) ** 0.5
     th = arg_pi(a, b)
-    step("z^n = rho^n e^(i n theta)")
+    step("z^n=rho^n e^in0")
     rn = rho ** n
     an = n * th
     wa = rn * math.cos(an)
     wb = rn * math.sin(an)
-    print("|z^n| = {:.6g}".format(rn))
-    print("arg = {:.6g}".format(an))
-    print("z^n = {:.6g} + i*{:.6g}".format(wa, wb))
+    print("|z^n|={:.6g}".format(rn))
+    print("arg={:.6g}".format(an))
+    print("z^n={:.4g}".format(wa))
+    print(" +i*{:.4g}".format(wb))
     pause()
 
 def run():
     while True:
         clr()
-        print("== Complejos ==")
         op = menu_pick([
-            "Binomica -> polar",
-            "Polar -> binomica",
-            "Raices n-esimas",
-            "Potencia z^n",
+            "Bin->polar",
+            "Polar->bin",
+            "Raices n-esim",
+            "Pot z^n",
             "Volver",
         ], "Op")
         if op == 0:

@@ -24,22 +24,25 @@ def thomas(a, b, c, d):
     return u
 
 def edp_calor_dir():
-    # u_t = u_xx, 4 nodos internos, Dirichlet
-    print("u_t = u_xx, x en [0,L]")
-    L = ask_float("L: ")
-    N = ask_int("nodos internos: ")
-    dt = ask_float("dt: ")
-    K = ask_int("# pasos: ")
-    print("Cond. inicial u(x,0):")
-    print("1) sen(pi x/L)   2) cos(pi x/L)")
-    print("3) x*(L-x)       4) exp(-x^2)")
-    op = ask_int("> ")
+    # u_t = u_xx, Dirichlet
+    print("u_t=u_xx,x[0,L]")
+    L = ask_float("L:")
+    N = ask_int("nodos int:")
+    dt = ask_float("dt:")
+    K = ask_int("#pasos:")
+    print("u(x,0):")
+    print("1)sen(pi x/L)")
+    print("2)cos(pi x/L)")
+    print("3)x*(L-x)")
+    print("4)exp(-x^2)")
+    op = ask_int(">")
     h = L / (N + 1)
     r = dt / (h * h)
-    print("h =", h, "r =", r)
+    print("h={:.4g}".format(h))
+    print("r={:.4g}".format(r))
     # u_0, u_{N+1} bordes Dirichlet
-    uL = ask_float("u(0,t) = ")
-    uR = ask_float("u(L,t) = ")
+    uL = ask_float("u(0,t):")
+    uR = ask_float("u(L,t):")
     # condicion inicial en nodos internos
     u = []
     for i in range(1, N + 1):
@@ -54,6 +57,7 @@ def edp_calor_dir():
             u.append(math.exp(-x * x))
     step("u^0")
     show_vec(u)
+    pause()
     # avanzar
     for k in range(K):
         a = [0.0] + [-r] * (N - 1)
@@ -64,26 +68,28 @@ def edp_calor_dir():
         d[N - 1] += r * uR
         u = thomas(a, b, c, d)
         if (k + 1) % max(1, K // 4) == 0:
-            step("u^" + str(k + 1) + " (t = {:.4f})".format((k + 1) * dt))
+            step("u^{} t={:.3f}".format(k + 1, (k + 1) * dt))
             show_vec(u)
             pause()
-    step("Estado final")
+    step("Final")
     show_vec(u)
     pause()
 
 def edp_onda():
     # u_tt = u_xx, esquema implicito 3 niveles, Dirichlet
-    print("u_tt = u_xx, Dirichlet u(0,t)=u(L,t)=0")
-    L = ask_float("L: ")
-    N = ask_int("nodos internos: ")
-    dt = ask_float("dt: ")
-    K = ask_int("# pasos: ")
-    print("Cond inicial u(x,0):")
-    print("1) sen(pi x/L)")
-    init = ask_int("> ")
+    print("u_tt=u_xx Dir")
+    print("u(0,t)=u(L,t)=0")
+    L = ask_float("L:")
+    N = ask_int("nodos int:")
+    dt = ask_float("dt:")
+    K = ask_int("#pasos:")
+    print("u(x,0):")
+    print("1)sen(pi x/L)")
+    init = ask_int(">")
     h = L / (N + 1)
     r = (dt * dt) / (h * h)
-    print("h =", h, "r =", r)
+    print("h={:.4g}".format(h))
+    print("r={:.4g}".format(r))
     u_prev = []
     for i in range(1, N + 1):
         x = i * h
@@ -107,7 +113,7 @@ def edp_onda():
         u_prev = u_cur
         u_cur = u_next
         if (k + 1) % max(1, K // 4) == 0:
-            step("u^" + str(k + 1))
+            step("u^{}".format(k + 1))
             show_vec(u_cur)
             pause()
     step("Final")
@@ -116,22 +122,18 @@ def edp_onda():
 
 def edp_conveccion():
     # u_t + c u_x = nu u_xx, Dirichlet
-    print("u_t + c u_x = nu u_xx")
-    L = ask_float("L: ")
-    N = ask_int("nodos internos: ")
-    dt = ask_float("dt: ")
-    K = ask_int("# pasos: ")
-    cc = ask_float("c (velocidad): ")
-    nu = ask_float("nu (difusion): ")
-    uL = ask_float("u(0,t): ")
-    uR = ask_float("u(L,t): ")
+    print("u_t+c u_x=nu u_xx")
+    L = ask_float("L:")
+    N = ask_int("nodos int:")
+    dt = ask_float("dt:")
+    K = ask_int("#pasos:")
+    cc = ask_float("c vel:")
+    nu = ask_float("nu dif:")
+    uL = ask_float("u(0,t):")
+    uR = ask_float("u(L,t):")
     h = L / (N + 1)
     rA = dt * cc / (2 * h)      # adveccion centrada
     rD = nu * dt / (h * h)      # difusion
-    # Implicito atras en tiempo:
-    # u^{k+1} - u^k = -c*dt*(u_{i+1}-u_{i-1})/(2h) + nu*dt*(u_{i+1}-2u_i+u_{i-1})/h^2
-    # (eval en k+1)
-    # (1 + 2 rD) u_i + (rA - rD) u_{i+1} + (-rA - rD) u_{i-1} = u^k
     u = []
     for i in range(1, N + 1):
         x = i * h
@@ -145,7 +147,7 @@ def edp_conveccion():
         d[N - 1] -= (rA - rD) * uR
         u = thomas(a, b, c, d)
         if (k + 1) % max(1, K // 3) == 0:
-            step("u^" + str(k + 1))
+            step("u^{}".format(k + 1))
             show_vec(u)
             pause()
     step("Final")
@@ -155,11 +157,10 @@ def edp_conveccion():
 def run():
     while True:
         clr()
-        print("== EDP dif. finitas ==")
         op = menu_pick([
-            "Calor Dirichlet",
-            "Onda (3 niveles)",
-            "Conveccion-difusion",
+            "Calor Dir",
+            "Onda 3 niv",
+            "Conv-difus",
             "Volver",
         ], "Op")
         if op == 0:

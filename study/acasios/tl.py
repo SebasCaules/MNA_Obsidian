@@ -4,77 +4,76 @@ from io_util import (clr, pause, ask_int, read_mat, read_vec,
 import mat
 
 def nucleo_imagen():
-    n = ask_int("n (filas A): ")
-    m = ask_int("m (cols A): ")
+    n = ask_int("filas A:")
+    m = ask_int("cols A:")
     A = read_mat(n, m, "A")
     show_mat(A, "A")
-    step("Reduzco A para hallar N(T) e Im(T)")
+    step("RREF: N(T) Im(T)")
     R, _, pivots = mat.gauss_jordan(A, None)
-    show_mat(R, "rref(A)")
-    print("rg(A) =", len(pivots))
-    print("dim N(T) =", m - len(pivots))
+    show_mat(R, "rref")
+    print("rg=", len(pivots))
+    print("dim N=", m - len(pivots))
     pause()
     # Nucleo: Ax = 0
     x_p, null_b = mat.solve(A, [0.0] * n)
-    step("Base de N(T)")
+    step("Base N(T)")
     if not null_b:
-        print("N(T) = {0}")
+        print("N(T)={0}")
     else:
-        for i, v in enumerate(null_b):
-            show_vec(v, "n" + str(i + 1))
+        for i in range(len(null_b)):
+            show_vec(null_b[i], "n" + str(i + 1))
     pause()
-    step("Base de Im(T)")
-    print("(columnas LI de A: pivote en col c)")
+    step("Base Im(T)")
+    print("(cols pivote de A)")
     cols_piv = [c for _, c in pivots]
     for c in cols_piv:
         col = [A[i][c] for i in range(n)]
-        show_vec(col, "col" + str(c + 1))
+        show_vec(col, "c" + str(c + 1))
     pause()
 
 def antiimagen():
-    n = ask_int("n (filas A): ")
-    m = ask_int("m (cols A): ")
+    n = ask_int("filas A:")
+    m = ask_int("cols A:")
     A = read_mat(n, m, "A")
     b = read_vec(n, "b")
-    step("Resuelvo Ax = b")
+    step("Resuelvo Ax=b")
     x_p, null_b = mat.solve(A, b)
     if x_p is None:
-        print("INCOMPATIBLE: b no esta en Im(T)")
+        print("INCOMPAT: b!Im(T)")
         pause()
         return
-    show_vec(x_p, "x particular")
+    show_vec(x_p, "x_p")
     if null_b:
-        print("Solucion general:")
-        print("x = x_p + sum(t_i * n_i)")
-        for i, v in enumerate(null_b):
-            show_vec(v, "n" + str(i + 1))
+        print("Sol gral:")
+        print("x=x_p+sum t_i n_i")
+        for i in range(len(null_b)):
+            show_vec(null_b[i], "n" + str(i + 1))
     else:
-        print("Solucion unica.")
+        print("Sol unica.")
     pause()
 
 def matriz_por_regla():
-    print("T:R^n -> R^m por regla")
-    print("Carga T(e_j) col por col")
-    n = ask_int("dim dominio: ")
-    m = ask_int("dim codom: ")
+    print("T:R^n->R^m")
+    print("dar T(e_j) por col")
+    n = ask_int("dim dom:")
+    m = ask_int("dim cod:")
     A = []
     for j in range(n):
         v = read_vec(m, "T(e" + str(j + 1) + ")")
         A.append(v)
     # A = columnas son T(e_j) -> transponer
     A = mat.transpose(A)
-    step("Matriz canonica A")
+    step("Mat canonica A")
     show_mat(A)
     pause()
 
 def run():
     while True:
         clr()
-        print("== TL ==")
         op = menu_pick([
-            "Nucleo + Imagen + rg",
-            "Antiimagen de b",
-            "Matriz por regla",
+            "N(T),Im,rg",
+            "Antiimagen b",
+            "Mat. por regla",
             "Volver",
         ], "Op")
         if op == 0:

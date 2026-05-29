@@ -10,13 +10,17 @@ def eigvals_2x2(A):
     tr = a + d
     de = a * d - b * c
     disc = tr * tr - 4 * de
-    print("tr =", tr, "det =", de, "disc =", disc)
+    print("tr={:.4g}".format(tr))
+    print("det={:.4g}".format(de))
+    print("disc={:.4g}".format(disc))
     if disc < -1e-10:
-        print("autovalores complejos:")
+        print("autoval cpx:")
         re = tr / 2
         im = (-disc) ** 0.5 / 2
-        print("L1 =", re, "+", im, "i")
-        print("L2 =", re, "-", im, "i")
+        print("L1={:.4g}".format(re))
+        print(" +{:.4g}i".format(im))
+        print("L2={:.4g}".format(re))
+        print(" -{:.4g}i".format(im))
         return None
     sd = max(0.0, disc) ** 0.5
     return [(tr + sd) / 2, (tr - sd) / 2]
@@ -33,13 +37,17 @@ def eigvals_3x3(A):
     a = -tr
     b = b1
     c = -de
-    print("p(L) = L^3 + ({:.4g})L^2 + ({:.4g})L + ({:.4g})".format(a, b, c))
+    print("p(L)=L^3+")
+    print("a={:.4g}".format(a))
+    print("b={:.4g}".format(b))
+    print("c={:.4g}".format(c))
     # depresion: L = y - a/3
     p = b - a * a / 3.0
     q = 2 * a ** 3 / 27.0 - a * b / 3.0 + c
-    print("depresion: y^3 + ({:.4g})y + ({:.4g}) = 0".format(p, q))
+    print("dep p={:.4g}".format(p))
+    print("dep q={:.4g}".format(q))
     disc = -4 * p ** 3 - 27 * q * q
-    print("disc =", disc)
+    print("disc={:.4g}".format(disc))
     roots = []
     if abs(p) < 1e-10 and abs(q) < 1e-10:
         roots = [0.0, 0.0, 0.0]
@@ -68,8 +76,8 @@ def eigvals_3x3(A):
             roots = [u + v]
             # las otras dos son complejas conjugadas
             re = -(u + v) / 2
-            print("L1 (real) =", re + (u + v))
-            print("L2,3 complejas conj con Re =", re)
+            print("L1(real)={:.4g}".format(re + (u + v)))
+            print("L2,3 Re={:.4g}".format(re))
             return None
         else:
             # 3 reales pero p>0 raro
@@ -81,21 +89,51 @@ def eigvals_3x3(A):
                 y = 2 * r * math.cos(ang - 2 * math.pi * k / 3.0)
                 roots.append(y)
     # deshacer depresion
-    lams = sorted([y - a / 3.0 for y in roots], reverse=True)
+    lams = [y - a / 3.0 for y in roots]
+    # sorted() no esta en MicroPython del Casio - bubble sort descendente
+    for i in range(len(lams)):
+        for j in range(i + 1, len(lams)):
+            if lams[j] > lams[i]:
+                lams[i], lams[j] = lams[j], lams[i]
     return lams
 
-def autovec(A, lam, n):
-    """Devuelve base del nucleo de (lambda I - A)."""
+def autovec(A, lam, n, eps=1e-6):
+    """Devuelve base del nucleo de (lambda I - A).
+    eps flojo (1e-6) porque Cardano introduce ruido O(1e-8) en autovalores
+    repetidos, y con el default tight (1e-10) el ruido oculta la
+    deficiencia de rango y la base sale vacia."""
     M = [[(lam if i == j else 0.0) - A[i][j] for j in range(n)]
          for i in range(n)]
-    _, base = mat.solve(M, [0.0] * n)
+    _, base = mat.solve(M, [0.0] * n, eps=eps)
     return base
 
+
+def cluster_eigvals(lams, tol=1e-6):
+    """Agrupa autovalores numericamente iguales.
+    Devuelve lista [(L_promedio, multiplicidad), ...].
+    Necesario porque Cardano para raices multiples da valores cercanos pero
+    distintos (ej. 4.000000048 y 3.999999951) y hay que tratarlos como uno."""
+    clusters = []
+    for L in lams:
+        merged = False
+        for i in range(len(clusters)):
+            Lc = clusters[i][0]
+            mc = clusters[i][1]
+            scale = max(1.0, abs(Lc))
+            if abs(L - Lc) < tol * scale:
+                new_avg = (Lc * mc + L) / (mc + 1)
+                clusters[i] = (new_avg, mc + 1)
+                merged = True
+                break
+        if not merged:
+            clusters.append((L, 1))
+    return clusters
+
 def diagonalizar():
-    n = ask_int("n (2 o 3): ")
+    n = ask_int("n(2 o 3):")
     A = read_mat(n, n, "A")
     show_mat(A, "A")
-    step("Polinomio caracteristico")
+    step("P(L) caract.")
     if n == 2:
         lams = eigvals_2x2(A)
     elif n == 3:
@@ -108,58 +146,59 @@ def diagonalizar():
         pause()
         return
     print("Autovalores:")
-    for i, L in enumerate(lams):
-        print("L{} = {:.6g}".format(i + 1, L))
+    for i in range(len(lams)):
+        print("L{}={:.6g}".format(i + 1, lams[i]))
     pause()
-    # autovectores
+    # Agrupar autovalores con multiplicidad (Cardano ruidoso en raices dobles)
+    clusters = cluster_eigvals(lams)
+    # autovectores por cluster
     P_cols = []
     D_vals = []
-    used = []
-    for L in lams:
-        # detectar si ya lo procesamos (dentro de tol)
-        seen = False
-        for L0 in used:
-            if abs(L - L0) < 1e-6:
-                seen = True
-                break
-        step("Autoespacio L = {:.4g}".format(L))
+    for ci in range(len(clusters)):
+        L = clusters[ci][0]
+        mult = clusters[ci][1]
+        if mult > 1:
+            step("S_L={:.4g} m={}".format(L, mult))
+        else:
+            step("S_L={:.4g}".format(L))
         base = autovec(A, L, n)
         if not base:
-            print("(no hay autovec / multiple)")
+            print("(S vacio?)")
             continue
+        if len(base) < mult:
+            print("dimK=", len(base), "<m=", mult)
+            print("(NO diag.)")
         for v in base:
             show_vec(v, "v")
             P_cols.append(v)
             D_vals.append(L)
-        used.append(L)
     pause()
     if len(P_cols) < n:
-        print("NO diagonalizable")
-        print("(dim total autov:", len(P_cols), "< ", n, ")")
+        print("NO diagonaliz.")
+        print("dim=", len(P_cols), "<n=", n)
         pause()
         return
     # armar P, D
-    step("Armando P, D")
+    step("Armando P,D")
     P = mat.transpose(P_cols)  # cols como columnas
     D = [[D_vals[i] if i == j else 0.0 for j in range(n)]
          for i in range(n)]
     show_mat(P, "P")
     pause()
-    show_mat(D, "D = diag")
+    show_mat(D, "D")
     pause()
     # verificacion
     AP = mat.matmul(A, P)
     PD = mat.matmul(P, D)
     diff = max(abs(AP[i][j] - PD[i][j]) for i in range(n) for j in range(n))
-    print("Verif |AP - PD|_inf =", diff)
+    print("|AP-PD|={:.4g}".format(diff))
     pause()
 
 def run():
     while True:
         clr()
-        print("== Diagonalizar ==")
         op = menu_pick([
-            "Diagonalizar (n=2 o 3)",
+            "Diag n=2/3",
             "Volver",
         ], "Op")
         if op == 0:

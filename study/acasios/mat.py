@@ -141,7 +141,8 @@ def solve(A, b, eps=1e-10):
     """Resuelve Ax=b. Devuelve (x_p, null_basis). Si incompatible: (None, None)."""
     n, m = shape(A)
     R, bb, pivots = gauss_jordan(A, b, eps)
-    pivot_cols = set(c for _, c in pivots)
+    # set() no existe en MicroPython 1.9.4 (Casio) - uso lista
+    pivot_cols = [c for _, c in pivots]
     for i in range(n):
         all_zero = all(abs(R[i][j]) < eps for j in range(m))
         if all_zero and abs(bb[i][0]) > eps:

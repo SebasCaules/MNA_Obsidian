@@ -3,32 +3,32 @@ from io_util import (clr, pause, ask_int, read_mat, show_mat, step, menu_pick)
 import mat
 
 def pinv():
-    n = ask_int("n (filas): ")
-    m = ask_int("m (cols): ")
+    n = ask_int("filas:")
+    m = ask_int("cols:")
     A = read_mat(n, m, "A")
     show_mat(A, "A")
     AT = mat.transpose(A)
     if n >= m:
-        step("A^T A (m x m)")
+        step("AtA {}x{}".format(m, m))
         M = mat.matmul(AT, A)
-        show_mat(M, "A^T A")
+        show_mat(M, "AtA")
         inv = mat.inverse(M)
         if inv is None:
-            print("A^T A no invertible -> usar SVD")
+            print("AtA no inv: SVD")
             pause()
             return
         P = mat.matmul(inv, AT)  # m x n
     else:
-        step("A A^T (n x n)")
+        step("AAt {}x{}".format(n, n))
         M = mat.matmul(A, AT)
-        show_mat(M, "A A^T")
+        show_mat(M, "AAt")
         inv = mat.inverse(M)
         if inv is None:
-            print("A A^T no invertible -> usar SVD")
+            print("AAt no inv: SVD")
             pause()
             return
         P = mat.matmul(AT, inv)  # m x n
-    step("Pseudoinversa")
+    step("A+")
     show_mat(P, "A+")
     pause()
     # verifico A A+ A = A
@@ -37,13 +37,12 @@ def pinv():
     for i in range(n):
         for j in range(m):
             diff = max(diff, abs(AAA[i][j] - A[i][j]))
-    print("|A A+ A - A|_inf =", diff)
+    print("|AA+A-A|={:.4g}".format(diff))
     pause()
 
 def run():
     while True:
         clr()
-        print("== Pseudoinversa ==")
         op = menu_pick(["Calcular A+", "Volver"], "Op")
         if op == 0:
             pinv()

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>MNA · Hoja de fórmulas (2 carillas A4)</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    macros: {
+      R: "\\mathbb{R}", C: "\\mathbb{C}", K: "\\mathbb{K}",
+      sen: "\\operatorname{sen}",
+      pmat: ["\\begin{pmatrix}#1\\end{pmatrix}", 1],
+      sinc: "\\operatorname{sinc}",
+      Span: "\\operatorname{gen}",
+      diag: "\\operatorname{diag}",
+      tr: "\\operatorname{tr}",
+      rg: "\\operatorname{rg}",
+      Nuc: "\\operatorname{Nu}",
+      Imm: "\\operatorname{Im}"
+    }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  @page { size: A4; margin: 8mm 9mm; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Charter","Source Serif Pro","Georgia",serif;
+    font-size: 8.6pt;
+    line-height: 1.22;
+    color: #111;
+  }
+  .page {
+    column-count: 2;
+    column-gap: 6mm;
+    column-rule: .4pt solid #bbb;
+  }
+  .pagebreak { page-break-before: always; }
+  h1 {
+    font-size: 11pt;
+    margin: 0 0 2pt 0;
+    color: #0d2c52;
+    column-span: all;
+    border-bottom: 1pt solid #0d2c52;
+    padding-bottom: 1pt;
+  }
+  h1 .sub { font-size: 8.2pt; color: #555; font-weight: normal; float: right; }
+  h2 {
+    font-size: 9.5pt;
+    margin: 4pt 0 2pt 0;
+    color: #0d2c52;
+    border-left: 2.4pt solid #0d2c52;
+    padding-left: 4pt;
+    break-after: avoid;
+  }
+  h3 {
+    font-size: 8.8pt;
+    margin: 3pt 0 1pt 0;
+    color: #1f3d6b;
+    break-after: avoid;
+  }
+  p { margin: 1.5pt 0; }
+  ul, ol { margin: 1pt 0; padding-left: 13pt; }
+  li { margin: 0; }
+  .box {
+    border: .4pt solid #aab; border-radius: 2pt;
+    padding: 2pt 4pt; margin: 3pt 0; break-inside: avoid;
+    background: #fafbfd;
+  }
+  .ej {
+    border-left: 2pt solid #1f6f3b; background: #f1f8f3;
+    padding: 2pt 5pt; margin: 2pt 0 3pt 0; break-inside: avoid;
+  }
+  .ej b { color: #145b2c; }
+  .trap {
+    border-left: 2pt solid #8a2a1a; background: #fbeae5;
+    padding: 1.5pt 5pt; margin: 2pt 0; font-size: 8.1pt;
+  }
+  .trap b { color: #8a2a1a; }
+  table {
+    border-collapse: collapse; width: 100%;
+    margin: 1.5pt 0; font-size: 8pt;
+  }
+  th, td { border: .3pt solid #aab; padding: 1pt 3pt; text-align: left; vertical-align: top; }
+  th { background: #eef3fb; color: #0d2c52; font-weight: 600; }
+  mjx-container { font-size: 95% !important; }
+  mjx-container[display="true"] { margin: 1.5pt 0 !important; }
+  code { font-family: "JetBrains Mono", Menlo, monospace; font-size: 7.8pt; background: #eef; padding: 0 2pt; }
+  .small { font-size: 7.8pt; color: #555; }
+  .key { background: #fff3a8; padding: 0 1.5pt; }
+  hr { border: 0; border-top: .3pt solid #bbb; margin: 3pt 0; }
+</style>
+</head>
+<body>
+
+<!-- ====================== CARILLA 1 ====================== -->
+<div class="page">
+
+<h1>MNA · Hoja de fórmulas <span class="sub">recetas + resolución compacta de los ejercicios que más caen</span></h1>
+
+<!-- ============== FORMULARIO BREVE ============== -->
+<h2>0 · Formulario base</h2>
+<div class="box">
+$\langle x,y\rangle=\sum x_i\bar y_i$ &nbsp;·&nbsp; $\|x\|=\sqrt{\langle x,x\rangle}$ &nbsp;·&nbsp; $\cos\theta=\dfrac{\langle x,y\rangle}{\|x\|\|y\|}$<br>
+$x\perp y\iff\langle x,y\rangle=0$ · $A$ ortog. $\iff A^TA=AA^T=I$ ($\det=\pm1$) · simétrica $\iff A=A^T$ (espectral: diagonal en BON, autoespacios $\perp$)<br>
+$\rg(A)+\dim\Nuc(A)=n$ (columnas) · $\dim\Nuc(T)+\dim\Imm(T)=\dim V$<br>
+$T$ diagonalizable $\iff m_g(\lambda_i)=m_a(\lambda_i)\ \forall i$ &nbsp;($m_a$ del $p_A$; $m_g=\dim S_\lambda$)<br>
+$p_A(\lambda)=\det(\lambda I-A)$. Suma de raíces $=\tr A$, producto $=\det A$.<br>
+Si $A$ es $3\times3$: $p_A(\lambda)=\lambda^3-\tr(A)\lambda^2+(\sum\text{menores princ. }2\times2)\lambda-\det A$
+</div>
+
+<!-- ============== R1 TL ============== -->
+<h2>1 · TL $\R^3\to\R^3$ — núcleo, imagen, antiimagen</h2>
+<p><b>Receta.</b> Si $T(x,y,z)=(\ldots)$ → armar $A=M(T)_{EE}$ poniendo en columnas $T(e_1),T(e_2),T(e_3)$.</p>
+<ol>
+<li><b>Núcleo:</b> resolver $AX=0$ por Gauss. $\Nuc(T)=\Span\{$soluciones$\}$.</li>
+<li><b>Imagen:</b> columnas LI de $A$ (las que tienen pivote). $\dim\Imm=\rg A$.</li>
+<li><b>Antiimagen</b> de $b$: resolver $AX=b$. Si tiene sol., $T^{-1}(b)=x_p+\Nuc(T)$.</li>
+<li><b>Rango con parámetro:</b> escalonar $A(k)$ y pedir que aparezcan filas de ceros según el rango pedido.</li>
+</ol>
+
+<div class="ej"><b>Ej. tipo (IP I).</b> $T(x,y,z)=(2x-y+z,\ x+y-z,\ -x+y+z)$.
+<br>$A=\pmat{2&-1&1\\1&1&-1\\-1&1&1}$. Gauss: $\det A=4\ne0\Rightarrow\Nuc=\{0\},\ \Imm=\R^3$.
+<br>Antiimagen $(1,1,-2)$: $x=\tfrac23,\,y=-\tfrac12,\,z=-\tfrac56$.</div>
+
+<div class="trap"><b>Trampa:</b> con parámetro $k$, primero hallar $\det=0$ (los $k$ que bajan el rango) y luego analizar caso por caso.</div>
+
+<!-- ============== R2 DIAG ============== -->
+<h2>2 · Diagonalización con parámetro $k$</h2>
+<ol>
+<li>Calcular $p_A(\lambda)=\det(\lambda I-A)$ y factorizarlo.</li>
+<li>Identificar valores de $k$ que vuelven <i>doble</i> (o triple) algún autovalor.</li>
+<li>Caso genérico (raíces simples) → siempre diagonaliza.</li>
+<li>Caso con raíz múltiple → calcular $\dim S_\lambda$. Diagonaliza $\iff \dim S_\lambda=m_a$.</li>
+<li>Para diagonalizar: $P=(v_1|v_2|v_3)$, $D=\diag(\lambda_1,\lambda_2,\lambda_3)$, $A=PDP^{-1}$.</li>
+</ol>
+
+<div class="ej"><b>Ej. (IP I, b).</b> $A=\pmat{1&0&1\\0&k&1\\0&9&k}$. $p_A=(\lambda-1)[(\lambda-k)^2-9]=(\lambda-1)(\lambda-k-3)(\lambda-k+3)$.<br>
+Raíces $\{1,\,k+3,\,k-3\}$. Coinciden si $k+3=1\Rightarrow k=-2$ o $k-3=1\Rightarrow k=4$.
+<br>$k=-2$: $S_1=\Span\{(1,0,0)\}$, $\dim=1\ne2\Rightarrow$ <b>no</b> diag.
+<br>$k=4$: idem $\Rightarrow$ <b>no</b> diag.
+<br>$\Rightarrow$ diagonaliza $\iff k\notin\{-2,4\}$.
+<br>Para $k=3$: $\lambda=0,1,6$. $v_0=(3,1,-3),\,v_1=(1,0,0),\,v_6=(3,5,15)$. $D=\diag(0,1,6)$.</div>
+
+<!-- ============== R3 QR ============== -->
+<h2>3 · Factorización QR (Gram–Schmidt)</h2>
+<p>$A=(a_1|a_2|\dots|a_m)\Rightarrow A=QR$, $Q^TQ=I_m$, $R$ triang. sup.</p>
+<ol>
+<li>$u_1=a_1$, $v_1=u_1/\|u_1\|$.</li>
+<li>$u_k=a_k-\sum_{i<k}\langle a_k,v_i\rangle v_i$, $v_k=u_k/\|u_k\|$.</li>
+<li>$Q=(v_1|\dots|v_m)$, $R=Q^TA$ (queda triang. sup. con $r_{ii}=\|u_i\|>0$).</li>
+</ol>
+<div class="ej"><b>Ej. $A=\pmat{1&1\\0&1\\1&0}$.</b> $u_1=(1,0,1)$, $\|u_1\|=\sqrt2$, $v_1=(\tfrac1{\sqrt2},0,\tfrac1{\sqrt2})$.<br>
+$\langle a_2,v_1\rangle=\tfrac1{\sqrt2}$. $u_2=(1,1,0)-\tfrac1{\sqrt2}v_1=(\tfrac12,1,-\tfrac12)$, $\|u_2\|=\sqrt{3/2}$.
+$v_2=(\tfrac1{\sqrt6},\tfrac2{\sqrt6},-\tfrac1{\sqrt6})$. $R=\pmat{\sqrt2&\tfrac1{\sqrt2}\\0&\sqrt{3/2}}$.</div>
+<div class="trap"><b>Trampa:</b> si una columna queda LD con las anteriores, $u_k=0$: se descarta. Para completar a $Q$ cuadrada (versión II), tomar BON del $\Nuc(A^T)$.</div>
+
+<!-- ============== R4 PLU ============== -->
+<h2>4 · Factorización PLU (Doolittle)</h2>
+<ol>
+<li>Llevar $A$ a triangular superior $U$ por $F_i\leftarrow F_i-m_{ij}F_j$ (siempre <i>restando</i>).</li>
+<li>Guardar multiplicadores $m_{ij}=a^{(j)}_{ij}/a^{(j)}_{jj}$ en $L$ (debajo de la diagonal). $L$ tiene 1 en la diagonal.</li>
+<li>Si un pivote es 0, permutar filas: cada swap se anota en $P$ (matriz de permutación inicial). Queda $PA=LU$.</li>
+</ol>
+<div class="ej"><b>Ej.</b> $A=\pmat{2&1&-1\\1&-3&5\\4&3&7}$.
+$F_2'=F_2-\tfrac12 F_1$, $F_3'=F_3-2F_1$ → $\pmat{2&1&-1\\0&-\tfrac72&\tfrac{11}{2}\\0&1&9}$.<br>
+$F_3''=F_3'-(-\tfrac27)F_2'$: $m_{32}=-\tfrac27$. $U=\pmat{2&1&-1\\0&-7/2&11/2\\0&0&74/7}$, $L=\pmat{1&0&0\\1/2&1&0\\2&-2/7&1}$.</div>
+
+<!-- ============== R5 SVD ============== -->
+<h2>5 · SVD $A=U\Sigma V^T$ (vía $A^TA$)</h2>
+<ol>
+<li>Calcular $A^TA$ ($m\times m$, simétrica semidef. pos.).</li>
+<li>$p_{A^TA}(\lambda)$ → autovalores $\lambda_i\ge0$. $\sigma_i=\sqrt{\lambda_i}$ ordenados de mayor a menor.</li>
+<li>Autovectores de $A^TA$ → BON: $v_1,\dots,v_m$ (columnas de $V$).</li>
+<li>Para los $\sigma_i>0$: $u_i=\dfrac{A v_i}{\sigma_i}$ (columnas de $U$).</li>
+<li>Si faltan columnas en $U$, completar a BON de $\R^n$ (usar $\Nuc(A^T)$, o producto vectorial en $\R^3$).</li>
+<li>$\Sigma\in\R^{n\times m}$: $\sigma_i$ en la diagonal, rellenar con ceros.</li>
+</ol>
+<div class="ej"><b>Ej. $A=\pmat{3&2&2\\2&3&-2}$.</b> $A^TA=\pmat{13&12&2\\12&13&-2\\2&-2&8}$. $p=\lambda(\lambda-9)(\lambda-25)$.
+$\sigma_1=5,\sigma_2=3$.<br>
+$\lambda=25\to v_1=\tfrac1{\sqrt2}(1,1,0)$; $\lambda=9\to v_2=\tfrac1{3\sqrt2}(1,-1,4)$; $\lambda=0\to v_3=\tfrac13(-2,2,1)$.<br>
+$u_1=\tfrac{Av_1}{5}=\tfrac1{\sqrt2}(1,1)$; $u_2=\tfrac{Av_2}{3}=\tfrac1{\sqrt2}(1,-1)$.<br>
+$\Sigma=\pmat{5&0&0\\0&3&0}$.</div>
+
+<!-- ============== R6 PSEUDOINVERSA ============== -->
+<h2>6 · Pseudoinversa Moore–Penrose</h2>
+<p>Vía SVD: $A^+=V\Sigma^+U^T$, con $\Sigma^+$ traspuesta de $\Sigma$ con $\sigma_i\to1/\sigma_i$ (ceros se quedan en cero).<br>
+Si $A^TA$ invertible (cols LI): $A^+=(A^TA)^{-1}A^T$. &nbsp; Si $AA^T$ invertible (filas LI): $A^+=A^T(AA^T)^{-1}$.</p>
+
+<div class="ej"><b>Ej.</b> Con la $A$ del Ej. 5: $\Sigma^+=\pmat{1/5&0\\0&1/3\\0&0}\Rightarrow A^+=V\Sigma^+U^T$.</div>
+
+<!-- ============== R7 MMCC ============== -->
+<h2>7 · Cuadrados mínimos por QR</h2>
+<p>Ajustar $y=af(x)+bg(x)+\dots$ a puntos $(x_i,y_i)$. Armar:
+$A=\pmat{f(x_1)&g(x_1)\\f(x_2)&g(x_2)\\\vdots&\vdots}$, $b=(y_1,\dots,y_n)^T$. Resolver ecuaciones normales:</p>
+$$A^TA\,X=A^Tb\quad\text{o, vía QR: }Rx=Q^Tb$$
+<div class="ej"><b>Ej (IP I, ej.4).</b> $y=a\cos x+b\sen x$, puntos $(0,0.97),(\pi/4,1.42),(\pi,-1.04)$.<br>
+$A=\pmat{1&0\\ \tfrac{\sqrt2}2&\tfrac{\sqrt2}2\\-1&0}$, $b=(0.97,1.42,-1.04)^T$.<br>
+$A^TA=\pmat{5/2&1/2\\1/2&1/2}$, $A^Tb=(2.01,1.00)^T$ → resolver $2\times2$.</div>
+
+<!-- ============== R8 CAMBIO DE BASE ============== -->
+<h2>8 · Cambio de base · $M(T)_{B_2B_1}$</h2>
+<p>$[v]_{B_2}=M_{EB_2}^{-1}\cdot[v]_E$, donde $M_{EB_2}$ tiene en columnas los vectores de $B_2$ escritos en $E$.</p>
+<p>Si $T:V\to W$, $M(T)_{B_2B_1}$ tiene en columna $j$ las coordenadas de $T(b_j^{(1)})$ en $B_2$.<br>
+Para autovector $v$ en bases distintas: $M(T)_{B_1B_2}[v]_{B_1}=\lambda\,[v]_{B_2}$.</p>
+
+<div class="ej"><b>Truco frecuente.</b> Base de la cátedra $B=\{(0,0,1),(1,0,0),(1,-1,0)\}$: $M_{EB}=\pmat{0&1&1\\0&0&-1\\1&0&0}$, $M_{EB}^{-1}=\pmat{0&0&1\\1&1&0\\0&-1&0}$.</div>
+
+</div><!-- /page 1 -->
+
+
+<!-- ====================== CARILLA 2 ====================== -->
+<div class="pagebreak"></div>
+<div class="page">
+
+<h1>MNA · Hoja de fórmulas (carilla 2) <span class="sub">Fourier · TF · diferencias finitas</span></h1>
+
+<!-- ============== SERIE FOURIER ============== -->
+<h2>9 · Serie trigonométrica de Fourier</h2>
+<p>Función $T$-periódica, $\omega_0=2\pi/T$:</p>
+$$x(t)=\tfrac{a_0}{2}+\sum_{n\ge1}\bigl[a_n\cos(n\omega_0t)+b_n\sen(n\omega_0t)\bigr]$$
+$$a_n=\tfrac{2}{T}\!\!\int_{T}\!x(t)\cos(n\omega_0t)\,dt,\quad b_n=\tfrac{2}{T}\!\!\int_{T}\!x(t)\sen(n\omega_0t)\,dt$$
+<table>
+<tr><th>Simetría</th><th>Consec.</th></tr>
+<tr><td>$x$ par</td><td>$b_n=0$</td></tr>
+<tr><td>$x$ impar</td><td>$a_n=0$ (y $a_0=0$)</td></tr>
+<tr><td>media nula</td><td>$a_0=0$</td></tr>
+</table>
+<p><b>Exponencial:</b> $x(t)=\sum_{n\in\Z}c_n e^{in\omega_0 t}$, $c_n=\tfrac1T\int_T x(t)e^{-in\omega_0t}dt$. Vínculo: $c_n=\tfrac{a_n-ib_n}{2}$ ($n\ge1$), $c_0=a_0/2$.</p>
+<p><b>Derivar la serie:</b> si $y(t)=x'(t)$ y $x$ es continua y $T$-periódica, derivar término a término ($\cos\to-n\omega_0\sen$, $\sen\to n\omega_0\cos$): $a_n^{(y)}=n\omega_0 b_n^{(x)},\ b_n^{(y)}=-n\omega_0 a_n^{(x)}$.</p>
+
+<div class="ej"><b>Ej (Final II).</b> $f(x)=1-x$ en $(0,1)$, $T=1$, $\omega_0=2\pi$.<br>
+$a_0=2\!\int_0^1\!(1-x)dx=1$; $a_n=2\!\int_0^1\!(1-x)\cos(2\pi nx)dx=0$ (n≥1);<br>
+$b_n=2\!\int_0^1\!(1-x)\sen(2\pi nx)dx=\dfrac{1}{\pi n}$.<br>
+$\Rightarrow f(x)=\tfrac12+\sum_{n\ge1}\dfrac{\sen(2\pi n x)}{\pi n}$.</div>
+
+<div class="box small"><b>Dirichlet (convergencia puntual).</b> En $x_0$ donde $f$ es continua: SF $\to f(x_0)$. En salto: SF $\to\tfrac12[f(x_0^+)+f(x_0^-)]$. En $f(x)=1-x$ periódica: $x=0$ ⇒ SF $=\tfrac{1+0}{2}=\tfrac12$. En $x=\tfrac12$ ⇒ SF $=\tfrac12$ (valor de $f$).</div>
+
+<!-- ============== TRANSF FOURIER ============== -->
+<h2>10 · Transformada de Fourier (continua)</h2>
+$$F(\omega)=\int_{-\infty}^{\infty}\!\!f(t)e^{-i\omega t}dt$$
+<table>
+<tr><th>$f(t)$</th><th>$F(\omega)$</th></tr>
+<tr><td>$e^{-at}u(t)$, $a>0$</td><td>$\dfrac{1}{a+i\omega}$</td></tr>
+<tr><td>$e^{-a|t|}$, $a>0$</td><td>$\dfrac{2a}{a^2+\omega^2}$</td></tr>
+<tr><td>pulso ancho $a$ centrado</td><td>$a\,\sinc(\omega a/2)$</td></tr>
+<tr><td>triángulo $\Lambda_n$</td><td>$\sinc^2(\omega n/2)$</td></tr>
+<tr><td>$e^{-t^2}$ (gauss.)</td><td>$\sqrt\pi\,e^{-\omega^2/4}$</td></tr>
+<tr><td>$\delta(t)$</td><td>$1$</td></tr>
+<tr><td>$1$</td><td>$2\pi\delta(\omega)$</td></tr>
+</table>
+<p><b>Propiedades.</b> Linealidad. Traslación temporal: $f(t-t_0)\to e^{-i\omega t_0}F(\omega)$. Modulación: $e^{i\omega_0 t}f(t)\to F(\omega-\omega_0)$. Escalado: $f(at)\to \tfrac1{|a|}F(\omega/a)$. Derivación: $f'(t)\to i\omega F(\omega)$. Convolución: $f*g\to FG$.</p>
+
+<div class="ej"><b>Ej (Final III).</b> $f(t)=t-t^2$ en $[0,1]$, $0$ fuera.<br>
+$F(\omega)=\int_0^1(t-t^2)e^{-i\omega t}dt$. Por partes dos veces:
+$F(\omega)=\dfrac{1}{i\omega^3}\bigl[(-2-2i\omega)e^{-i\omega}+2-i\omega\bigr]$ (o agrupando con $\sinc$).<br>
+<i>Tip:</i> pulso polinomial → integrar por partes; aparecen $\sinc$ y $\cos$.</div>
+
+<div class="ej"><b>Ej (a).</b> $x(t)=e^{-at}u(t)$ → $F(\omega)=\dfrac{1}{a+i\omega}$ (cálculo directo: $\int_0^\infty e^{-(a+i\omega)t}dt$).</div>
+
+<!-- ============== DIFERENCIAS FINITAS ============== -->
+<h2>11 · Diferencias finitas implícitas — calor</h2>
+<p>EDP: $u_t=\alpha\,u_{xx}\,(+\beta u_x)$ en $x\in[0,L]$, $t\ge0$. <b>4 nodos internos</b> ($N=4$): $h=L/(N+1)=L/5$, nodos $x_i=ih$, $i=1..4$; bordes $x_0=0,\,x_5=L$. Paso temporal $k$, $r=\alpha k/h^2$.</p>
+<p><b>Esquema implícito (Backward Euler):</b> $\dfrac{u_i^{n+1}-u_i^{n}}{k}=\alpha\dfrac{u_{i+1}^{n+1}-2u_i^{n+1}+u_{i-1}^{n+1}}{h^2}$.</p>
+$$-r\,u_{i-1}^{n+1}+(1+2r)u_i^{n+1}-r\,u_{i+1}^{n+1}=u_i^n$$
+<p><b>Forma matricial:</b> $M\,\vec u^{\,n+1}=\vec u^{\,n}+\vec b^{\,n+1}$</p>
+$$M=\pmat{1+2r&-r&0&0\\-r&1+2r&-r&0\\0&-r&1+2r&-r\\0&0&-r&1+2r}$$
+<p><b>Condiciones de borde.</b></p>
+<ul>
+<li><i>Dirichlet</i> $u(0,t)=u(L,t)=0$: $\vec b=0$. Para $u(0,t)=g_0$: sumar $r\,g_0$ a la fila 1.</li>
+<li><i>Neumann</i> $u_x(0,t)=0$: nodo fantasma $u_{-1}=u_1$ ⇒ ec. del nodo 0 (incógnita extra). Equivalentemente, sustituir fila 1 por $(1+2r)u_0-2r\,u_1=u_0^n$.</li>
+<li><i>Convección–difusión</i> $u_t=u_{xx}+u_x$: agregar centrado $u_x\approx(u_{i+1}-u_{i-1})/(2h)$ a la ec.</li>
+</ul>
+
+<div class="ej"><b>Ej (IIP IV, b).</b> $u_x(0,t)=u(1,t)=0$, $u(x,0)=\cos x$, $N=4$, $h=1/5$.<br>
+Inc.: $u_0^n,u_1^n,u_2^n,u_3^n,u_4^n$ (cinco por la cond. Neumann); $u_5^n=0$. Cond. inicial: $u_i^0=\cos(i/5)$.<br>
+Sistema $5\times5$ a invertir cada paso (banda tridiagonal salvo fila Neumann).</div>
+
+<!-- ============== EDO 2do orden ============== -->
+<h2>12 · EDO 2do orden → sistema 1er orden + DF</h2>
+<p>$\ddot x+f(x,\dot x,t)=0$ → sea $x_1=x,\,x_2=\dot x$:</p>
+$$\begin{cases}\dot x_1=x_2\\ \dot x_2=-f(x_1,x_2,t)\end{cases}$$
+<p>Esquema implícito (Backward Euler), paso $h$:</p>
+$$\begin{cases}x_1^{n+1}-h\,x_2^{n+1}=x_1^n\\ x_2^{n+1}+h\,f(x_1^{n+1},x_2^{n+1},t_{n+1})=x_2^n\end{cases}$$
+<p>Si $f$ es no lineal, sistema no lineal por paso (Newton); si es lineal, resolver $2\times2$.</p>
+<p><b>Cond. iniciales</b> $x(0)=x_0,\ \dot x(0)=v_0$ → $x_1^0=x_0,\ x_2^0=v_0$.</p>
+
+<div class="ej"><b>Ej (Final II).</b> $\ddot x+\delta\dot x+\beta x=e^{-t^2}$ → $\dot x_2=-\delta x_2-\beta x_1+e^{-t^2}$. Implícito:
+$(1+h\delta)x_2^{n+1}+h\beta\,x_1^{n+1}=x_2^n+h\,e^{-t_{n+1}^2}$; sustituyendo $x_1^{n+1}=x_1^n+h\,x_2^{n+1}$, queda lineal $2\times2$.</div>
+
+<!-- ============== MATRICES Y FUNCIONES REPETIDAS ============== -->
+<h2>13 · Datos que se repiten literales</h2>
+<table>
+<tr><th>Aparece como</th><th>Dónde</th></tr>
+<tr><td>$A=\pmat{2&8&k\\-1&-4&0\\k+3&12&2k}$</td><td>IP III·1, IP VI·1, Final VIII·1</td></tr>
+<tr><td>$A=\pmat{1&0&0\\2&-1&0\\-4&0&-1}$</td><td>IP VI·2, Final IV·3, Final VII</td></tr>
+<tr><td>$A=\pmat{0.92&1.44\\1.44&0.08}$</td><td>IP I·3 (SVD+QR), Final I·4</td></tr>
+<tr><td>$A=\pmat{2&k-2&0\\0&3&k-1\\0&0&3}$</td><td>IP III·2, Final XIV·2</td></tr>
+<tr><td>$B=\{(0,0,1),(1,0,0),(1,-1,0)\}$</td><td>Final III·1, IX·1, X·1</td></tr>
+<tr><td>$f(x)=1-x$, $f(x)=f(x+1)$</td><td>Final II, IV/VII, VI, VII, XI</td></tr>
+<tr><td>$u_t=u_{xx}$ con 4 nodos</td><td>IIP IV, VI, Final V, VI, IX, X, XI</td></tr>
+</table>
+
+<!-- ============== ESTRATEGIA EXPRESS ============== -->
+<h2>14 · Atajos y trampas</h2>
+<ul>
+<li>$T$ definida sobre base distinta de $E$: armar $M(T)_{EE}=M(T)_{BE}\cdot M_{EB}^{-1}$ <i>(o expresar cada $T(e_i)$ por linealidad).</i></li>
+<li>SVD: los $\sigma_i$ siempre <b>positivos</b>; signos van en $U,V$. $\det A=\pm\prod\sigma_i$ (si $A$ cuadrada).</li>
+<li>Pseudoinversa cumple: $AA^+A=A$, $A^+AA^+=A^+$, $(AA^+)^T=AA^+$, $(A^+A)^T=A^+A$. Verificarlas.</li>
+<li>Si $A$ simétrica con autovalores distintos → $P$ ortogonal (autovectores ya $\perp$ por espectral; solo normalizar).</li>
+<li>QR de matriz $m\times n$ con $m<n$: rg máximo $m$; salen $m$ vectores en $Q$.</li>
+<li>PLU: en cada paso elegir <b>pivote $\ne0$</b>; si todos los candidatos son 0, permutar.</li>
+<li>Fourier: <b>antes de integrar</b>, mirar simetría → ahorra mitad de las integrales.</li>
+<li>TF de $f$ con soporte $[0,L]$: $\int_0^L$ no $\int_{-\infty}^\infty$. Si está corrido, usar traslación.</li>
+<li>DF Neumann: el nodo fantasma agrega 1 incógnita; el sistema crece de $N$ a $N+1$.</li>
+<li>EDO→sistema: $x_1=x$, $x_2=\dot x$ <b>siempre</b>; las CI se cargan en $x_1^0,x_2^0$ por separado.</li>
+</ul>
+
+</div><!-- /page 2 -->
+
+</body>
+</html>

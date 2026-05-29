@@ -6,43 +6,54 @@ import mat
 import diag
 
 def svd():
-    n = ask_int("n (filas A): ")
-    m = ask_int("m (cols A): ")
+    n = ask_int("filas A:")
+    m = ask_int("cols A:")
     A = read_mat(n, m, "A")
     show_mat(A, "A")
     pause()
     # decidir via A^T A o A A^T (menor)
     if m <= n:
-        step("Via A^T A ({}x{})".format(m, m))
+        step("Via AtA {}x{}".format(m, m))
         M = mat.matmul(mat.transpose(A), A)  # m x m
-        show_mat(M, "A^T A")
+        show_mat(M, "AtA")
         pause()
         if m == 2:
             lams = diag.eigvals_2x2(M)
         elif m == 3:
             lams = diag.eigvals_3x3(M)
         else:
-            print("Tama no soportado")
+            print("m no soport.")
             pause()
             return
         if lams is None:
-            print("Autoval complejos? A^T A debe ser >=0")
+            print("autoval cpx?!")
             pause()
             return
-        lams = sorted(lams, reverse=True)
+        # sorted() no esta en MicroPython del Casio - bubble sort descendente
+        for i in range(len(lams)):
+            for j in range(i + 1, len(lams)):
+                if lams[j] > lams[i]:
+                    lams[i], lams[j] = lams[j], lams[i]
         sigmas = [max(0.0, L) ** 0.5 for L in lams]
-        step("Valores singulares")
-        for i, s in enumerate(sigmas):
-            print("sigma{} = {:.6g}".format(i + 1, s))
+        step("V.singulares")
+        for i in range(len(sigmas)):
+            print("s{}={:.6g}".format(i + 1, sigmas[i]))
         pause()
-        # autovectores -> columnas V
+        # Agrupar autovalores con multiplicidad para que un sigma doble no
+        # genere dos llamadas separadas a autovec (que con ruido FP devuelven
+        # base vacia).
+        clusters = diag.cluster_eigvals(lams)
         V_cols = []
-        for L in lams:
+        for ci in range(len(clusters)):
+            L = clusters[ci][0]
+            mult = clusters[ci][1]
             base = diag.autovec(M, L, m)
             if not base:
-                print("aviso L={} sin autovec".format(L))
+                print("L={} sin v".format(L))
                 continue
-            # Gram-Schmidt si hay multiples
+            # Tomar exactamente mult vectores y ortonormalizar
+            if len(base) > mult:
+                base = base[:mult]
             v_norm, _ = mat.gram_schmidt(base)
             for v in v_norm:
                 V_cols.append(v)
@@ -61,9 +72,9 @@ def svd():
                     V_cols.append([x / nu for x in u])
                     break
         V_cols = V_cols[:m]
-        step("V (cols)")
-        for i, v in enumerate(V_cols):
-            show_vec(v, "v" + str(i + 1))
+        step("V cols")
+        for i in range(len(V_cols)):
+            show_vec(V_cols[i], "v" + str(i + 1))
         pause()
         # U
         U_cols = []
@@ -99,9 +110,9 @@ def svd():
                     U_cols.append([x / nu for x in u])
                     break
         U_cols = U_cols[:n]
-        step("U (cols)")
-        for i, u in enumerate(U_cols):
-            show_vec(u, "u" + str(i + 1))
+        step("U cols")
+        for i in range(len(U_cols)):
+            show_vec(U_cols[i], "u" + str(i + 1))
         pause()
         # armar matrices
         U = mat.transpose(U_cols)
@@ -117,17 +128,16 @@ def svd():
         for i in range(n):
             for j in range(m):
                 diff = max(diff, abs(USVT[i][j] - A[i][j]))
-        print("|U S V^T - A|_inf =", diff)
+        print("|USVt-A|={:.4g}".format(diff))
         show_mat(S, "Sigma")
         pause()
     else:
-        print("Use A^T en lugar; chequear caso n<m")
+        print("pasar A^T (n<m)")
         pause()
 
 def run():
     while True:
         clr()
-        print("== SVD ==")
         op = menu_pick(["SVD generico", "Volver"], "Op")
         if op == 0:
             svd()
