@@ -3,8 +3,10 @@ tags: [final, transformaciones-lineales, diagonalizacion, fourier, qr]
 fuente: raw/Practicas/Modelos_Examenes/MNA_Final_Tema_VII.pdf
 tipo: final
 tema: 7
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[final-tema-07-resolucion]]**
 
 # Examen Final de Métodos Numéricos Avanzados — Tema VII
 

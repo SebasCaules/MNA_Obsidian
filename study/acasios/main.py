@@ -1,7 +1,11 @@
 # MNA - Menu principal
-# Casio fx-CG50 / fx-9750GIII (MicroPython 1.9.4)
-# Display real: ~19 cols x 6-7 filas. Menu paginado en 2 pags de 6.
-from io_util import pause, clr
+# Casio Graph 90+E (= fx-CG50), app PYTHON, MicroPython 1.9.4.
+# Pantalla: ~21 cols x ~8 filas. Menu paginado (6 por pagina).
+#
+# FLUJO: elegis 1 ejercicio -> cargas datos -> vuelca toda la salida -> CORTA.
+# Al cortar el script ya podes scrollear para arriba y revisar los pasos.
+# Para hacer otro ejercicio: volver a correr main.
+from io_util import clr, LW
 
 MENU = [
     ("TL n/im/ai",   "tl"),
@@ -18,7 +22,8 @@ MENU = [
     ("EDP dif.fin",  "edp"),
 ]
 
-PER_PAGE = 5  # 5 items + 1 prompt = 6 lineas. Cabe en displays de 6-7 filas.
+PER_PAGE = 6  # 6 items + 1 prompt = 7 lineas. Entra en la shell.
+
 
 def menu():
     page = 0
@@ -29,7 +34,7 @@ def menu():
         end = min(start + PER_PAGE, len(MENU))
         for i in range(start, end):
             print("{:2d}){}".format(i + 1, MENU[i][0]))
-        # Hint embebido en el prompt (no usa una linea extra)
+        # Hint embebido en el prompt (no usa una linea extra).
         if pages > 1:
             prompt = "Op(0=fin n=pg{}):".format(((page + 1) % pages) + 1)
         else:
@@ -46,14 +51,21 @@ def menu():
         except Exception:
             continue
         if n == 0:
-            break
+            return
         if 1 <= n <= len(MENU):
-            mod_name = MENU[n - 1][1]
+            name, mod_name = MENU[n - 1]
+            # Banner: al scrollear arriba se ve que ejercicio fue.
+            clr()
+            print(name)
             try:
                 mod = __import__(mod_name)
                 mod.run()
             except Exception as e:
                 print("ERR:", e)
-                pause()
+            # Marca de fin: el script termina aca -> scrollear ^ para revisar.
+            print("=" * LW)
+            print("FIN - scroll ^ p/ver")
+            return  # CORTA. No vuelve al menu (asi no queda input trabando).
+
 
 menu()

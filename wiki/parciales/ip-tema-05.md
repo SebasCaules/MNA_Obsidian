@@ -6,6 +6,8 @@ tema: 5
 tiene_resolucion: true
 ---
 
+> ✅ **Resolución completa (verificada): [[ip-tema-05-resolucion]]**
+
 # Primer Parcial de Métodos Numéricos Avanzados — Tema V
 
 ## Ejercicio 1

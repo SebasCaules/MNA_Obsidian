@@ -54,10 +54,5 @@ def qr_factor():
     pause()
 
 def run():
-    while True:
-        clr()
-        op = menu_pick(["QR Gram-Sch", "Volver"], "Op")
-        if op == 0:
-            qr_factor()
-        else:
-            break
+    # Un solo worker: se corre y el script corta (scroll ^ para revisar).
+    qr_factor()

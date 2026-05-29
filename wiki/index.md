@@ -1,6 +1,6 @@
 # Índice — MNA Wiki
 
-71 páginas, 70 PDFs ingestados. Última auditoría: 2026-05-27 → ✅ cero gaps críticos (ver [[AUDIT_REPORT]]).
+96 páginas, 70 PDFs ingestados. **Los 30 modelos de examen tienen ahora resolución completa** (verificada numéricamente). Última auditoría: 2026-05-27 → ✅ cero gaps críticos (ver [[AUDIT_REPORT]]).
 
 Material de estudio aplicado en `study/`:
 - [`MNA_Cheatsheet.html`](../study/MNA_Cheatsheet.html) — guía imprimible para mecanizar el parcial
@@ -66,15 +66,22 @@ Material de estudio aplicado en `study/`:
 - [[resueltos/resueltos-pseudoinversa]] (Moore–Penrose paso a paso)
 - [[resueltos/resueltos-fourier]] (5 TF: exp decaída, pulso, triángulo, exp compleja, gaussiana)
 
-## Parciales (30 modelos)
+## Parciales (30 modelos — **todos con resolución completa**)
 
-### IP — Primer Parcial (9 + 3 resoluciones)
-- ip-tema-01 → 09 (`wiki/parciales/ip-tema-NN.md`)
-- Resoluciones disponibles: **I**, **V**, IX (truncada). El resto sin resolver.
+Cada enunciado `*-tema-NN.md` tiene su par `*-tema-NN-resolucion.md`. Todas las resoluciones están **verificadas numéricamente** (numpy/sympy): cada factorización (QR/LU/SVD/PLU), diagonalización ($AP=PD$), pseudoinversa, antiimagen y coeficiente de Fourier se chequeó antes de redactarse. Ver [[parciales/patrones]] para el análisis transversal de qué cae con qué frecuencia.
 
-### IIP — Segundo Parcial (5, sin resoluciones)
-- iip-tema-01, 03, 04, 05, 06
+### IP — Primer Parcial (9 modelos · 9 resoluciones)
 
-### Parcial Tema XIII (recuperatorio)
+I [[parciales/ip-tema-01-resolucion]] · II [[parciales/ip-tema-02-resolucion]] · III [[parciales/ip-tema-03-resolucion]] · IV [[parciales/ip-tema-04-resolucion]] · V [[parciales/ip-tema-05-resolucion]] · VI [[parciales/ip-tema-06-resolucion]] · VII [[parciales/ip-tema-07-resolucion]] · VIII [[parciales/ip-tema-08-resolucion]] · IX [[parciales/ip-tema-09-resolucion]]
 
-### Final (13: I–XI + XIV; "Tema XI" tiene dos variantes guardadas como `final-tema-11.md` y `final-tema-11-alt.md`)
+### IIP — Segundo Parcial (5 modelos · 5 resoluciones)
+
+I [[parciales/iip-tema-01-resolucion]] · III [[parciales/iip-tema-03-resolucion]] · IV [[parciales/iip-tema-04-resolucion]] · V [[parciales/iip-tema-05-resolucion]] · VI [[parciales/iip-tema-06-resolucion]]
+
+### Parcial Tema XIII (recuperatorio · 1 resolución)
+
+XIII [[parciales/parcial-tema-13-resolucion]]
+
+### Final (13 modelos · 13 resoluciones)
+
+I [[parciales/final-tema-01-resolucion]] · II [[parciales/final-tema-02-resolucion]] · III [[parciales/final-tema-03-resolucion]] · IV [[parciales/final-tema-04-resolucion]] · V [[parciales/final-tema-05-resolucion]] · VI [[parciales/final-tema-06-resolucion]] · VII [[parciales/final-tema-07-resolucion]] · VIII [[parciales/final-tema-08-resolucion]] · IX [[parciales/final-tema-09-resolucion]] · X [[parciales/final-tema-10-resolucion]] · XI [[parciales/final-tema-11-resolucion]] · XI (variante) [[parciales/final-tema-11-alt-resolucion]] · XIV [[parciales/final-tema-14-resolucion]]

@@ -3,8 +3,10 @@ tags: [final, transformaciones-lineales, cambio-base, diagonalizacion, sistemas-
 fuente: raw/Practicas/Modelos_Examenes/MNA_Final_Tema_XIV.pdf
 tipo: final
 tema: 14
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[final-tema-14-resolucion]]**
 
 # Examen Final de Métodos Numéricos Avanzados — Tema XIV
 

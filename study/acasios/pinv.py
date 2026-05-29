@@ -41,10 +41,5 @@ def pinv():
     pause()
 
 def run():
-    while True:
-        clr()
-        op = menu_pick(["Calcular A+", "Volver"], "Op")
-        if op == 0:
-            pinv()
-        else:
-            break
+    # Un solo worker: se corre y el script corta (scroll ^ para revisar).
+    pinv()

@@ -40,13 +40,5 @@ def cambio_base():
     pause()
 
 def run():
-    while True:
-        clr()
-        op = menu_pick([
-            "P=M_{B2B1}",
-            "Volver",
-        ], "Op")
-        if op == 0:
-            cambio_base()
-        else:
-            break
+    # Un solo worker: se corre y el script corta (scroll ^ para revisar).
+    cambio_base()

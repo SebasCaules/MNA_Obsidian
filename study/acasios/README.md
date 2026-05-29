@@ -56,7 +56,7 @@ Al cargar `main.py`:
 
 1. **Diagonalización**: cargar `[[4,0,0],[3,-2,3],[3,-6,7]]` (clase 30/04 Ej. 2). Debería dar $\lambda \in \{1, 4, 4\}$, $S_4 = \langle(2,1,0),(0,1,2)\rangle$, $S_1=\langle(0,1,1)\rangle$.
 
-2. **QR**: cargar $A = \pmat{1&1\\0&1\\1&0}$. Debería dar $R = \pmat{\sqrt 2 & 1/\sqrt 2 \\ 0 & \sqrt{3/2}}$ ≈ `[[1.414, 0.707], [0, 1.225]]`.
+2. **QR**: cargar $A = \begin{pmatrix}1&1\\0&1\\1&0\end{pmatrix}$. Debería dar $R = \begin{pmatrix}\sqrt 2 & 1/\sqrt 2 \\ 0 & \sqrt{3/2}\end{pmatrix}$ ≈ `[[1.414, 0.707], [0, 1.225]]`.
 
 3. **MMCC**: puntos $(0,1),(\pi/2,0),(\pi,-1)$ con modelo `y = a cos x + b sen x`. Debería dar $a=1, b=0$.
 

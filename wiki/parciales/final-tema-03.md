@@ -3,8 +3,10 @@ tags: [final, transformaciones-lineales, cambio-base, diagonalizacion, fourier, 
 fuente: raw/Practicas/Modelos_Examenes/MNA_Final_Tema_III.pdf
 tipo: final
 tema: 3
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[final-tema-03-resolucion]]**
 
 # Examen Final de Métodos Numéricos Avanzados — Tema III
 

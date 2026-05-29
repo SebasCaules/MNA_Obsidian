@@ -3,8 +3,10 @@ tags: [final, transformaciones-lineales, nucleo, fourier, svd]
 fuente: raw/Practicas/Modelos_Examenes/MNA_Final_Tema_VIII.pdf
 tipo: final
 tema: 8
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[final-tema-08-resolucion]]**
 
 # Examen Final de Métodos Numéricos Avanzados — Tema VIII
 

@@ -3,8 +3,10 @@ tags: [parcial, ip, transformaciones-lineales, nucleo-imagen, diagonalizacion, p
 fuente: raw/Practicas/Modelos_Examenes/MNA_IP_Tema_III.pdf
 tipo: ip
 tema: 3
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[ip-tema-03-resolucion]]**
 
 # Primer Parcial de Métodos Numéricos Avanzados — Tema III
 

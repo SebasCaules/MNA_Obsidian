@@ -84,22 +84,18 @@ def power():
     pause()
 
 def run():
-    while True:
-        clr()
-        op = menu_pick([
-            "Bin->polar",
-            "Polar->bin",
-            "Raices n-esim",
-            "Pot z^n",
-            "Volver",
-        ], "Op")
-        if op == 0:
-            bin_to_pol()
-        elif op == 1:
-            pol_to_bin()
-        elif op == 2:
-            roots()
-        elif op == 3:
-            power()
-        else:
-            break
+    # Elige variante (input al principio) y corre una vez; despues corta.
+    op = menu_pick([
+        "Bin->polar",
+        "Polar->bin",
+        "Raices n-esim",
+        "Pot z^n",
+    ])
+    if op == 0:
+        bin_to_pol()
+    elif op == 1:
+        pol_to_bin()
+    elif op == 2:
+        roots()
+    elif op == 3:
+        power()

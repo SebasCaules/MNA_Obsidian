@@ -3,8 +3,10 @@ tags: [parcial, ip, transformaciones-lineales, nucleo-imagen, svd, qr, cuadrados
 fuente: raw/Practicas/Modelos_Examenes/MNA_IP_Tema_II.pdf
 tipo: ip
 tema: 2
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[ip-tema-02-resolucion]]**
 
 # Primer Parcial de Métodos Numéricos Avanzados — Tema II
 

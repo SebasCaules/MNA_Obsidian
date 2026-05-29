@@ -68,19 +68,15 @@ def matriz_por_regla():
     pause()
 
 def run():
-    while True:
-        clr()
-        op = menu_pick([
-            "N(T),Im,rg",
-            "Antiimagen b",
-            "Mat. por regla",
-            "Volver",
-        ], "Op")
-        if op == 0:
-            nucleo_imagen()
-        elif op == 1:
-            antiimagen()
-        elif op == 2:
-            matriz_por_regla()
-        else:
-            break
+    # Elige variante (input al principio) y corre una vez; despues corta.
+    op = menu_pick([
+        "N(T),Im,rg",
+        "Antiimagen b",
+        "Mat. por regla",
+    ])
+    if op == 0:
+        nucleo_imagen()
+    elif op == 1:
+        antiimagen()
+    elif op == 2:
+        matriz_por_regla()

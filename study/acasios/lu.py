@@ -48,10 +48,5 @@ def plu():
     pause()
 
 def run():
-    while True:
-        clr()
-        op = menu_pick(["PA=LU Doolittle", "Volver"], "Op")
-        if op == 0:
-            plu()
-        else:
-            break
+    # Un solo worker: se corre y el script corta (scroll ^ para revisar).
+    plu()

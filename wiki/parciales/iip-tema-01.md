@@ -3,8 +3,10 @@ tags: [parcial, iip, fourier, serie-trigonometrica, serie-exponencial, transform
 fuente: raw/Practicas/Modelos_Examenes/MNA_IIP_Tema_I.pdf
 tipo: iip
 tema: 1
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[iip-tema-01-resolucion]]**
 
 # Segundo Parcial de Métodos Numéricos Avanzados — Tema I
 

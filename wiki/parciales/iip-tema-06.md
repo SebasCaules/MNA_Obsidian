@@ -3,8 +3,10 @@ tags: [parcial, iip, fourier, serie-trigonometrica, transformada-fourier, difere
 fuente: raw/Practicas/Modelos_Examenes/MNA_IIP_Tema_VI.pdf
 tipo: iip
 tema: 6
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[iip-tema-06-resolucion]]**
 
 # Segundo Parcial de Métodos Numéricos Avanzados — Tema VI
 

@@ -136,10 +136,5 @@ def svd():
         pause()
 
 def run():
-    while True:
-        clr()
-        op = menu_pick(["SVD generico", "Volver"], "Op")
-        if op == 0:
-            svd()
-        else:
-            break
+    # Un solo worker: se corre y el script corta (scroll ^ para revisar).
+    svd()

@@ -195,13 +195,5 @@ def diagonalizar():
     pause()
 
 def run():
-    while True:
-        clr()
-        op = menu_pick([
-            "Diag n=2/3",
-            "Volver",
-        ], "Op")
-        if op == 0:
-            diagonalizar()
-        else:
-            break
+    # Un solo worker: se corre y el script corta (scroll ^ para revisar).
+    diagonalizar()

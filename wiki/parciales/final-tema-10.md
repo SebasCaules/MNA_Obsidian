@@ -3,8 +3,10 @@ tags: [final, transformaciones-lineales, cambio-base, qr, diferencias-finitas, e
 fuente: raw/Practicas/Modelos_Examenes/MNA_Final_Tema_X.pdf
 tipo: final
 tema: 10
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[final-tema-10-resolucion]]**
 
 # Examen Final de Métodos Numéricos Avanzados — Tema X
 

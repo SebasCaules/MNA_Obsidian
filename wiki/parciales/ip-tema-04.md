@@ -3,8 +3,10 @@ tags: [parcial, ip, transformaciones-lineales, cambio-base, diagonalizacion, plu
 fuente: raw/Practicas/Modelos_Examenes/MNA_IP_Tema_IV.pdf
 tipo: ip
 tema: 4
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[ip-tema-04-resolucion]]**
 
 # Primer Parcial de Métodos Numéricos Avanzados — Tema IV
 

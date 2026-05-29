@@ -155,19 +155,15 @@ def edp_conveccion():
     pause()
 
 def run():
-    while True:
-        clr()
-        op = menu_pick([
-            "Calor Dir",
-            "Onda 3 niv",
-            "Conv-difus",
-            "Volver",
-        ], "Op")
-        if op == 0:
-            edp_calor_dir()
-        elif op == 1:
-            edp_onda()
-        elif op == 2:
-            edp_conveccion()
-        else:
-            break
+    # Elige variante (input al principio) y corre una vez; despues corta.
+    op = menu_pick([
+        "Calor Dir",
+        "Onda 3 niv",
+        "Conv-difus",
+    ])
+    if op == 0:
+        edp_calor_dir()
+    elif op == 1:
+        edp_onda()
+    elif op == 2:
+        edp_conveccion()

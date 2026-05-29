@@ -3,10 +3,12 @@ tags: [final, transformaciones-lineales, nucleo-imagen, diagonalizacion, fourier
 fuente: raw/Practicas/Modelos_Examenes/MNA_Final_Tema_V.pdf
 tipo: final
 tema: 5
-tiene_resolucion: false
+tiene_resolucion: true
 ---
 
 # Examen Final de Métodos Numéricos Avanzados — Tema V
+
+> Resolución completa en [[final-tema-05-resolucion]].
 
 ## Ejercicio 1
 

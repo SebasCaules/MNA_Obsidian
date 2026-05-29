@@ -102,19 +102,15 @@ def convergencia():
     pause()
 
 def run():
-    while True:
-        clr()
-        op = menu_pick([
-            "Coef a_n b_n",
-            "Coef c_n exp",
-            "Conv en t0",
-            "Volver",
-        ], "Op")
-        if op == 0:
-            serie_trig()
-        elif op == 1:
-            coef_exp()
-        elif op == 2:
-            convergencia()
-        else:
-            break
+    # Elige variante (input al principio) y corre una vez; despues corta.
+    op = menu_pick([
+        "Coef a_n b_n",
+        "Coef c_n exp",
+        "Conv en t0",
+    ])
+    if op == 0:
+        serie_trig()
+    elif op == 1:
+        coef_exp()
+    elif op == 2:
+        convergencia()

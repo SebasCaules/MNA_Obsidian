@@ -55,10 +55,5 @@ def mmcc():
     pause()
 
 def run():
-    while True:
-        clr()
-        op = menu_pick(["MMCC lineal", "Volver"], "Op")
-        if op == 0:
-            mmcc()
-        else:
-            break
+    # Un solo worker: se corre y el script corta (scroll ^ para revisar).
+    mmcc()

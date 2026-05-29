@@ -101,22 +101,18 @@ def tf_numerica():
     pause()
 
 def run():
-    while True:
-        clr()
-        op = menu_pick([
-            "Rect (sinc)",
-            "Tri (sinc^2)",
-            "Exp -at u(t)",
-            "Polin. num.",
-            "Volver",
-        ], "Op")
-        if op == 0:
-            tf_pulso_rect()
-        elif op == 1:
-            tf_triangulo()
-        elif op == 2:
-            tf_exp_decay()
-        elif op == 3:
-            tf_numerica()
-        else:
-            break
+    # Elige variante (input al principio) y corre una vez; despues corta.
+    op = menu_pick([
+        "Rect (sinc)",
+        "Tri (sinc^2)",
+        "Exp -at u(t)",
+        "Polin. num.",
+    ])
+    if op == 0:
+        tf_pulso_rect()
+    elif op == 1:
+        tf_triangulo()
+    elif op == 2:
+        tf_exp_decay()
+    elif op == 3:
+        tf_numerica()
