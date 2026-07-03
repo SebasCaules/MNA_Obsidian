@@ -1,0 +1,280 @@
+\section{Descomposición en valores singulares (SVD)}
+
+\begin{teoria}
+La SVD generaliza la diagonalización ortogonal a matrices \emph{no cuadradas}. Sea $A\in\R^{n\times m}$. Existen $U\in\R^{n\times n}$ ortogonal ($U^TU=UU^T=I$), $V\in\R^{m\times m}$ ortogonal y $\Sigma\in\R^{n\times m}$ ``diagonal rectangular'' tales que
+\[
+A = U\,\Sigma\,V^T,
+\qquad
+\Sigma=\diag(\sigma_1,\dots,\sigma_r)\ \text{orlada con ceros hasta tamaño } n\times m,
+\qquad
+\sigma_1\ge\sigma_2\ge\dots\ge\sigma_r>0.
+\]
+A los $\sigma_i$ se los llama \textbf{valores singulares} de $A$. La forma exacta de $\Sigma$ depende de $n$ frente a $m$: lleva los $\sigma_i$ en la diagonal y se completa con ceros. Si se trabaja en $\C$, la descomposición es $A=U\Sigma V^*$ con $V^*=\overline{V}^{\,T}$ (conjugada transpuesta) y $U$ unitaria.
+
+\medskip
+\textbf{De dónde salen las piezas.} Como $U,V$ son ortogonales,
+\[
+A^TA = (U\Sigma V^T)^T(U\Sigma V^T) = V\,\Sigma^T\Sigma\,V^T,
+\qquad
+AA^T = U\,\Sigma\Sigma^T\,U^T .
+\]
+Es decir: $V$ diagonaliza ortogonalmente a $A^TA$ y $U$ diagonaliza ortogonalmente a $AA^T$. Los autovalores no nulos de $A^TA$ y de $AA^T$ coinciden (cambian sólo las multiplicidades de $0$), y
+\[
+\sigma_i=\sqrt{\lambda_i(A^TA)}\,.
+\]
+
+\textbf{Relaciones fundamentales} (con $r=\rango(A)\le\min(n,m)$): existen bases ortonormales $\{u_1,\dots,u_n\}$ de $\R^n$ y $\{v_1,\dots,v_m\}$ de $\R^m$ tales que
+\begin{align*}
+A v_i &= \sigma_i u_i, & A^T u_i &= \sigma_i v_i, & i&=1,\dots,r,\\
+A v_i &= 0, & A^T u_i &= 0, & i&>r.
+\end{align*}
+De aquí sale el atajo $u_i=\dfrac{Av_i}{\sigma_i}$ (o $v_i=\dfrac{A^Tu_i}{\sigma_i}$), que evita calcular el segundo producto matricial.
+
+\textbf{Rango y número de condición.} El número de valores singulares no nulos es exactamente el rango:
+\[
+\rango(A)=\#\{\sigma_i>0\},
+\qquad
+\#\{\sigma_i=0\}=\min(n,m)-\rango(A).
+\]
+El \textbf{número de condición} en norma $2$ es
+\[
+\kappa_2(A)=\frac{\sigma_{\max}}{\sigma_{\min}} .
+\]
+Cuando $\sigma_{\min}\to 0$ (matriz casi singular) $\kappa_2\to\infty$: el mal condicionamiento se lee en el valor singular más chico. Si $A$ es simétrica/hermítica, $\sigma_i=\abs{\lambda_i}$ y $\kappa_2(A)=\dfrac{\max_i\abs{\lambda_i}}{\min_i\abs{\lambda_i}}$.
+\end{teoria}
+
+\begin{receta}
+\textbf{Cálculo de la SVD $A=U\Sigma V^T$ (vía $A^TA$).}
+\begin{enumerate}
+\item Formar $A^TA$ (matriz $m\times m$, simétrica). Hallar sus autovalores $\lambda_1\ge\dots\ge\lambda_m\ge0$.
+\item Valores singulares: $\sigma_i=\sqrt{\lambda_i}$. Armar $\Sigma\in\R^{n\times m}$ con los $\sigma_i$ ordenados de mayor a menor en la diagonal.
+\item Autovectores de $A^TA$ normalizados $\to$ columnas de $V$. Ortonormalizar dentro de cada autoespacio si hay repeticiones.
+\item Para $\sigma_i>0$: $u_i=\dfrac{Av_i}{\sigma_i}$. Completar $u_{r+1},\dots,u_n$ a una base ortonormal de $\R^n$ (por ejemplo con Gram--Schmidt o producto vectorial).
+\end{enumerate}
+\textbf{Vía $AA^T$ (simétrica):} análogo intercambiando roles: se obtiene $U$ de $AA^T$ y luego $v_i=\dfrac{A^Tu_i}{\sigma_i}$, completando $V$ con una base de $\Nuc(A)$.
+\end{receta}
+
+\begin{ejemplo}{Guía VII, Ej.\ 1 (SVD de una $4\times3$)}
+Hallar la SVD de
+\[
+A=\begin{pmatrix} 0 & 3 & 3 \\ 4 & 1 & -1 \\ 4 & 1 & -1 \\ 0 & 3 & 3 \end{pmatrix}.
+\]
+Como $AA^T$ es $4\times4$ pero da bloques simples, se puede trabajar con $A^TA$ ($3\times3$):
+\[
+A^TA=\begin{pmatrix} 32 & 8 & -8 \\ 8 & 20 & 16 \\ -8 & 16 & 20 \end{pmatrix},
+\qquad
+p(\lambda)=-\lambda(\lambda-36)^2 .
+\]
+Entonces $\lambda_1=\lambda_2=36$, $\lambda_3=0$, de donde $\sigma_1=\sigma_2=6$, $\sigma_3=0$ y
+\[
+\Sigma=\begin{pmatrix} 6 & 0 & 0 \\ 0 & 6 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}.
+\]
+Autovectores de $A^TA$ (autoespacio de $\lambda=36$, ya ortogonalizado): $v_1=\tfrac13(2,2,1)^T$, $v_2=\tfrac13(2,-1,-2)^T$. Luego $u_i=\tfrac1{6}Av_i$ da
+\[
+u_1=\tfrac12(1,1,1,1)^T,\qquad u_2=\tfrac12(-1,1,1,-1)^T,
+\]
+y se completa la base de $\R^4$ con $(1,0,0,-1)^T$, $(0,1,-1,0)^T$ (ortogonales a $u_1,u_2$). Forma reducida:
+\[
+A=\tfrac12\begin{pmatrix} 1 & -1 \\ 1 & 1 \\ 1 & 1 \\ 1 & -1 \end{pmatrix}
+\begin{pmatrix} 6 & 0 \\ 0 & 6 \end{pmatrix}
+\tfrac13\begin{pmatrix} 2 & 2 & 1 \\ 2 & -1 & -2 \end{pmatrix}.
+\]
+Como $\sigma_3=0$, $\rango(A)=2$.
+\end{ejemplo}
+
+\begin{ejemplo}{Final Tema VIII, Ej.\ 3 (SVD de una $2\times3$)}
+Hallar una SVD de $A=\begin{pmatrix} 1 & -3 & 2 \\ 5 & 2 & 0 \end{pmatrix}$. Al ser $2\times3$ conviene $AA^T$ ($2\times2$):
+\[
+AA^T=\begin{pmatrix} 14 & -1 \\ -1 & 29 \end{pmatrix},
+\qquad
+p(\lambda)=\lambda^2-43\lambda+405,
+\qquad
+\lambda_{1,2}=\frac{43\pm\sqrt{229}}{2}.
+\]
+Valores singulares (orden decreciente):
+\[
+\sigma_1=\sqrt{\tfrac{43+\sqrt{229}}{2}}\approx 5.3913,
+\qquad
+\sigma_2=\sqrt{\tfrac{43-\sqrt{229}}{2}}\approx 3.7328 .
+\]
+Chequeo: $\lambda_1\lambda_2=405=\det(AA^T)$ y $\lambda_1+\lambda_2=43=\tr(AA^T)$. Los autovectores de $AA^T$ dan las columnas de $U$; luego $v_i=\dfrac{A^Tu_i}{\sigma_i}$ para $i=1,2$ y $v_3$ es una base ortonormal de $\Nuc(A)$ (resolviendo $Ax=0$ se obtiene $\tilde v_3=(-4,10,17)^T$, $\norm{\tilde v_3}=9\sqrt5$). Resultado numérico:
+\[
+U\approx\begin{pmatrix} 0.0662 & 0.9978 \\ -0.9978 & 0.0662 \end{pmatrix},
+\quad
+\Sigma\approx\begin{pmatrix} 5.3913 & 0 & 0 \\ 0 & 3.7328 & 0 \end{pmatrix},
+\quad
+V\approx\begin{pmatrix} -0.9131 & 0.3560 & -0.1988 \\ -0.4070 & -0.7664 & 0.4969 \\ 0.0246 & 0.5346 & 0.8447 \end{pmatrix}.
+\]
+Se verifica $U\Sigma V^T=A$, $U^TU=I_2$, $V^TV=I_3$.
+\end{ejemplo}
+
+\begin{truco}
+\begin{itemize}
+\item \textbf{Ordená siempre $\sigma_1\ge\sigma_2\ge\dots\ge0$}. Si desordenás los $\sigma_i$, las columnas de $U$ y $V$ dejan de emparejarse y no reconstruís $A$.
+\item \textbf{$A^TA$ vs.\ $AA^T$}: elegí el producto \emph{más chico}. Para $A\in\R^{n\times m}$ con $n<m$ (ancha) calculá $AA^T$ ($n\times n$); si $n>m$ (alta) calculá $A^TA$ ($m\times m$). Los autovalores no nulos son los mismos; sólo cambian las multiplicidades del $0$ y qué matriz ($U$ o $V$) sale directa.
+\item \textbf{$\#\{\sigma_i=0\}=\min(n,m)-\rango(A)$}: para saber cuántos valores singulares nulos hay \emph{no hace falta calcular la SVD}, basta el rango. Si una fila/columna es combinación lineal de otras, hay al menos un $\sigma_i=0$.
+\item Verificá con las trazas y determinantes: $\sum\lambda_i=\tr(A^TA)$, $\prod\lambda_i=\det(A^TA)$.
+\end{itemize}
+\end{truco}
+
+
+\section{Pseudoinversa de Moore--Penrose}
+
+\begin{teoria}
+La \textbf{pseudoinversa de Moore--Penrose} $A^{+}$ generaliza la inversa a matrices rectangulares o singulares. A partir de la SVD $A=U\Sigma V^T$ se define
+\[
+A^{+}=V\,\Sigma^{+}\,U^T,
+\]
+donde $\Sigma^{+}\in\R^{m\times n}$ se obtiene \emph{transponiendo} $\Sigma$ e invirtiendo los valores singulares no nulos:
+\[
+\text{si }\Sigma=\diag(\sigma_1,\dots,\sigma_r)\ \text{(orlada con ceros)}
+\quad\Longrightarrow\quad
+\Sigma^{+}=\diag(1/\sigma_1,\dots,1/\sigma_r)^{T}\ \text{(orlada con ceros)}.
+\]
+Es decir: cada $\sigma_i>0$ pasa a $1/\sigma_i$, los ceros quedan en cero, y se transpone la forma rectangular.
+
+\medskip
+\textbf{Relación con las ecuaciones normales.} Si $\det(A^TA)\ne0$ (columnas de $A$ linealmente independientes),
+\[
+A^{+}=(A^TA)^{-1}A^T
+\qquad\text{(caso sobredeterminado, $n>m$)},
+\]
+y esta $A^+$ es la que aparece en cuadrados mínimos: $x=A^{+}b$ resuelve $A^TAx=A^Tb$. Análogamente, si las filas son LI ($n<m$, caso subdeterminado) $A^{+}=A^T(AA^T)^{-1}$ y $x=A^+b$ es la solución de norma mínima de $Ax=b$. Si $A$ es cuadrada e inversible, $A^{+}=A^{-1}$.
+
+\textbf{Propiedades (Penrose).} $A^+$ es la única matriz que cumple
+\[
+AA^{+}A=A,\qquad A^{+}AA^{+}=A^{+},\qquad (AA^{+})^T=AA^{+},\qquad (A^{+}A)^T=A^{+}A .
+\]
+En particular, si $\rango(A)=m$ (columnas LI) entonces $A^{+}A=I_m$; si $\rango(A)=n$ (filas LI) entonces $AA^{+}=I_n$.
+\end{teoria}
+
+\begin{receta}
+\textbf{Pseudoinversa por SVD.}
+\begin{enumerate}
+\item Calcular la SVD $A=U\Sigma V^T$ (receta de la sección anterior).
+\item Formar $\Sigma^{+}$: transponer $\Sigma$ y reemplazar cada $\sigma_i>0$ por $1/\sigma_i$ (los ceros quedan).
+\item $A^{+}=V\Sigma^{+}U^T$.
+\end{enumerate}
+\textbf{Atajo sin SVD} (si $A$ tiene columnas LI): $A^{+}=(A^TA)^{-1}A^T$.
+\end{receta}
+
+\begin{ejemplo}{Pizarrón SVD / Guía VII Ej.\ 2 (pseudoinversa de una $2\times3$)}
+Sea $C=\begin{pmatrix} 3 & 2 & 2 \\ 2 & 3 & -2 \end{pmatrix}$. De la SVD (calculada vía $CC^T=\begin{pmatrix}17&8\\8&17\end{pmatrix}$, con $\lambda=25,9$, $\sigma_1=5$, $\sigma_2=3$) se obtienen
+\[
+U=\tfrac1{\sqrt2}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix},
+\quad
+\Sigma=\begin{pmatrix} 5 & 0 & 0 \\ 0 & 3 & 0 \end{pmatrix},
+\quad
+V=\begin{pmatrix} 1/\sqrt2 & 1/(3\sqrt2) & 2/3 \\ 1/\sqrt2 & -1/(3\sqrt2) & -2/3 \\ 0 & 4/(3\sqrt2) & -1/3 \end{pmatrix}.
+\]
+La pseudoinversa de $\Sigma$ es
+\[
+\Sigma^{+}=\begin{pmatrix} 1/5 & 0 \\ 0 & 1/3 \\ 0 & 0 \end{pmatrix},
+\]
+y entonces
+\[
+C^{+}=V\,\Sigma^{+}\,U^T=\frac{1}{45}\begin{pmatrix} 7 & 2 \\ 2 & 7 \\ 10 & -10 \end{pmatrix}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}{Pizarrón SVD (pseudoinversa de un vector columna)}
+Sea $A=\begin{pmatrix}1\\3\end{pmatrix}\in\R^{2\times1}$. Entonces $A^TA=10$, $\sigma_1=\sqrt{10}$, $V=(1)$ y
+\[
+U=\tfrac1{\sqrt{10}}\begin{pmatrix} 1 & -3 \\ 3 & 1 \end{pmatrix},
+\qquad
+\Sigma=\begin{pmatrix}\sqrt{10}\\0\end{pmatrix}.
+\]
+Con $\Sigma^{+}=\big(\tfrac1{\sqrt{10}}\ \ 0\big)$ resulta
+\[
+A^{+}=V\Sigma^{+}U^T=\tfrac{1}{10}\begin{pmatrix}1 & 3\end{pmatrix},
+\qquad A^{+}A=1 .
+\]
+(Coincide con $A^+=(A^TA)^{-1}A^T=\tfrac1{10}(1\ 3)$.)
+\end{ejemplo}
+
+\begin{truco}
+\begin{itemize}
+\item $\Sigma^{+}$ \textbf{se transpone}: si $\Sigma$ es $n\times m$, entonces $\Sigma^{+}$ es $m\times n$. Un error típico es olvidar transponer la forma rectangular.
+\item Nunca inviertas un $\sigma_i=0$: los ceros de $\Sigma$ quedan como ceros en $\Sigma^{+}$.
+\item Chequeo rápido de dimensiones: $A^{+}$ es $m\times n$ (transpuesta de la forma de $A$). Verificá con $AA^{+}A=A$.
+\item Si sólo necesitás resolver cuadrados mínimos y las columnas son LI, usá directamente $(A^TA)^{-1}A^T$ sin pasar por la SVD completa.
+\end{itemize}
+\end{truco}
+
+
+\section{Cuadrados mínimos}
+
+\begin{teoria}
+Dado un sistema \emph{sobredeterminado} $Ax=b$ ($A\in\R^{n\times m}$, $n>m$, sin solución exacta), el problema de \textbf{cuadrados mínimos} busca
+\[
+\min_{x}\ \norm{Ax-b}_2^2 = \min_x\ \inner{Ax-b}{Ax-b}.
+\]
+El minimizador satisface las \textbf{ecuaciones normales}
+\[
+A^TA\,x = A^Tb .
+\]
+Geométricamente: $Ax^\star$ es la proyección ortogonal de $b$ sobre $\Imag(A)$, y el residuo $b-Ax^\star$ es ortogonal a las columnas de $A$.
+
+\medskip
+\textbf{Tres vías de resolución.}
+\begin{itemize}
+\item \textbf{Ecuaciones normales / Cholesky.} Si las columnas de $A$ son LI, $A^TA$ es simétrica definida positiva, luego admite Cholesky $A^TA=LL^T$. Se resuelve $Lz=A^Tb$ (sustitución hacia adelante) y $L^Tx=z$ (hacia atrás). Barato pero empeora el condicionamiento ($\kappa_2(A^TA)=\kappa_2(A)^2$).
+\item \textbf{QR.} Con $A=QR$ ($Q$ de columnas ortonormales, $R$ triangular superior), las ecuaciones normales se reducen a $Rx=Q^Tb$. Numéricamente más estable que Cholesky.
+\item \textbf{SVD / pseudoinversa.} La solución es $x=A^{+}b=V\Sigma^{+}U^Tb$. Es la vía más robusta y funciona incluso con columnas linealmente dependientes (entrega la solución de norma mínima).
+\end{itemize}
+
+\textbf{Ajuste de curvas.} La clave de examen: un modelo puede ser \emph{no lineal en la variable} pero \textbf{lineal en los parámetros}, y entonces es un problema de cuadrados mínimos lineal. Para un modelo $y\approx\sum_j a_j\,\phi_j(x)$ con funciones base $\phi_j$ (potencias, senos, cosenos, etc.), se arma la matriz de diseño con una columna por cada $\phi_j$ evaluada en los $x_k$, y se resuelve por ecuaciones normales.
+\end{teoria}
+
+\begin{receta}
+\textbf{Ajuste por cuadrados mínimos (modelo lineal en los parámetros).}
+\begin{enumerate}
+\item Elegir el modelo $y\approx a_1\phi_1(x)+\dots+a_m\phi_m(x)$.
+\item Armar la matriz de diseño $A$ (fila $k$ = $(\phi_1(x_k),\dots,\phi_m(x_k))$) y el vector $b=(y_1,\dots,y_n)^T$.
+\item Formar $A^TA$ y $A^Tb$.
+\item Resolver $A^TAx=A^Tb$ por Cholesky (o QR, o $x=A^{+}b$ por SVD).
+\end{enumerate}
+\end{receta}
+
+\begin{ejemplo}{Final 2019 (ajuste polinómico $y=ax^3+bx+c$ por Cholesky)}
+Ajustar $y=ax^3+bx+c$ a la tabla $(x_k,y_k)$: $(-2,-9),(-1,0),(0,3),(1,6),(2,15)$. Columnas $[x^3,\ x,\ 1]$:
+\[
+A=\begin{pmatrix} -8 & -2 & 1 \\ -1 & -1 & 1 \\ 0 & 0 & 1 \\ 1 & 1 & 1 \\ 8 & 2 & 1 \end{pmatrix},
+\qquad
+b=\begin{pmatrix} -9 \\ 0 \\ 3 \\ 6 \\ 15 \end{pmatrix}.
+\]
+Ecuaciones normales $A^TA\,v=A^Tb$ con $v=(a,b,c)^T$:
+\[
+A^TA=\begin{pmatrix} 130 & 34 & 0 \\ 34 & 10 & 0 \\ 0 & 0 & 5 \end{pmatrix},
+\qquad
+A^Tb=\begin{pmatrix} 198 \\ 54 \\ 15 \end{pmatrix}.
+\]
+Cholesky $A^TA=LL^T$ (el bloque $2\times2$): $\ell_{11}=\sqrt{130}$, $\ell_{21}=34/\sqrt{130}$, $\ell_{22}=\sqrt{10-34^2/130}\approx1.0525$; el bloque $(3,3)$ da $\sqrt5$. Resolviendo $Lz=A^Tb$ y $L^Tv=z$:
+\[
+a=1,\qquad b=2,\qquad c=3
+\qquad\Longrightarrow\qquad y=x^3+2x+3 .
+\]
+Los datos son exactos: el residuo es $0$ (por ejemplo $x=-2\to-9$, $x=2\to15$).
+\end{ejemplo}
+
+\begin{ejemplo}{Final 2009 (ajuste de temperatura, modelo lineal en los parámetros)}
+Se modela la temperatura como $T(t)=\alpha\,\sin\!\big(2\pi\tfrac{t}{24}\big)+\beta$, con mediciones $(t_k,T_k)$, $k=1,\dots,100$. Aunque $T$ es no lineal en $t$, es \emph{lineal} en los parámetros $\alpha,\beta$, así que es un cuadrados mínimos lineal. Matriz de diseño:
+\[
+A=\begin{pmatrix} \sin(2\pi t_1/24) & 1 \\ \vdots & \vdots \\ \sin(2\pi t_{100}/24) & 1 \end{pmatrix}\in\R^{100\times2},
+\quad
+x=\begin{pmatrix}\alpha\\\beta\end{pmatrix},
+\quad
+b=\begin{pmatrix} T_1\\\vdots\\T_{100}\end{pmatrix}.
+\]
+Se busca $\min_x\norm{Ax-b}_2$ y se resuelve por ecuaciones normales $A^TAx=A^Tb$ (un sistema $2\times2$) o por $x=A^{+}b$. Lo importante de examen: reconocer que un modelo no lineal en $t$ pero lineal en los parámetros se resuelve como MMCC lineal.
+\end{ejemplo}
+
+\begin{truco}
+\begin{itemize}
+\item \textbf{Modelo lineal en los parámetros $\ne$ modelo lineal en $x$.} Ajustes con $x^2$, $x^3$, $\cos(x)$, $\sin(2\pi t/24)$ son todos MMCC \emph{lineales}: una columna por término.
+\item Modelos multiplicativos como $V=p_1 x^{p_2}$ se \textbf{linealizan con logaritmo}: $\ln V=\ln p_1+p_2\ln x$, y ahí sí es lineal en $\ln p_1$ y $p_2$.
+\item \textbf{Existencia de Cholesky}: $A^TA$ admite Cholesky $\iff$ es definida positiva $\iff$ las columnas de $A$ son LI. Si son dependientes, usá SVD ($x=A^+b$).
+\item Cuidado con el condicionamiento: las ecuaciones normales elevan $\kappa_2$ al cuadrado. Si el problema está mal condicionado, preferí QR o SVD.
+\item El residuo óptimo $b-Ax^\star$ es ortogonal a $\Imag(A)$: sirve como verificación ($A^T(b-Ax^\star)=0$).
+\end{itemize}
+\end{truco}

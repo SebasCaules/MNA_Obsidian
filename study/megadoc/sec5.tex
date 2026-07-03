@@ -1,0 +1,349 @@
+\section{Series de Fourier}
+
+Es el ejercicio 1 del IIP (aparece en los 5 modelos). Casi siempre pide: (a) la serie trigonométrica (o exponencial) de una función periódica, y (b) alguna consecuencia (una identidad numérica evaluando en un punto, o la serie de la derivada). El truco central es \textbf{aprovechar la paridad} y aplicar bien \textbf{Dirichlet} en los saltos.
+
+\begin{teoria}
+\textbf{Convención de la cátedra.} Para $f$ periódica de período $T$ (frecuencia fundamental $\omega_0=\frac{2\pi}{T}$):
+\[
+f(t)=a_0+\sum_{n=1}^{\infty}a_n\cos\!\Big(\tfrac{2\pi n}{T}\,t\Big)+\sum_{n=1}^{\infty}b_n\sin\!\Big(\tfrac{2\pi n}{T}\,t\Big),
+\]
+donde $a_0$ es el \textbf{valor medio} (sin dividir por 2) y los demás coeficientes salen de proyectar:
+\[
+a_0=\frac1T\int_T f,\qquad
+a_n=\frac2T\int_T f\cos\!\Big(\tfrac{2\pi n}{T}\,t\Big)dt,\qquad
+b_n=\frac2T\int_T f\sin\!\Big(\tfrac{2\pi n}{T}\,t\Big)dt.
+\]
+($\int_T$ es sobre cualquier intervalo de longitud $T$, típicamente $[0,T)$ o $[-T/2,T/2)$.)
+
+\medskip
+\textbf{Serie exponencial.} Equivalentemente,
+\[
+f(t)=\sum_{n\in\Z}c_n\,e^{i\frac{2\pi n}{T}t},\qquad
+c_n=\frac1T\int_T f(t)\,e^{-i\frac{2\pi n}{T}t}\,dt.
+\]
+Relación entre ambas (memorizar):
+\[
+a_0=c_0,\qquad a_n=c_n+c_{-n},\qquad b_n=i\,(c_n-c_{-n}),\qquad n\ge1.
+\]
+Si $f$ es \textbf{real}, entonces $c_{-n}=\overline{c_n}$.
+
+\medskip
+\textbf{Simetrías (lo que más ahorra cuentas).} En un intervalo simétrico respecto del origen:
+\begin{itemize}
+\item $f$ \textbf{par} $\Rightarrow$ $b_n=0$ para todo $n$: \emph{solo cosenos}. Además $c_n\in\R$ y $c_n=c_{-n}$.
+\item $f$ \textbf{impar} $\Rightarrow$ $a_0=0$ y $a_n=0$ para todo $n$: \emph{solo senos}. Además $c_n$ es imaginario puro y $c_n=-c_{-n}$.
+\end{itemize}
+
+\medskip
+\textbf{Convergencia puntual (Dirichlet).} Donde $f$ es \textbf{continua}, la serie converge a $f(t)$. En un \textbf{salto} converge al \emph{promedio de los límites laterales}:
+\[
+\text{serie}(t_0)=\frac{f(t_0^{+})+f(t_0^{-})}{2}.
+\]
+
+\medskip
+\textbf{Forma de laboratorio.} Se reescribe con una sola sinusoide por armónico:
+\[
+f(t)=a_0+\sum_{n\ge1}A_n\cos\!\Big(\tfrac{2\pi n}{T}t-\varphi_n\Big),\quad
+A_n=\sqrt{a_n^2+b_n^2},\quad a_n=A_n\cos\varphi_n,\ b_n=A_n\sin\varphi_n.
+\]
+
+\medskip
+\textbf{Identidad de Parseval (potencia).} La potencia media se reparte entre armónicos:
+\[
+\frac1T\int_T \abs{f(t)}^2\,dt=\sum_{n\in\Z}\abs{c_n}^2=a_0^2+\frac12\sum_{n\ge1}\big(a_n^2+b_n^2\big).
+\]
+Evaluar la serie en un punto conveniente, o aplicar Parseval, es la vía estándar para probar identidades del tipo $\sum 1/n^2=\pi^2/6$.
+\end{teoria}
+
+\begin{receta}
+\textbf{Para hallar la serie trigonométrica de $f$ periódica de período $T$:}
+\begin{enumerate}
+\item \textbf{Frecuencia fundamental.} Calculá $\omega_0=\frac{2\pi}{T}$. Los armónicos serán $\cos(n\omega_0 t)$, $\sin(n\omega_0 t)$. (Ej.: $T=2\pi\Rightarrow\omega_0=1$; $T=\frac\pi2\Rightarrow\omega_0=4$; $T=1\Rightarrow\omega_0=2\pi$.)
+\item \textbf{Mirá la simetría PRIMERO.} Si el intervalo es simétrico y $f$ es par $\Rightarrow$ solo cosenos ($b_n=0$); impar $\Rightarrow$ solo senos ($a_0=a_n=0$). Esto te ahorra la mitad de las integrales. \textbf{Ojo}: si el intervalo NO es simétrico respecto del origen, no podés usar el atajo de paridad (ver Trampa).
+\item \textbf{Valor medio $a_0$.} $a_0=\frac1T\int_T f$. No dividir por 2 (es valor medio, convención de la cátedra).
+\item \textbf{Coeficientes.} Integrá $a_n$ y $b_n$ con el factor $\frac2T$. Para productos $t^k\cos/\sin$ usar integración por partes; para $e^{t}\cos/\sin$ usar las primitivas conocidas; para $\cos\cdot\cos$ o $\sin\cdot\sin$ usar producto-a-suma.
+\item \textbf{Evaluá en los extremos.} Casi siempre $\sin(n\pi)=0$ y $\cos(n\pi)=(-1)^n$ (o $\sin(2\pi n)=0$, $\cos(2\pi n)=1$) colapsan la expresión.
+\item \textbf{Escribí la serie} y, si piden una identidad, \textbf{evaluá en un punto de continuidad} (usando Dirichlet) o aplicá Parseval.
+\end{enumerate}
+\textbf{Primitivas útiles (tenerlas a mano):}
+\begin{align*}
+\int e^{t}\cos(nt)\,dt&=\frac{e^{t}(\cos nt+n\sin nt)}{1+n^2}, &
+\int e^{t}\sin(nt)\,dt&=\frac{e^{t}(\sin nt-n\cos nt)}{1+n^2},\\
+\int t\cos(\omega t)\,dt&=\frac{t\sin\omega t}{\omega}+\frac{\cos\omega t}{\omega^2}, &
+\int t\sin(\omega t)\,dt&=-\frac{t\cos\omega t}{\omega}+\frac{\sin\omega t}{\omega^2},\\
+\int t^2\cos(\omega t)\,dt&=\frac{t^2\sin\omega t}{\omega}+\frac{2t\cos\omega t}{\omega^2}-\frac{2\sin\omega t}{\omega^3}.
+\end{align*}
+Producto a suma: $\cos\alpha\cos\beta=\tfrac12[\cos(\alpha-\beta)+\cos(\alpha+\beta)]$, $\ \sin\alpha\sin\beta=\tfrac12[\cos(\alpha-\beta)-\cos(\alpha+\beta)]$.
+\end{receta}
+
+\begin{ejemplo}{IIP Tema V, Ej.\ 1 — función par, solo cosenos}
+Sea $x(t)=\cos t$ en $\left(-\tfrac\pi4,\tfrac\pi4\right)$ con período $T=\tfrac\pi2$. Hallar su serie trigonométrica.
+
+\medskip
+\textbf{Frecuencia.} $\omega_0=\frac{2\pi}{T}=\frac{2\pi}{\pi/2}=4$: los armónicos son $\cos(4n\,t)$, $\sin(4n\,t)$.
+
+\textbf{Simetría.} El intervalo es simétrico y $\cos t$ es par $\Rightarrow$ \textbf{todos los $b_n=0$}. Serie de solo cosenos: $x(t)=a_0+\sum_{n\ge1}a_n\cos(4n\,t)$.
+
+\textbf{Valor medio} (con $\frac1T=\frac2\pi$):
+\[
+a_0=\frac{2}{\pi}\int_{-\pi/4}^{\pi/4}\cos t\,dt=\frac2\pi\big[\sin t\big]_{-\pi/4}^{\pi/4}=\frac2\pi\cdot2\sin\tfrac\pi4=\frac{2\sqrt2}{\pi}\approx0{,}9003.
+\]
+
+\textbf{Coeficientes} (con $\frac2T=\frac4\pi$ y producto a suma $\cos t\cos(4nt)=\tfrac12[\cos((4n+1)t)+\cos((4n-1)t)]$):
+\[
+a_n=\frac4\pi\cdot\frac12\left[\frac{2}{4n+1}\sin\tfrac{(4n+1)\pi}{4}+\frac{2}{4n-1}\sin\tfrac{(4n-1)\pi}{4}\right].
+\]
+Usando $\sin\!\big(n\pi\pm\tfrac\pi4\big)=\pm(-1)^n\tfrac{1}{\sqrt2}$:
+\[
+a_n=\frac4\pi\cdot\frac{(-1)^n}{\sqrt2}\left[\frac{1}{4n+1}-\frac{1}{4n-1}\right]
+=\frac4\pi\cdot\frac{(-1)^n}{\sqrt2}\cdot\frac{-2}{16n^2-1}
+=\frac{4\sqrt2\,(-1)^{n+1}}{\pi\,(16n^2-1)}.
+\]
+\[
+\boxed{\;x(t)=\frac{2\sqrt2}{\pi}+\frac{4\sqrt2}{\pi}\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{16n^2-1}\cos(4n\,t).\;}
+\]
+
+\textbf{Convergencia en el borde.} En $t=\pm\tfrac\pi4$ la función es \emph{continua} (la extensión par da $\cos\tfrac\pi4=\tfrac1{\sqrt2}$ por ambos lados): no hay salto, la serie converge a $x(t)$ en todo punto.
+\end{ejemplo}
+
+\begin{ejemplo}{Final Tema XI (alt), Ej.\ 2 — Dirichlet en un salto}
+Sea $f(x)=1-x^2$ en $[0,1]$ con período $T=1$. (a) Hallar la serie. (b) ¿A qué converge en $x=0$ y $x=\tfrac12$?
+
+\medskip
+\textbf{(a)} Como $T=1$, $\frac{2\pi n}{T}=2\pi n$. Valor medio:
+\[
+a_0=\int_0^1(1-x^2)\,dx=\Big[x-\tfrac{x^3}{3}\Big]_0^1=\tfrac23.
+\]
+Coeficientes (integrando por partes; sobre un período entero $\int_0^1\cos(2\pi n x)dx=0$ y $\int_0^1 x\cos(2\pi n x)dx=0$, así que solo aporta el $x^2$):
+\[
+a_n=-2\int_0^1 x^2\cos(2\pi n x)\,dx=-2\cdot\frac{1}{2\pi^2 n^2}=-\frac{1}{\pi^2 n^2},\qquad
+b_n=\frac{1}{\pi n}.
+\]
+\[
+\boxed{\;f(x)=\frac23-\frac{1}{\pi^2}\sum_{n\ge1}\frac{\cos(2\pi n x)}{n^2}+\frac1\pi\sum_{n\ge1}\frac{\sin(2\pi n x)}{n}.\;}
+\]
+
+\textbf{(b) Convergencia (Dirichlet).} La extensión periódica es continua dentro de cada período, pero \textbf{salta en los enteros}: $f(0^{+})=1$ mientras que $f(1^{-})=1-1^2=0$.
+\begin{itemize}
+\item \textbf{En $x=0$} (salto): converge al promedio $\dfrac{f(0^{+})+f(1^{-})}{2}=\dfrac{1+0}{2}=\boxed{\tfrac12}$.
+\item \textbf{En $x=\tfrac12$} (continuidad): converge al valor $f(\tfrac12)=1-\tfrac14=\boxed{\tfrac34}$.
+\end{itemize}
+Moraleja: en un salto \textbf{nunca} converge al valor de la función en uno de los lados, sino al punto medio.
+\end{ejemplo}
+
+\begin{truco}
+\textbf{1) Aprovechá la paridad, pero solo si el intervalo es simétrico.} El atajo ``par $\Rightarrow$ solo cosenos / impar $\Rightarrow$ solo senos'' vale únicamente cuando integrás sobre un intervalo \emph{centrado en el origen} (como $(-\tfrac\pi4,\tfrac\pi4)$). Si el período está dado sobre $[0,T)$ o $[a,a+T)$ \textbf{no simétrico} (p.\ ej.\ el diente de sierra $t-[t]$ en $[0,1)$, o $e^t$ en $(-\pi,\pi)$ que no es par ni impar), \textbf{no hay simplificación por paridad}: hay que calcular todos los coeficientes.
+
+\textbf{2) Salto en el borde del período.} Cuidado con funciones como $t^2$ en $(0,2\pi)$ o $1-x^2$ en $[0,1)$: aunque sean ``suaves'' en el interior, la \emph{extensión periódica} suele saltar en el extremo (de $f(T^{-})$ a $f(0^{+})$). Ese salto (i) hace que en el borde Dirichlet dé el promedio, no el valor; (ii) frena la convergencia a $\sim1/N$ con \textbf{overshoot de Gibbs}; (iii) al derivar término a término genera un tren de deltas.
+
+\textbf{3) Elegí bien el punto para las identidades.} Para probar $\sum a_n=$algo, evaluá la serie donde $\cos/\sin$ se simplifiquen ($t=0$ mata los senos, $\cos 0=1$) y donde $f$ sea \emph{continua} (ahí serie${}=f$). Si el punto es un salto, usá el promedio de Dirichlet.
+\end{truco}
+
+\section{Transformada de Fourier}
+
+Es el ejercicio 2 del IIP (los 5 modelos). Pide la TF de una función \textbf{no periódica} (soporte acotado o decaimiento). Es integración directa con la convención de núcleo $e^{-i\omega t}$; el trabajo fino está en distinguir soporte compacto de decaimiento, y en el supuesto de causalidad cuando la función sola no es transformable.
+
+\begin{teoria}
+\textbf{Definición (convención de la cátedra).}
+\[
+\hat x(\omega)=\mathcal F\{x\}(\omega)=\int_{-\infty}^{\infty}x(t)\,e^{-i\omega t}\,dt.
+\]
+El módulo $\abs{\hat x(\omega)}$ es el \textbf{espectro de amplitud}; el argumento, el de fase.
+
+\medskip
+\textbf{Transformadas típicas} (memorizar; son las que caen):
+\begin{itemize}
+\item \textbf{Exponencial decaída causal:} $x(t)=e^{-at}$ para $t\ge0$ (y $0$ para $t<0$), con $a>0$:
+\[
+\hat x(\omega)=\int_0^\infty e^{-(a+i\omega)t}dt=\frac{1}{a+i\omega}.
+\]
+\item \textbf{Pulso rectangular} de ancho $a$ centrado en $0$ ($x=1$ si $\abs{t}\le\tfrac a2$):
+\[
+\hat x(\omega)=\int_{-a/2}^{a/2}e^{-i\omega t}dt=\frac{2\sin(\omega a/2)}{\omega}=a\,\operatorname{sinc}\!\Big(\tfrac{\omega a}{2}\Big).
+\]
+\item \textbf{Triángulo} $\Lambda_n(t)=\tfrac{n-\abs t}{n^2}$ en $[-n,n]$:
+\[
+\hat\Lambda_n(\omega)=\operatorname{sinc}^2\!\Big(\tfrac{\omega n}{2}\Big)=\frac{\sin^2(\omega n/2)}{(\omega n/2)^2}.
+\]
+\item \textbf{Exponencial bilateral} $x(t)=e^{-a\abs t}$, $a>0$ (\emph{lorentziana}, real y par):
+\[
+\hat x(\omega)=\frac{2a}{a^2+\omega^2}.
+\]
+\item \textbf{Gaussiana} $x(t)=e^{-t^2}$ (eigenfunción: su TF es otra gaussiana):
+\[
+\hat x(\omega)=\sqrt\pi\,e^{-\omega^2/4}.
+\]
+\end{itemize}
+
+\medskip
+\textbf{Propiedades.}
+\begin{itemize}
+\item \textbf{Linealidad:} $\mathcal F\{\alpha x+\beta y\}=\alpha\hat x+\beta\hat y$.
+\item \textbf{Desplazamiento temporal:} $\mathcal F\{x(t-t_0)\}=e^{-i\omega t_0}\hat x(\omega)$.
+\item \textbf{Modulación:} $\mathcal F\{e^{i\omega_0 t}x(t)\}=\hat x(\omega-\omega_0)$.
+\item \textbf{Escala:} $\mathcal F\{x(at)\}=\tfrac{1}{\abs a}\hat x\!\big(\tfrac\omega a\big)$.
+\item \textbf{Derivación en tiempo:} $\mathcal F\{x'(t)\}=i\omega\,\hat x(\omega)$.
+\item \textbf{Derivación en frecuencia:} $\mathcal F\{t\,x(t)\}=i\,\dfrac{d}{d\omega}\hat x(\omega)$.
+\end{itemize}
+Si $x$ es real, $\hat x(-\omega)=\overline{\hat x(\omega)}$, y $\abs{\hat x}$ es \textbf{par}.
+\end{teoria}
+
+\begin{receta}
+\textbf{Para hallar $\hat x(\omega)$ por integración directa:}
+\begin{enumerate}
+\item \textbf{Identificá el soporte.} ¿Es compacto (p.\ ej.\ una rampa en $[0,1]$, $t^2$ en $[0,2\pi]$) o de decaimiento ($e^{-at}u(t)$, $e^{-a\abs t}$)? Ajustá los límites de la integral $\int_{-\infty}^\infty\!\to\int_{\text{soporte}}$.
+\item \textbf{¿Converge?} Con soporte acotado converge siempre. Con soporte infinito hacé falta decaimiento: para $e^{\beta t}u(t)$ pedí $\beta<0$; para $t\,e^{-t}$ suponé la señal \textbf{causal} ($t\ge0$), porque en todo $\R$ diverge.
+\item \textbf{Agrupá exponentes} $e^{(\cdots)t}e^{-i\omega t}=e^{-(a+i\omega)t}$ y aplicá la primitiva $\int e^{\gamma t}dt=\tfrac{e^{\gamma t}}{\gamma}$, o integrá por partes si hay $t^k$.
+\item \textbf{$\abs t$:} partí en dos ($\int_{-\infty}^0$ con $e^{+at}$ y $\int_0^\infty$ con $e^{-at}$) y sumá.
+\item \textbf{Simplificá} a partes real/imaginaria si piden el espectro; racionalizá multiplicando por el conjugado del denominador.
+\item \textbf{Valor en $\omega=0$:} es el \textbf{área} $\hat x(0)=\int x(t)\,dt$ (chequeo rápido y valor del pico).
+\end{enumerate}
+\end{receta}
+
+\begin{ejemplo}{IIP Tema V, Ej.\ 2 — exponencial bilateral (lorentziana)}
+Hallar la TF de $x(t)=e^{-2\abs t}$.
+
+\medskip
+Separando el valor absoluto en los dos semiejes:
+\[
+\hat x(\omega)=\int_{-\infty}^{0}e^{2t}e^{-i\omega t}dt+\int_{0}^{\infty}e^{-2t}e^{-i\omega t}dt.
+\]
+Cada integral es una exponencial que decae hacia su extremo infinito:
+\[
+\int_{0}^{\infty}e^{-(2+i\omega)t}dt=\frac{1}{2+i\omega},\qquad
+\int_{-\infty}^{0}e^{(2-i\omega)t}dt=\frac{1}{2-i\omega}.
+\]
+Sumando con común denominador $(2+i\omega)(2-i\omega)=4+\omega^2$:
+\[
+\boxed{\;\hat x(\omega)=\frac{1}{2+i\omega}+\frac{1}{2-i\omega}=\frac{4}{4+\omega^2}.\;}
+\]
+Es \textbf{real y par}, como debe ser (la función es real y par). Chequeo: $\hat x(0)=1$, que es el área $\int e^{-2\abs t}dt=2\cdot\tfrac12$. Caso general: $\mathcal F\{e^{-a\abs t}\}=\dfrac{2a}{a^2+\omega^2}$.
+\end{ejemplo}
+
+\begin{ejemplo}{IIP Tema VI, Ej.\ 2 — causalidad y derivación en frecuencia}
+Hallar la TF de $x(t)=t\,e^{-t}$.
+
+\medskip
+\textbf{Supuesto de causalidad.} Tal cual, en todo $\R$ la integral \emph{diverge} (para $t\to-\infty$, $t e^{-t}\to-\infty$). La única interpretación que converge es la \textbf{señal causal} $x(t)=t\,e^{-t}u(t)$: integramos solo en $[0,\infty)$.
+\[
+\hat x(\omega)=\int_0^\infty t\,e^{-(1+i\omega)t}\,dt.
+\]
+Con $\alpha=1+i\omega$ ($\operatorname{Re}\alpha=1>0$ asegura convergencia) y $\int_0^\infty t\,e^{-\alpha t}dt=\tfrac{1}{\alpha^2}$:
+\[
+\boxed{\;\hat x(\omega)=\frac{1}{(1+i\omega)^2}.\;}
+\]
+Racionalizando: $\operatorname{Re}\hat x=\dfrac{1-\omega^2}{(1+\omega^2)^2}$, $\ \operatorname{Im}\hat x=\dfrac{-2\omega}{(1+\omega^2)^2}$, $\ \abs{\hat x(\omega)}=\dfrac{1}{1+\omega^2}$.
+
+\textbf{Chequeo por la propiedad.} Como $\mathcal F\{e^{-t}u(t)\}=\tfrac{1}{1+i\omega}$ y $\mathcal F\{t\,f\}=i\tfrac{d}{d\omega}\hat f$:
+\[
+i\frac{d}{d\omega}\frac{1}{1+i\omega}=i\cdot\frac{-i}{(1+i\omega)^2}=\frac{1}{(1+i\omega)^2}.\ \checkmark
+\]
+\end{ejemplo}
+
+\begin{truco}
+\textbf{Soporte compacto vs.\ decaimiento.} No confundas: con soporte \emph{acotado} (rampa, pulso, $t^2$ en $[0,2\pi]$) la integral converge siempre y va exactamente entre los extremos del soporte, sin condiciones sobre $\omega$. Con soporte \emph{infinito} hace falta decaimiento y a veces hay que \textbf{suponer causalidad} (como en $t\,e^{-t}$) o pedir signo a un parámetro ($e^{\beta t}u(t)$ solo transforma si $\beta<0$). Si el enunciado da $e^{-a\abs t}$ ``$0\le t\le1$'', leélo con cuidado: en $[0,1]$ es $\abs t=t$, así que es $e^{-at}$ sobre $[0,1]$ (soporte compacto), no la lorentziana bilateral.
+
+\textbf{Decaimiento $\sim1/\omega$ = discontinuidad.} Un $\abs{\hat x}$ que decae como $1/\abs\omega$ delata un \textbf{salto} en $x$ (p.\ ej.\ la rampa en $[0,1]$ salta en el borde $t=1$). Cuanto más suave la señal, más rápido cae el espectro.
+\end{truco}
+
+\section{EDPs por diferencias finitas}
+
+Es el ejercicio 3 del IIP (4 de 5 modelos). Pide armar un \textbf{esquema implícito} (Euler hacia atrás) para una EDP de evolución —ecuación del calor $u_t=u_{xx}$, onda $u_{tt}=u_{xx}$ o convección--difusión— con 4 nodos internos, escribiendo la \textbf{matriz tridiagonal} del sistema y aplicando las condiciones de borde. Lo que se evalúa es (i) el stencil con signos correctos, (ii) el tratamiento de Dirichlet vs.\ Neumann, y (iii) armar la CI.
+
+\begin{teoria}
+\textbf{Malla.} Dominio $x\in[0,1]$ con 4 nodos internos $\Rightarrow$ $h=\tfrac15=0{,}2$ y
+\[
+x_0=0,\ x_1=0{,}2,\ x_2=0{,}4,\ x_3=0{,}6,\ x_4=0{,}8,\ x_5=1.
+\]
+Notación $u_i^k\approx u(x_i,t_k)$, paso temporal $\Delta t$.
+
+\medskip
+\textbf{Esquema implícito para el calor $u_t=\alpha u_{xx}$ (Euler hacia atrás en tiempo, central en espacio).} Todas las derivadas espaciales en el nivel nuevo $k+1$:
+\[
+\frac{u_i^{k+1}-u_i^{k}}{\Delta t}=\alpha\,\frac{u_{i-1}^{k+1}-2u_i^{k+1}+u_{i+1}^{k+1}}{h^2}.
+\]
+Definiendo $r=\dfrac{\alpha\,\Delta t}{h^2}$ y pasando lo del nivel $k+1$ a la izquierda, el \textbf{stencil} de cada nodo interior es
+\[
+\boxed{\;-r\,u_{i-1}^{k+1}+(1+2r)\,u_i^{k+1}-r\,u_{i+1}^{k+1}=u_i^{k}.\;}
+\]
+En cada paso se resuelve un sistema lineal $M\,\mathbf u^{k+1}=\mathbf b^k$ (Thomas / LU). El esquema es \textbf{incondicionalmente estable} para todo $r>0$.
+
+\medskip
+\textbf{Matriz tridiagonal (Dirichlet homogéneo, 4 internos).}
+\[
+M=\begin{pmatrix}
+1+2r & -r & 0 & 0\\
+-r & 1+2r & -r & 0\\
+0 & -r & 1+2r & -r\\
+0 & 0 & -r & 1+2r
+\end{pmatrix},\qquad
+\mathbf b^k=\begin{pmatrix}u_1^k\\u_2^k\\u_3^k\\u_4^k\end{pmatrix}.
+\]
+Es \textbf{simétrica} y de diagonal dominante.
+
+\medskip
+\textbf{Condiciones de borde.}
+\begin{itemize}
+\item \textbf{Dirichlet} $u(0,t)=u(1,t)=0$ (valor fijo): los bordes $u_0,u_5$ \emph{no son incógnitas}. Si son homogéneos ($=0$), \textbf{desaparecen} del sistema (queda $4\times4$). Si fueran $u_0=g\ne0$, ese valor pasa al RHS como $+r\,g$.
+\item \textbf{Neumann} $u_x=0$ (derivada fija): el borde \emph{pasa a ser incógnita}. Se introduce un \textbf{nodo fantasma} $x_{-1}=-h$ (o $x_6$) y se discretiza la derivada con diferencia central:
+\[
+u_x(0,t)\approx\frac{u_1^{k+1}-u_{-1}^{k+1}}{2h}=0\;\Longrightarrow\;u_{-1}^{k+1}=u_1^{k+1}.
+\]
+Sustituyendo en el stencil del nodo $0$, los dos términos en $u_1$ se fusionan:
+\[
+(1+2r)\,u_0^{k+1}-2r\,u_1^{k+1}=u_0^{k}.
+\]
+El coeficiente $\boldsymbol{-2r}$ es la \textbf{firma del Neumann}; el sistema crece (una incógnita más por borde Neumann) y la matriz \textbf{deja de ser simétrica}.
+\end{itemize}
+\end{teoria}
+
+\begin{receta}
+\textbf{Para armar el esquema de diferencias finitas implícito:}
+\begin{enumerate}
+\item \textbf{Malla.} 4 nodos internos $\Rightarrow h=0{,}2$, nodos $x_0,\dots,x_5$.
+\item \textbf{Discretizá.} $u_t\to$ Euler hacia atrás $\tfrac{u_i^{k+1}-u_i^k}{\Delta t}$; $u_{xx}\to$ central $\tfrac{u_{i-1}-2u_i+u_{i+1}}{h^2}$ en $k+1$; si hay $u_x$, central $\tfrac{u_{i+1}-u_{i-1}}{2h}$. Definí $r=\tfrac{\alpha\Delta t}{h^2}$ (y $s=\tfrac{\Delta t}{2h}$ si hay convección).
+\item \textbf{Stencil.} Multiplicá por $\Delta t$, pasá todo lo de $k+1$ a la izquierda y agrupá por $u_{i-1},u_i,u_{i+1}$. \textbf{Cuidá los signos} al pasar de lado.
+\item \textbf{Incógnitas según los bordes.} Dirichlet homogéneo $\Rightarrow$ borde fuera, sistema $4\times4$. Cada Neumann $\Rightarrow$ borde adentro (fila con $-2r$), sistema crece a $5\times5$ (o $6\times6$ si Neumann en ambos).
+\item \textbf{Matriz.} Escribí $M$ tridiagonal (filas de borde modificadas) y el RHS $\mathbf b^k$.
+\item \textbf{Condición inicial.} Evaluá $u_i^0=u(x_i,0)$ en \emph{los nodos que sean incógnita} (con Neumann, incluí el nodo de borde; con Dirichlet, no).
+\end{enumerate}
+\textbf{Nota para la ecuación de onda $u_{tt}=u_{xx}$:} es de segundo orden en $t$, usa \textbf{tres niveles}. El stencil queda $-r\,u_{i-1}^{k+1}+(1+2r)u_i^{k+1}-r\,u_{i+1}^{k+1}=2u_i^{k}-u_i^{k-1}$ con $r=\tfrac{\Delta t^2}{h^2}$; el arranque usa la velocidad inicial $u_i^{-1}=u_i^0-\Delta t\,u_t(x_i,0)$.
+\end{receta}
+
+\begin{ejemplo}{IIP Tema IV, Ej.\ 3 — calor, Dirichlet y Neumann}
+Ecuación del calor $u_t=u_{xx}$ ($\alpha=1$), esquema implícito con 4 nodos internos.
+
+\medskip
+\textbf{(a) Dirichlet homogéneo} $u(0,t)=u(1,t)=0$, $u(x,0)=\sin x$. Como $u_0^{k+1}=u_5^{k+1}=0$ y son homogéneos, salen del RHS. Las incógnitas son $u_1,\dots,u_4$ y el sistema es la tridiagonal simétrica $4\times4$ de la Teoría:
+\[
+M=\begin{pmatrix}1+2r&-r&0&0\\-r&1+2r&-r&0\\0&-r&1+2r&-r\\0&0&-r&1+2r\end{pmatrix},\qquad
+\mathbf u^0=\begin{pmatrix}\sin0{,}2\\\sin0{,}4\\\sin0{,}6\\\sin0{,}8\end{pmatrix}=\begin{pmatrix}0{,}1987\\0{,}3894\\0{,}5646\\0{,}7174\end{pmatrix}.
+\]
+El primer paso resuelve $M\mathbf u^1=\mathbf u^0$; luego $\mathbf b^k=\mathbf u^k$.
+
+\medskip
+\textbf{(b) Mixto: Neumann en $x_0$, Dirichlet en $x_5$}: $u_x(0,t)=0$, $u(1,t)=0$, $u(x,0)=\cos x$. Ahora $u_x(0,t)=0$ \textbf{no fija} $u_0$: el nodo $x_0$ pasa a ser incógnita. Con el nodo fantasma $u_{-1}^{k+1}=u_1^{k+1}$, la fila del nodo $0$ es
+\[
+(1+2r)\,u_0-2r\,u_1=u_0^k.
+\]
+Las incógnitas son $u_0,\dots,u_4$; el sistema crece a $5\times5$:
+\[
+M=\begin{pmatrix}
+1+2r & -2r & 0 & 0 & 0\\
+-r & 1+2r & -r & 0 & 0\\
+0 & -r & 1+2r & -r & 0\\
+0 & 0 & -r & 1+2r & -r\\
+0 & 0 & 0 & -r & 1+2r
+\end{pmatrix},\qquad
+\mathbf u^0=\begin{pmatrix}\cos0\\\cos0{,}2\\\cos0{,}4\\\cos0{,}6\\\cos0{,}8\end{pmatrix}=\begin{pmatrix}1{,}0000\\0{,}9801\\0{,}9211\\0{,}8253\\0{,}6967\end{pmatrix}.
+\]
+Observá: (i) la fila del Neumann lleva $-2r$; (ii) $M$ \textbf{no es simétrica} (el $-2r$ de la fila 0 no se refleja en la columna); (iii) la CI se evalúa \textbf{también en $x_0=0$} porque ahora es incógnita; (iv) en $x_4$ el borde Dirichlet $u_5=0$ desaparece del RHS.
+\end{ejemplo}
+
+\begin{truco}
+\textbf{1) Neumann rompe la simetría.} El nodo fantasma mete un $-2r$ en la fila de borde, pero la fila vecina sigue con $-r$: la matriz \textbf{no es simétrica} (aunque sigue siendo diagonal-dominante e invertible). Si en ambos bordes hay Neumann (p.\ ej.\ calor con $u_x(0)=u_x(1)=0$), quedan $6\times6$ con $-2r$ en la primera y la última fila.
+
+\textbf{2) El signo del stencil.} Al pasar $u_{xx}$ al otro lado, la diagonal queda \textbf{$+(1+2r)$} y las off-diagonales \textbf{$-r$} (no al revés). Si hay convección $u_x$ (término $\pm s$, $s=\tfrac{\Delta t}{2h}$), la sub y superdiagonal quedan \emph{distintas} ($s-r$ y $-(r+s)$): matriz no simétrica. Invertir esos signos es el error típico y da una solución cualitativamente mala. En la pared de Neumann los términos en $s$ se cancelan y la fila vuelve a $(1+2r)u_0-2r\,u_1$.
+
+\textbf{3) Qué desaparece y qué no.} Dirichlet \emph{homogéneo} $\Rightarrow$ el borde vale $0$ y no aporta al RHS. Dirichlet \emph{no homogéneo} ($u_0=g$) $\Rightarrow$ pasa al RHS como $+r\,g$ en la ecuación del nodo vecino. Neumann $\Rightarrow$ el borde es incógnita, agranda el sistema y su CI hay que incluirla.
+\end{truco}

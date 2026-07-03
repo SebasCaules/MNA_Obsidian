@@ -1,0 +1,21 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{Cómo usar este megadoc}{2}{Doc-Start}%
+\contentsline {section}{Mapa de temas y prioridades}{2}{Doc-Start}%
+\contentsline {section}{\numberline {1}Números complejos}{4}{section.1}%
+\contentsline {section}{\numberline {2}Vectores, producto interno, normas y ortogonalidad}{7}{section.2}%
+\contentsline {section}{\numberline {3}Matrices y determinantes}{10}{section.3}%
+\contentsline {section}{\numberline {4}Espacios vectoriales, subespacios, base y dimensión}{13}{section.4}%
+\contentsline {section}{\numberline {5}Transformaciones lineales: núcleo, imagen y matriz asociada}{16}{section.5}%
+\contentsline {section}{\numberline {6}Cambio de base y coordenadas}{19}{section.6}%
+\contentsline {section}{\numberline {7}Diagonalización}{20}{section.7}%
+\contentsline {section}{\numberline {8}Factorización LU y PLU}{23}{section.8}%
+\contentsline {section}{\numberline {9}Factorización QR y Cholesky}{25}{section.9}%
+\contentsline {section}{\numberline {10}Descomposición en valores singulares (SVD)}{27}{section.10}%
+\contentsline {section}{\numberline {11}Pseudoinversa de Moore--Penrose}{30}{section.11}%
+\contentsline {section}{\numberline {12}Cuadrados mínimos}{31}{section.12}%
+\contentsline {section}{\numberline {13}Series de Fourier}{33}{section.13}%
+\contentsline {section}{\numberline {14}Transformada de Fourier}{36}{section.14}%
+\contentsline {section}{\numberline {15}EDPs por diferencias finitas}{38}{section.15}%
+\contentsline {section}{\numberline {16}Apéndice A — Formulario relámpago}{42}{section.16}%
+\contentsline {section}{\numberline {17}Apéndice B — Banco de práctica (30 modelos oficiales)}{43}{section.17}%
+\contentsline {subsection}{Checklist del día del examen}{43}{section*.1}%

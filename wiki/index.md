@@ -12,6 +12,8 @@ Material de estudio aplicado en `study/`:
 - [[AUDIT_REPORT]] — informe de cobertura y consistencia
 - [[log]] — bitácora cronológica de la ingesta
 - [[parciales/patrones]] — análisis transversal de los 30 modelos de examen
+- [[finales-historicos/catalogo-finales]] — catálogo de 40 finales reales 2009–2022 (⚠️ programa viejo *Métodos Numéricos K*) + [[finales-historicos/banco-en-programa]] (los ejercicios que sí caen en tu temario 2026)
+- **PDF de estudio**: [`study/MNA_Megadoc.pdf`](../study/MNA_Megadoc.pdf) — todo lo necesario para resolver el final (teoría + recetas + ejemplos resueltos)
 
 ## Teoría (slides Unidad I y II)
 

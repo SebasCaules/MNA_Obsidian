@@ -1,0 +1,332 @@
+\section{Espacios vectoriales, subespacios, base y dimensión}
+
+\begin{teoria}
+\textbf{Espacio vectorial.} Una cuaterna $(V,+,\K,\cdot)$ con $V\neq\emptyset$ y $\K$ un cuerpo (para nosotros $\K=\R$ o $\K=\C$). La suma $(V,+)$ debe ser cerrada, asociativa, conmutativa, con neutro $0_V$ e inverso aditivo; el producto por escalar $(V,\K,\cdot)$ debe ser cerrado (\emph{ley externa}), distributivo respecto de la suma de vectores y de escalares, asociativo mixto ($\lambda(\mu v)=(\lambda\mu)v$) y unitario ($1\cdot v=v$).
+
+\smallskip
+\noindent\textbf{Ejemplos típicos del curso:} $\R^n$; el espacio de matrices $\R^{n\times m}$ (o $\C^{n\times m}$); el espacio de polinomios $\mathbb{P}_n=\{p:\ p=0\ \text{o}\ \operatorname{gr}(p)\le n\}$; el espacio de funciones $C[a,b]$ o $\R^{\R}=\{f:\R\to\R\}$ con $(f+g)(x)=f(x)+g(x)$ y $(\lambda f)(x)=\lambda f(x)$.
+
+\smallskip
+\noindent\textbf{Subespacio.} $S\subseteq V$ es subespacio si $S\neq\emptyset$ y es cerrado por las dos operaciones:
+\[
+\text{(i)}\ \forall s_1,s_2\in S\ \Rightarrow\ s_1+s_2\in S,\qquad
+\text{(ii)}\ \forall s\in S,\ \lambda\in\K\ \Rightarrow\ \lambda\, s\in S.
+\]
+\textbf{Consecuencia clave:} todo subespacio contiene al $0_V$ (tomando $\lambda=0$). Si $0_V\notin S$, ya \emph{no} es subespacio.
+
+\smallskip
+\noindent\textbf{Combinación lineal (CL).} $v$ es CL de $A=\{v_1,\dots,v_n\}$ si existen escalares $\alpha_i\in\K$ con $v=\sum_{i=1}^n\alpha_i v_i$.
+
+\smallskip
+\noindent\textbf{Subespacio generado.} El conjunto de \emph{todas} las CL de $A$,
+\[
+\gen(A)=\left\{\ \sum_{i=1}^n\gamma_i v_i\ :\ \gamma_i\in\K\ \right\},
+\]
+es siempre un subespacio; a $A$ se lo llama conjunto de generadores.
+
+\smallskip
+\noindent\textbf{Independencia lineal.} $A=\{v_1,\dots,v_n\}$ es \emph{linealmente independiente} (LI) si
+\[
+\alpha_1 v_1+\dots+\alpha_n v_n=0\ \iff\ \alpha_1=\dots=\alpha_n=0.
+\]
+Si no es LI, es \emph{linealmente dependiente} (LD): existe un escalar no nulo en una CL que da $0$, y entonces algún vector es CL de los otros.
+
+\smallskip
+\noindent\textbf{Base y dimensión.} $B=\{v_1,\dots,v_n\}$ es \emph{base} de $V$ si (i) es LI y (ii) genera $V$. La \textbf{dimensión} es la cantidad de vectores de una base. Ojo: un conjunto de generadores no es lo mismo que una base (una base es un conjunto de generadores \emph{minimal}).
+
+\smallskip
+\noindent\textbf{Coordenadas.} Fijada una base $B=\{v_1,\dots,v_n\}$, todo $v\in V$ se escribe de manera \emph{única} como $v=\alpha_1 v_1+\dots+\alpha_n v_n$; el vector $[v]_B=(\alpha_1,\dots,\alpha_n)\in\K^n$ son las coordenadas de $v$ en $B$. Dependen de la base.
+\end{teoria}
+
+\begin{receta}
+\textbf{¿$S$ es subespacio?} (chequeo rápido)
+\begin{enumerate}
+\item \textbf{Mirá el $0_V$.} Si $0_V\notin S$, \textbf{no} es subespacio (fin). Sirve para descartar rectas/planos afines ($x+y+z=1$), $\{\det A\neq0\}$, $\{\operatorname{gr}(p)=2\}$, etc.
+\item \textbf{Cerradura por suma.} Tomá $s_1,s_2\in S$ genéricos y verificá $s_1+s_2\in S$. Para \emph{refutar}, buscá un contraejemplo concreto (dos elementos de $S$ cuya suma se sale).
+\item \textbf{Cerradura por escalar.} Verificá $\lambda s\in S$ para todo $\lambda\in\K$. Cuidado con $\K=\C$: un $S$ que es subespacio sobre $\R$ puede fallar sobre $\C$ (ej.\ $\{ai:a\in\R\}$).
+\end{enumerate}
+Si el conjunto viene dado por \textbf{ecuaciones lineales homogéneas} (del tipo $\sum a_i x_i=0$), es subespacio automáticamente (es el núcleo de una matriz). Si aparecen términos \emph{no lineales} ($x^2$, $\det$, $\operatorname{gr}$, desigualdades) casi siempre falla.
+
+\smallskip
+\textbf{Hallar base y dimensión de un subespacio.}
+\begin{enumerate}
+\item Escribí un elemento genérico de $S$ despejando las restricciones (dejá parámetros libres).
+\item Separá en suma según cada parámetro: cada vector que multiplica a un parámetro es un generador.
+\item Verificá que esos generadores sean LI (arman la matriz y $\det\neq0$, o escalonás). $\dim S=$ nº de parámetros libres.
+\end{enumerate}
+\textbf{Completar un conjunto LI a una base de dimensión $n$:} agregá vectores de la base canónica de a uno, chequeando que el determinante del conjunto siga siendo no nulo, hasta llegar a $n$ vectores.
+\end{receta}
+
+\begin{ejemplo}{Clase 26/03 y Pizarrón Clase 5}
+\textbf{(a) Subespacios en $\R^{2\times2}$ y $\mathbb{P}_2$.}
+
+\emph{$P=\{A\in\R^{2\times2}:\det(A)=0\}$ no es subespacio.} La condición no es lineal. Contraejemplo a la suma:
+\[
+A=\begin{pmatrix}1&0\\0&0\end{pmatrix}\in P,\quad
+B=\begin{pmatrix}0&0\\0&1\end{pmatrix}\in P,\quad
+A+B=\begin{pmatrix}1&0\\0&1\end{pmatrix},\ \det=1\neq0\ \Rightarrow\ A+B\notin P.
+\]
+
+\emph{$A=\{p\in\mathbb{P}_2:\operatorname{gr}(p)=2\}$ no es subespacio.} Con $p=x^2+x-2$ y $q=-x^2+2x+3$ se tiene $p+q=3x+1$, de grado $1$: la suma se salió.
+
+\smallskip
+\textbf{(b) Base y dimensión (Pizarrón Clase 5, Ej.\ 6b).} Sea
+\[
+S=\{p\in\mathbb{P}_2:\ a_0-a_1+a_2=0\ \wedge\ 2a_2-a_0=0\},\qquad p(x)=a_2x^2+a_1x+a_0.
+\]
+De la 2\textsuperscript{a} restricción $a_0=2a_2$; sustituyendo en la 1\textsuperscript{a}, $2a_2-a_1+a_2=0\Rightarrow a_1=3a_2$. Entonces
+\[
+p(x)=a_2x^2+3a_2x+2a_2=a_2\,(x^2+3x+2).
+\]
+Queda un solo parámetro libre $a_2$: $\ S=\gen\{x^2+3x+2\}$ y $\dim S=1$.
+
+\smallskip
+\textbf{(c) Completar a base de $\mathbb{R}_3[x]$ (Ej.\ 11b).} El conjunto LI $\{x^3-2x+1,\ x^3+3x\}$ en coordenadas $(a_0,a_1,a_2,a_3)$ es $\{(1,-2,0,1),(0,3,0,1)\}$. Agregando $x^2=(0,0,1,0)$ y $1=(1,0,0,0)$ y armando la matriz por filas, el determinante da $-5\neq0$, así que los cuatro son LI:
+\[
+B=\{x^3-2x+1,\ x^3+3x,\ x^2,\ 1\}\quad\text{es base de }\mathbb{R}_3[x]\ (\dim=4).
+\]
+\end{ejemplo}
+
+\begin{ejemplo}{IP Tema I, Ej.\ 5 --- subespacio con parámetro}
+Sea $H=\gen\{x^2+2x-1,\ x^2+x+a^2-4,\ x^2-2x+3\}\subset\mathbb{P}_2$. Hallar todos los $a$ tales que $\dim(H)=2$ \emph{y} $x^2+a-1\in H$.
+
+\smallskip
+\textbf{Coordenadas} en la base $\{1,x,x^2\}$ (anotando $(\text{coef.}1,\ \text{coef.}x,\ \text{coef.}x^2)$):
+\[
+p_1=(-1,2,1),\quad p_2=(a^2-4,\,1,\,1),\quad p_3=(3,-2,1).
+\]
+\textbf{Condición 1: $\dim H=2$.} Tres generadores en un espacio de dimensión $3$; que generen sólo un plano equivale a que sean LD, es decir determinante nulo:
+\[
+\det\begin{pmatrix}-1&a^2-4&3\\ 2&1&-2\\ 1&1&1\end{pmatrix}=16-4a^2=0\ \iff\ a=2\ \text{ó}\ a=-2.
+\]
+En ambos, $\operatorname{rg}=2$ (por ejemplo $p_1,p_3$ son LI), así que efectivamente $\dim H=2$.
+
+\smallskip
+\textbf{Condición 2: $q=x^2+a-1=(a-1,0,1)\in H$.} Tomamos base $\{p_1,p_3\}$ y pedimos $q=c_1p_1+c_2p_3$.
+\begin{itemize}
+\item $a=2$: $q=(1,0,1)$ da $c_1=c_2=\tfrac12$ (compatible) $\Rightarrow q\in H$. \checkmark
+\item $a=-2$: $q=(-3,0,1)$ obliga a $c_1=c_2=\tfrac12$ por las filas 2 y 3, pero la fila 1 daría $1\neq-3$: \textbf{incompatible} $\Rightarrow q\notin H$.
+\end{itemize}
+\[
+\boxed{a=2\ \text{es el único valor}.}
+\]
+\end{ejemplo}
+
+\begin{truco}
+\begin{itemize}
+\item \textbf{El truco del $0_V$.} Antes de hacer cualquier cuenta, fijate si el $0_V$ está en el conjunto. Descarta al instante conjuntos afines ($=1$ en vez de $=0$), $\{\det\neq0\}$ (la nula no está) y grados exactos.
+\item \textbf{Generadores $\neq$ base.} Un conjunto puede generar $V$ y no ser base por sobrar vectores (ser LD). Ejemplo: $\{(1,0),(0,1),(2,3)\}$ genera $\R^2$ pero $(2,3)=2(1,0)+3(0,1)$, así que es LD.
+\item \textbf{Trabajá siempre en coordenadas.} Para polinomios y matrices, pasá a $\K^n$ vía coordenadas y todo se reduce a determinantes / rangos de vectores en $\K^n$. $\mathbb{P}_2\cong\R^3$, $\R^{2\times2}\cong\R^4$.
+\item \textbf{Cerradura sólo por escalar.} No alcanza con cerrar la suma; el conjunto $\{(x,y):x\le0\}$ cierra la suma pero $\lambda=-1$ lo saca (no cierra escalar) $\Rightarrow$ no es subespacio.
+\end{itemize}
+\end{truco}
+
+
+\section{Transformaciones lineales: núcleo, imagen y matriz asociada}
+
+\begin{teoria}
+\textbf{Transformación lineal (TL).} $T:V\to W$ es lineal si $T(\alpha u+\beta v)=\alpha\,T(u)+\beta\,T(v)$ para todo $u,v\in V$, $\alpha,\beta\in\K$. Equivalentemente: $T(u+v)=T(u)+T(v)$ y $T(\lambda u)=\lambda\,T(u)$. \emph{Consecuencia:} toda TL manda $0_V\mapsto 0_W$.
+
+\smallskip
+\noindent\textbf{Núcleo e imagen.}
+\[
+\Nuc(T)=\{v\in V:\ T(v)=0_W\}\subseteq V,\qquad
+\Imag(T)=\{T(v):\ v\in V\}=R(T)\subseteq W.
+\]
+Ambos son subespacios.
+
+\smallskip
+\noindent\textbf{Teorema de las dimensiones.} Si $\dim V<\infty$ y $T:V\to W$ es lineal,
+\[
+\dim V=\dim\Nuc(T)+\dim\Imag(T).
+\]
+
+\smallskip
+\noindent\textbf{Inyectividad, sobreyectividad, biyectividad.}
+\[
+T\ \text{inyectiva}\ \iff\ \Nuc(T)=\{0\};\qquad
+T\ \text{sobreyectiva}\ \iff\ \Imag(T)=W.
+\]
+$T$ biyectiva $\iff$ inyectiva y sobreyectiva (isomorfismo). \textbf{Corolario:} si $\dim V=\dim W$, entonces $T$ inyectiva $\iff$ $T$ sobreyectiva.
+
+\smallskip
+\noindent\textbf{TL definida sobre una base.} Si $B=\{v_1,\dots,v_n\}$ es base de $V$ y $w_1,\dots,w_n\in W$ son arbitrarios, existe una \emph{única} TL con $T(v_i)=w_i$. Por linealidad, $T\!\left(\sum\alpha_i v_i\right)=\sum\alpha_i w_i$.
+
+\smallskip
+\noindent\textbf{Matriz asociada.} Con bases $B_1=\{v_1,\dots,v_n\}$ de $V$ y $B_2=\{w_1,\dots,w_m\}$ de $W$, la matriz $A=M_{B_2B_1}(T)\in\K^{m\times n}$ cumple
+\[
+[T(v)]_{B_2}=M_{B_2B_1}(T)\,[v]_{B_1}.
+\]
+Se arma \textbf{por columnas}: la columna $j$ son las coordenadas de $T(v_j)$ en $B_2$,
+\[
+M_{B_2B_1}(T)=\Big(\,[T(v_1)]_{B_2}\ \big|\ [T(v_2)]_{B_2}\ \big|\ \cdots\ \big|\ [T(v_n)]_{B_2}\,\Big).
+\]
+\end{teoria}
+
+\begin{receta}
+\textbf{Es el tema \#1 en frecuencia: aparece como Ej.\ 1 en 9/9 primeros parciales.} Un enunciado típico da $T$ (por fórmula o por matriz) y pide núcleo, imagen, un valor de $k$, o resolver $T(v)=w$.
+
+\smallskip
+\textbf{(A) Verificar que $T$ es lineal.} Chequeá $T(\alpha u+\beta v)=\alpha T(u)+\beta T(v)$. Para \emph{refutar}, alcanza un contraejemplo (ej.\ $T(A)=\rango(A)$ no es lineal; $T(A)=A+A^\top$ sí lo es).
+
+\smallskip
+\textbf{(B) Núcleo.} Resolvé $T(v)=0$:
+\begin{enumerate}
+\item Si $T$ viene por fórmula, planteá el sistema homogéneo componente a componente.
+\item Si $T$ viene por matriz $A$ (en bases $B_1,B_2$), resolvé $A\,[v]_{B_1}=0$. \textbf{Ojo:} las soluciones son \emph{coordenadas en $B_1$}; hay que reconstruir $v=\sum([v]_{B_1})_i\,(v_i)$ en el espacio original.
+\item Base del núcleo: parametrizá las soluciones y tomá un generador por parámetro libre. $\dim\Nuc=$ nº de variables libres.
+\end{enumerate}
+
+\smallskip
+\textbf{(C) Imagen.} $\Imag(T)=\gen\{T(v_1),\dots,T(v_n)\}$ (imágenes de una base). Si $T$ está dada por matriz $A$, la imagen es el \emph{espacio columna} de $A$; una base sale de las columnas LI (y luego se traduce a $W$). $\dim\Imag=\rango(A)$.
+
+\smallskip
+\textbf{(D) Rango con parámetro $k$.} Para pedir $\dim\Imag(T)=r$: calculá $\det A$ (si es $n\times n$); $\det A\neq0\Rightarrow\rango=n$. Para bajar a rango exacto $r$ hay que anular \emph{todos} los menores de orden $>r$. Usá el teorema de las dimensiones para cerrar $\dim\Nuc$.
+
+\smallskip
+\textbf{(E) Resolver $T(v)=w$.} Planteá el sistema (o $A\,[v]_{B_1}=[w]_{B_2}$) y resolvé. Si $\Nuc(T)=\{0\}$ la solución es única.
+\end{receta}
+
+\begin{ejemplo}{IP Tema I, Ej.\ 1 --- núcleo, imagen y preimagen}
+Dada $T:\R^3\to\R^3$, $\ T(x,y,z)=(2x-y+z,\ x+y-z,\ z+y-x)$.
+
+\smallskip
+\textbf{(a) Núcleo.} $T(x,y,z)=0$:
+\[
+2x-y+z=0,\qquad x+y-z=0,\qquad z+y-x=0.
+\]
+De la 2\textsuperscript{a}, $z=x+y$. En la 1\textsuperscript{a}: $2x-y+(x+y)=0\Rightarrow x=0\Rightarrow z=y$, y la 3\textsuperscript{a} da $y=0\Rightarrow z=0$. Luego
+\[
+\Nuc(T)=\{(0,0,0)\}\ \Rightarrow\ T\ \text{inyectiva}.
+\]
+Por el teorema de las dimensiones, $\dim\Imag(T)=3-0=3$, o sea $\Imag(T)=\R^3$ (sobreyectiva, es isomorfismo).
+
+\smallskip
+\textbf{(b) Preimagen de $(1,1,-2)$.} Resolvemos
+\[
+2x-y+z=1,\qquad x+y-z=1,\qquad z+y-x=-2.
+\]
+De la 2\textsuperscript{a}, $z=x+y-1$. En la 1\textsuperscript{a}: $2x-y+x+y=2\Rightarrow x=\tfrac23$, y $z=y-\tfrac13$. En la 3\textsuperscript{a}: $y-\tfrac13+y-\tfrac23=-2\Rightarrow y=-\tfrac12\Rightarrow z=-\tfrac56$. Así
+\[
+\boxed{(x,y,z)=\left(\tfrac23,\,-\tfrac12,\,-\tfrac56\right).}
+\]
+\end{ejemplo}
+
+\begin{ejemplo}{IP Tema III / Final Tema VIII, Ej.\ 1 --- TL paramétrica en $k$}
+Sea $T:\R^3\to\R^3$ con matriz en base canónica
+\[
+A=M_E(T)=\begin{pmatrix}2&8&k\\ -1&-4&0\\ k+3&12&2k\end{pmatrix}.
+\]
+\textbf{(a) Hallar $k$ tal que $\dim\Imag(T)=1$.} Primero, ¿cuándo baja el rango de $3$? El determinante es
+\[
+\det A=2(-8k)-8(-2k)+k(4k)=-16k+16k+4k^2=4k^2,
+\]
+que se anula sólo en $k=0$. Para $k\neq0$, $\rango(A)=3$. En $k=0$:
+\[
+A=\begin{pmatrix}2&8&0\\ -1&-4&0\\ 3&12&0\end{pmatrix},
+\]
+cuyas tres filas son proporcionales a $(1,4,0)$ (la columna $2$ es $4$ veces la columna $1$ y la columna $3$ es nula). Luego $\rango(A)=1$. No hay $k$ con rango intermedio $2$:
+\[
+\boxed{\dim\Imag(T)=1\ \iff\ k=0.}
+\]
+\textbf{(b) Núcleo para $k=0$.} Resolvemos $AX=0$. Como $\rango(A)=1$, todo se reduce a $x+4y=0\Rightarrow x=-4y$, con $z$ libre:
+\[
+X=(-4y,\,y,\,z)=y\,(-4,1,0)+z\,(0,0,1)\ \Rightarrow\
+\boxed{\Nuc(T)=\gen\{(-4,1,0),(0,0,1)\},\ \dim=2.}
+\]
+\textbf{Chequeo (teorema de las dimensiones):} $\dim\Nuc+\dim\Imag=2+1=3=\dim\R^3$. \checkmark
+\end{ejemplo}
+
+\begin{ejemplo}{Clase 23/04 --- matriz asociada entre espacios distintos}
+Sea $T:\mathbb{P}_2\to\R^{2\times2}$, $\ T(a+bx+cx^2)=\begin{pmatrix}a&b\\ b&a+c\end{pmatrix}$, con bases canónicas $B_1=\{1,x,x^2\}$ y $B_2=\{E_{11},E_{12},E_{21},E_{22}\}$.
+
+Calculamos las imágenes de la base y sus coordenadas en $B_2$:
+\begin{align*}
+T(1)&=\begin{pmatrix}1&0\\0&1\end{pmatrix}\ \Rightarrow\ [T(1)]_{B_2}=(1,0,0,1)^\top,\\
+T(x)&=\begin{pmatrix}0&1\\1&0\end{pmatrix}\ \Rightarrow\ [T(x)]_{B_2}=(0,1,1,0)^\top,\\
+T(x^2)&=\begin{pmatrix}0&0\\0&1\end{pmatrix}\ \Rightarrow\ [T(x^2)]_{B_2}=(0,0,0,1)^\top.
+\end{align*}
+Poniendo esas coordenadas como columnas,
+\[
+M_{B_2B_1}(T)=\begin{pmatrix}1&0&0\\ 0&1&0\\ 0&1&0\\ 1&0&1\end{pmatrix}.
+\]
+Es una matriz $4\times3$ ($\tilde T:\R^3\to\R^4$ a nivel coordenadas). Sus columnas son LI, así que $\dim\Imag=3$ y $\dim\Nuc=0$: $T$ es inyectiva.
+\end{ejemplo}
+
+\begin{truco}
+\begin{itemize}
+\item \textbf{Coordenadas $\neq$ vector.} Si $T$ viene por matriz $A$ en bases $B_1,B_2$, entonces $AX$ te da \emph{coordenadas en $B_2$} y $X$ son \emph{coordenadas en $B_1$}. Siempre hay que \emph{destraducir}: $v=\sum X_i\,(v_i)$ y $T(v)=\sum(AX)_i\,(w_i)$. Olvidarse de esto es el error clásico (Pizarrón Clase 6: base del núcleo es $\{(1,1,0)\}$ en $\R^3$, no $(0,1,0)$ que son las coordenadas).
+\item \textbf{Matriz por columnas.} La columna $j$ de $M_{B_2B_1}(T)$ es $[T(v_j)]_{B_2}$, nunca las filas. Si el enunciado te da la matriz, sus columnas ya son las imágenes de $B_1$ (útil para la imagen).
+\item \textbf{$\rango=1$ pide más que $\det=0$.} Para $\dim\Imag=1$ con parámetro no basta $\det A=0$: hay que anular \emph{todos} los menores $2\times2$. A menudo el rango salta de $3$ a $1$ sin pasar por $2$.
+\item \textbf{Existencia/unicidad de TL sobre datos.} Si te dan $T$ sobre varios vectores $\{u_i\}$: si son base $\Rightarrow$ existe y es única. Si son LD, escribí el dependiente como CL de los otros y verificá que la imagen respete la misma CL: si la respeta, existe (no única); si no, \emph{no existe} ninguna TL.
+\end{itemize}
+\end{truco}
+
+
+\section{Cambio de base y coordenadas}
+
+\begin{teoria}
+\textbf{Isomorfismo coordenadas.} Sea $V$ un $\K$-espacio vectorial de dimensión $n$ y $B$ una base. La aplicación
+\[
+\varphi:V\to\K^n,\qquad \varphi(v)=[v]_B,
+\]
+es lineal, inyectiva ($[v]_B=0\Rightarrow v=0$) y, como $\dim V=\dim\K^n$, sobreyectiva. Es un \textbf{isomorfismo}: $V\cong\K^n$. Por eso todo espacio de dimensión finita ``se comporta como'' $\K^n$, y polinomios/matrices se manejan por coordenadas ($\mathbb{P}_2\cong\R^3$, $\R^{2\times2}\cong\R^4$).
+
+\smallskip
+\noindent\textbf{Matriz de cambio de base.} Sean $B_1,B_2$ bases del mismo espacio. La matriz de cambio de base $P$ de $B_1$ a $B_2$ traduce coordenadas:
+\[
+[v]_{B_2}=P\,[v]_{B_1}\qquad\text{para todo }v.
+\]
+Sus columnas son las coordenadas en $B_2$ de los vectores de $B_1$. Es invertible, y $P^{-1}$ es el cambio de $B_2$ a $B_1$.
+
+\smallskip
+\noindent\textbf{Semejanza y matriz de una TL bajo cambio de base.} La misma TL $T:V\to V$ tiene distinta matriz según la base: si $A=M_E(T)$ en la base canónica y $P$ tiene por columnas los vectores de una nueva base $B$, entonces
+\[
+M_B(T)=P^{-1}A\,P,
+\]
+y se dice que $M_B(T)$ es \emph{semejante} a $A$. En particular, si $B$ es una base de autovectores, $M_B(T)=D$ es diagonal (diagonalización).
+\end{teoria}
+
+\begin{receta}
+\textbf{Aplicar $P$ (traducir coordenadas).}
+\begin{itemize}
+\item De $B_1$ a $B_2$: multiplicá $[v]_{B_2}=P\,[v]_{B_1}$.
+\item De $B_2$ a $B_1$: resolvé el sistema $P\,[v]_{B_1}=[v]_{B_2}$ (o usá $P^{-1}$).
+\end{itemize}
+\textbf{Reconstruir una base a partir de $P$.} Si $P$ es el cambio de $B_1$ a $B_2$ y conocés $B_1=\{u_1,\dots,u_n\}$, las columnas de $P$ dan las coordenadas de cada $u_j$ en $B_2$; pero si lo que buscás es $B_2=\{w_1,\dots\}$ conociendo $B_1$, usá que las \emph{columnas de $P$} son $[w_i]_{B_1}$, es decir $w_i=\sum_k P_{ki}\,u_k$.
+
+\smallskip
+\textbf{Hallar coordenadas de $v$ en una base $B$.} Planteá $v=\sum c_i v_i$, armá el sistema (columnas $=$ los $v_i$) y resolvé para los $c_i$; entonces $[v]_B=(c_1,\dots,c_n)$. Funciona igual sobre $\C$.
+\end{receta}
+
+\begin{ejemplo}{Resueltos de Álgebra (Guía IV, Ej.\ 6)}
+Sean $B_1,B_2$ bases de $\R^2$ y $P=\begin{pmatrix}1&1\\0&-3\end{pmatrix}$ la matriz de cambio de base de $B_1$ a $B_2$.
+
+\smallskip
+\textbf{(a) Si $[u]_{B_1}=(1,4)$, hallar $[u]_{B_2}$.} Directo:
+\[
+[u]_{B_2}=P\,[u]_{B_1}=\begin{pmatrix}1&1\\0&-3\end{pmatrix}\begin{pmatrix}1\\4\end{pmatrix}=\begin{pmatrix}5\\-12\end{pmatrix}.
+\]
+
+\textbf{(b) Si $[v]_{B_2}=(3,5)$, hallar $[v]_{B_1}$.} Resolvemos $P\,[v]_{B_1}=[v]_{B_2}$:
+\[
+\begin{cases}c_1+c_2=3\\ -3c_2=5\end{cases}\ \Rightarrow\ c_2=-\tfrac53,\ c_1=\tfrac{14}{3}
+\ \Rightarrow\ [v]_{B_1}=\left(\tfrac{14}{3},\,-\tfrac53\right).
+\]
+
+\textbf{(c) Si $B_1=\{(1,3),(0,4)\}$, obtener $B_2$.} Las columnas de $P$ son las coordenadas de los vectores de $B_2$ en $B_1$, luego
+\[
+w_1=1\cdot(1,3)+0\cdot(0,4)=(1,3),\qquad
+w_2=1\cdot(1,3)-3\cdot(0,4)=(1,-9),
+\]
+así que $B_2=\{(1,3),(1,-9)\}$. Queda determinada de forma única una vez fijados $P$ y $B_1$.
+\end{ejemplo}
+
+\begin{truco}
+\begin{itemize}
+\item \textbf{¿En qué sentido va $P$?} Verificá siempre la dirección: si $P$ va de $B_1$ a $B_2$, entonces $[v]_{B_2}=P[v]_{B_1}$ (multiplica coordenadas viejas para dar las nuevas). Confundir el sentido invierte todo; ante la duda, usá $P^{-1}$ para el sentido contrario.
+\item \textbf{Columnas de $P$.} Son coordenadas de una base expresada en la otra. Si conocés una base y $P$, la otra sale leyendo columnas: no hace falta invertir nada.
+\item \textbf{Diagonalizar es cambiar de base.} $D=P^{-1}AP$ con $P=(v_1|\cdots|v_n)$ los autovectores por columnas y $D=\diag(\lambda_1,\dots,\lambda_n)$. La matriz ``linda'' $D$ es la misma TL vista en la base de autovectores.
+\item \textbf{Sobre $\C$ funciona igual.} Las coordenadas pueden ser complejas; el método (plantear $v=\sum c_i v_i$ y resolver) no cambia, sólo hay que operar con cuidado con $i$.
+\end{itemize}
+\end{truco}

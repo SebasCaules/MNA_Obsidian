@@ -1,0 +1,329 @@
+\section{Diagonalización}
+
+\begin{teoria}
+Sea $A \in \K^{n \times n}$ (o una transformación lineal $T:V\to V$ con matriz asociada $A$). Un escalar $\lambda$ es \textbf{autovalor} de $A$ si existe $v \neq 0$ (\textbf{autovector}) tal que
+\[
+Av = \lambda v \quad\Longleftrightarrow\quad (\lambda I - A)\,v = 0.
+\]
+Para que haya solución no trivial, $\lambda I - A$ debe ser singular. Los autovalores son entonces las raíces del \textbf{polinomio característico} (convención de la cátedra, coeficiente líder $+1$):
+\[
+p_A(\lambda) = \det(\lambda I - A).
+\]
+El conjunto de autovalores es el \textbf{espectro} $\sigma(A)$ y el \textbf{radio espectral} es $\rho(A) = \max_{\lambda \in \sigma(A)} \abs{\lambda}$.
+
+Fijado un autovalor $\lambda_i$, el \textbf{autoespacio} asociado es
+\[
+S_{\lambda_i} = \Nuc(\lambda_i I - A) = \{\, v : Av = \lambda_i v \,\}.
+\]
+
+\textbf{Multiplicidades.} La \textbf{multiplicidad algebraica} $m_a(\lambda_i)$ es el orden con que $\lambda_i$ aparece como raíz de $p_A$. La \textbf{multiplicidad geométrica} $m_g(\lambda_i) = \dim S_{\lambda_i} = n - \rango(\lambda_i I - A)$. Siempre vale
+\[
+1 \le m_g(\lambda_i) \le m_a(\lambda_i).
+\]
+
+\textbf{Semejanza y diagonalización.} $A$ es \textbf{diagonalizable} si es semejante a una matriz diagonal, es decir, si existe $P$ invertible con
+\[
+D = P^{-1} A P \quad\text{diagonal}\qquad\Longleftrightarrow\qquad A = P D P^{-1}.
+\]
+Esto ocurre si y solo si $\R^n$ (o $\C^n$) admite una base formada por autovectores de $A$. En ese caso las columnas de $P$ son los autovectores y $D$ tiene los autovalores en la diagonal, en el mismo orden:
+\[
+D = \diag(\lambda_1, \dots, \lambda_n), \qquad P = \bigl(v_1 \mid v_2 \mid \cdots \mid v_n\bigr).
+\]
+
+\textbf{Criterio de diagonalizabilidad.} $A$ es diagonalizable $\iff$ para \emph{todo} autovalor $\lambda_i$ se cumple $m_g(\lambda_i) = m_a(\lambda_i)$. Basta con que falle en un solo autovalor para que $A$ no sea diagonalizable.
+
+\textbf{Casos particulares útiles.}
+\begin{itemize}
+\item Si $A \in \R^{n \times n}$ tiene $n$ autovalores \emph{reales y distintos}, es automáticamente diagonalizable (cada autovalor simple aporta un autovector LI, y $m_g = m_a = 1$).
+\item Si $A$ es \emph{triangular} (superior o inferior), sus autovalores son las entradas de la diagonal.
+\item Si $A$ es \emph{simétrica real}, es diagonalizable con autovectores ortogonales (teorema espectral); los autoespacios de autovalores distintos son ortogonales.
+\item Si $p_A$ tiene raíces \emph{complejas no reales}, entonces $A$ \textbf{no es diagonalizable en $\R$} (aunque sí puede serlo en $\C$).
+\end{itemize}
+
+\textbf{Invariantes.} $\tr(A) = \sum_i \lambda_i$ y $\det(A) = \prod_i \lambda_i$ (contando multiplicidades). Sirven de control rápido.
+\end{teoria}
+
+\begin{receta}
+\textbf{Diagonalizar $A \in \K^{n\times n}$ (o decidir si se puede).}
+\begin{enumerate}
+\item Formar $\lambda I - A$ y calcular $p_A(\lambda) = \det(\lambda I - A)$. Conviene desarrollar por la fila o columna con más ceros.
+\item Factorizar $p_A$ y leer los autovalores con su multiplicidad algebraica $m_a$.
+\item Para cada autovalor $\lambda_i$: resolver el sistema homogéneo $(\lambda_i I - A)\,v = 0$ por Gauss. La cantidad de variables libres es $m_g(\lambda_i) = n - \rango(\lambda_i I - A)$; una base de las soluciones genera $S_{\lambda_i}$.
+\item Comparar $m_g(\lambda_i)$ con $m_a(\lambda_i)$ para todo $i$:
+  \begin{itemize}
+  \item Si $m_g = m_a$ en todos $\Rightarrow$ diagonalizable.
+  \item Si $m_g < m_a$ en alguno $\Rightarrow$ NO diagonalizable.
+  \end{itemize}
+\item Si es diagonalizable: armar $P$ con los autovectores como columnas y $D = \diag(\lambda_1,\dots,\lambda_n)$ respetando el orden. Verificar (opcional) $AP = PD$.
+\end{enumerate}
+
+\textbf{Con parámetro $k$.} El patrón típico: $p_A(\lambda)$ se factoriza dejando el parámetro dentro de una raíz. Se separan casos según cuándo el parámetro hace \emph{coincidir} dos autovalores (creando multiplicidad $\ge 2$). Solo en esos casos hay que calcular $m_g$; para valores del parámetro que dan autovalores todos distintos, la matriz es automáticamente diagonalizable.
+\end{receta}
+
+\begin{ejemplo}{Resueltos — Diagonalización, Ej.\ 4 (parámetro $k$)}
+Sea $F:\R^3\to\R^3$ con $A = M(F)_{EE} = \begin{pmatrix} 1 & 0 & 1 \\ 0 & k & 1 \\ 0 & 9 & k \end{pmatrix}$. Hallar todos los $k$ para los cuales $F$ es diagonalizable, y para $k=3$ dar una base $B$ que diagonalice.
+
+\textbf{Polinomio característico.} Con
+\[
+\lambda I - A = \begin{pmatrix} \lambda - 1 & 0 & -1 \\ 0 & \lambda - k & -1 \\ 0 & -9 & \lambda - k \end{pmatrix},
+\]
+desarrollando por la primera columna,
+\[
+p_A(\lambda) = (\lambda - 1)\bigl[(\lambda - k)^2 - 9\bigr] = (\lambda - 1)\bigl[\lambda - (k+3)\bigr]\bigl[\lambda - (k-3)\bigr].
+\]
+Los autovalores son $1$, $k+3$ y $k-3$. Como $k+3 \neq k-3$ siempre, el único riesgo de multiplicidad es que alguno coincida con $1$.
+
+\textbf{Casos.}
+\begin{itemize}
+\item Si $k+3 \neq 1$ y $k-3 \neq 1$, o sea $k \neq -2$ y $k \neq 4$: los tres autovalores son distintos $\Rightarrow$ \textbf{diagonalizable}.
+\item Si $k = -2$: $p_A(\lambda) = (\lambda - 1)^2(\lambda + 5)$. Para $\lambda = 1$,
+\[
+A - I = \begin{pmatrix} 0 & 0 & 1 \\ 0 & -3 & 1 \\ 0 & 9 & -3 \end{pmatrix} \Rightarrow z = 0,\ y = 0,
+\]
+único autovector $v = (1,0,0)$: $m_g(1) = 1 < 2 = m_a(1)$. \textbf{No diagonalizable.}
+\item Si $k = 4$: $p_A(\lambda) = (\lambda - 1)^2(\lambda - 7)$; análogamente $m_g(1) = 1 < 2$. \textbf{No diagonalizable.}
+\end{itemize}
+Conclusión: $F$ es diagonalizable $\iff k \in \R \setminus \{-2, 4\}$.
+
+\textbf{Para $k = 3$} el polinomio es $p_A(\lambda) = (\lambda - 1)[(\lambda - 3)^2 - 9] = \lambda(\lambda - 1)(\lambda - 6)$, tres autovalores distintos ($0,1,6$). Resolviendo cada autoespacio:
+\begin{align*}
+\lambda = 0:&\quad v_0 = (3, 1, -3), \\
+\lambda = 1:&\quad v_1 = (1, 0, 0), \\
+\lambda = 6:&\quad v_6 = (3, 5, 15).
+\end{align*}
+Entonces
+\[
+B = \{(3,1,-3),\ (1,0,0),\ (3,5,15)\}, \qquad M(F)_{BB} = \begin{pmatrix} 0 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 6 \end{pmatrix}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}{IP Tema VIII, Ej.\ 1 (autovector dado + parámetro)}
+Sea $A = \begin{pmatrix} k & 0 & 0 \\ 2 & -2 & -1 \\ -2 & 5 & 4 \end{pmatrix}$. (a) Hallar $k$ para que $(0,-1,1)$ sea autovector. (b) Decidir para qué $k$ es diagonalizable.
+
+\textbf{(a)} Imponemos $Av = \lambda v$ con $v = (0,-1,1)$:
+\[
+A \begin{pmatrix} 0 \\ -1 \\ 1 \end{pmatrix} = \begin{pmatrix} 0 \\ 1 \\ -1 \end{pmatrix} = \lambda \begin{pmatrix} 0 \\ -1 \\ 1 \end{pmatrix}.
+\]
+La primera componente da $0 = 0$ (no toca $k$), y las otras dos dan $\lambda = -1$ de forma consistente. Como la primera coordenada de $v$ es $0$, multiplica a la única entrada que contiene $k$, y por eso $k$ nunca aparece: $v$ es autovector con $\lambda = -1$ \emph{para todo} $k \in \R$.
+
+\textbf{(b)} Desarrollando $\lambda I - A$ por la primera fila,
+\[
+p_A(\lambda) = (\lambda - k)\bigl[(\lambda + 2)(\lambda - 4) + 5\bigr] = (\lambda - k)(\lambda^2 - 2\lambda - 3) = (\lambda - k)(\lambda - 3)(\lambda + 1).
+\]
+Autovalores $\{-1, 3, k\}$.
+\begin{itemize}
+\item $k \neq -1$ y $k \neq 3$: tres autovalores distintos $\Rightarrow$ diagonalizable.
+\item $k = 3$: $p_A = (\lambda - 3)^2(\lambda + 1)$. Con $3I - A$ resulta $\rango = 1$, luego $m_g(3) = 3 - 1 = 2 = m_a(3)$ $\Rightarrow$ diagonalizable.
+\item $k = -1$: $p_A = (\lambda - 3)(\lambda + 1)^2$. Con $-I - A$ resulta $\rango = 2$, luego $m_g(-1) = 1 < 2 = m_a(-1)$ $\Rightarrow$ \textbf{no diagonalizable} (el único autovector de $S_{-1}$ es precisamente $(0,-1,1)$).
+\end{itemize}
+Conclusión: diagonalizable $\iff k \neq -1$.
+\end{ejemplo}
+
+\begin{truco}
+\begin{itemize}
+\item \textbf{Chequeo de autovalores:} $\sum \lambda_i = \tr(A)$ y $\prod \lambda_i = \det(A)$. Si no cierran, hay error en $p_A$.
+\item \textbf{Solo se investiga $m_g$ donde hay multiplicidad.} Los autovalores simples ($m_a = 1$) siempre cumplen $m_g = m_a = 1$; no hay que calcularles nada.
+\item \textbf{Triangular $\Rightarrow$ autovalores gratis} (diagonal). Pero \emph{no} garantiza diagonalizable: hay que revisar $m_g$ de los repetidos.
+\item \textbf{Autovector con una coordenada nula} puede volver irrelevante al parámetro que multiplica (como en el IP VIII): mirá qué entrada de $A$ contiene al parámetro antes de plantear cuentas.
+\item \textbf{Simétrica real} $\Rightarrow$ siempre diagonalizable y con autoespacios ortogonales; conviene invocar el teorema espectral en vez de calcular $m_g$.
+\end{itemize}
+\end{truco}
+
+
+\section{Factorización LU y PLU}
+
+\begin{teoria}
+La idea es ``invertir sin invertir'': resolver $AX = B$ sin calcular $A^{-1}$ (que por Laplace cuesta $\mathcal{O}(n!)$). Se factoriza $A$ como producto de matrices triangulares, con las que los sistemas se resuelven en $\mathcal{O}(n^2)$.
+
+\textbf{Factorización LU (Doolittle).} Se busca $A = LU$ con $L$ \emph{triangular inferior con unos en la diagonal} (unitriangular) y $U$ triangular superior. Se obtiene por eliminación gaussiana: los multiplicadores usados para anular cada entrada quedan guardados en $L$. Si en el paso que elimina la columna $j$ el pivote es $a^{(j)}_{jj} \neq 0$, el multiplicador de la fila $i$ es
+\[
+m_{ij} = \frac{a^{(j)}_{ij}}{a^{(j)}_{jj}}, \qquad F_i \leftarrow F_i - m_{ij}\, F_j,
+\]
+y ese $m_{ij}$ se coloca en la posición $(i,j)$ de $L$. El resultado escalonado es $U$.
+
+\textbf{Resolver $AX = B$ con $LU$.} Como $LUX = B$, se define $Z = UX$ y se resuelve en dos etapas triangulares:
+\[
+LZ = B \quad(\text{sustitución hacia adelante}), \qquad UX = Z \quad(\text{sustitución hacia atrás}).
+\]
+La \emph{sustitución hacia adelante} despeja $z_1, z_2, \dots$ de arriba hacia abajo; la \emph{hacia atrás} despeja $x_n, x_{n-1}, \dots$ de abajo hacia arriba.
+
+\textbf{Determinante.} Como $L$ es unitriangular ($\det L = 1$),
+\[
+\det(A) = \det(L)\det(U) = \prod_i U_{ii}.
+\]
+
+\textbf{Factorización PLU (pivoteo parcial).} Si aparece un pivote nulo (o, por estabilidad numérica, uno de módulo pequeño), hay que \emph{permutar filas}. Cada permutación se registra en una matriz $P$ (producto de las elementales de intercambio) y se obtiene
+\[
+PA = LU.
+\]
+\textbf{Proposición.} Si $A \in \K^{n\times n}$ es regular, existe una matriz de permutación $P$ tal que $PA = LU$. (Si $A$ es singular hay que analizar caso por caso.)
+
+\textbf{Nota práctica.} Recordar que multiplicar por una matriz de permutación \emph{a izquierda} permuta filas y \emph{a derecha} permuta columnas. Un pivote que sale $0$ \emph{recién al final} (posición $(n,n)$) no obliga a permutar: no hay nada debajo para eliminar; simplemente refleja $\det A = 0$.
+
+\textbf{Resolver $AX = B$ con $PLU$.} Se multiplica por $P$ a izquierda:
+\[
+AX = B \;\Rightarrow\; PAX = PB \;\Rightarrow\; LUX = PB \;\Rightarrow\; LZ = PB,\ UX = Z.
+\]
+\end{teoria}
+
+\begin{receta}
+\textbf{Factorización $PA = LU$ por Doolittle.}
+\begin{enumerate}
+\item Inicializar $U = A$, $L = I$, $P = I$.
+\item Para cada columna $j = 1, \dots, n-1$:
+  \begin{enumerate}
+  \item Si el pivote $U_{jj} = 0$, intercambiar la fila $j$ con una fila inferior de pivote no nulo; aplicar el mismo intercambio a $P$ y a la parte ya construida de $L$.
+  \item Para cada fila $i > j$: calcular $m_{ij} = U_{ij}/U_{jj}$, hacer $F_i \leftarrow F_i - m_{ij} F_j$ en $U$, y guardar $L_{ij} = m_{ij}$.
+  \end{enumerate}
+\item Al terminar, $U$ es triangular superior, $L$ unitriangular inferior y vale $PA = LU$.
+\item \emph{Verificar}: multiplicar $LU$ y comparar con $PA$.
+\end{enumerate}
+
+\textbf{Para resolver un sistema:} calcular $\tilde B = PB$, luego $LZ = \tilde B$ hacia adelante y $UX = Z$ hacia atrás.
+\end{receta}
+
+\begin{ejemplo}{IP Tema III, Ej.\ 3a (PLU con $P=I$)}
+Factorizar $A = \begin{pmatrix} 1 & 3 & -1 \\ 2 & 8 & 4 \\ -1 & 3 & -4 \end{pmatrix}$.
+
+\textbf{Columna 1.} Pivote $A_{11} = 1 \neq 0$, no se permuta. Multiplicadores $m_{21} = 2$, $m_{31} = -1$:
+\[
+F_2 \leftarrow F_2 - 2F_1, \quad F_3 \leftarrow F_3 + F_1 \;\Rightarrow\; \begin{pmatrix} 1 & 3 & -1 \\ 0 & 2 & 6 \\ 0 & 6 & -5 \end{pmatrix}.
+\]
+\textbf{Columna 2.} Pivote $2 \neq 0$. Multiplicador $m_{32} = 6/2 = 3$:
+\[
+F_3 \leftarrow F_3 - 3F_2 \;\Rightarrow\; \begin{pmatrix} 1 & 3 & -1 \\ 0 & 2 & 6 \\ 0 & 0 & -23 \end{pmatrix} = U.
+\]
+Ningún pivote fue nulo, así que $P = I$ y $A = LU$ con
+\[
+L = \begin{pmatrix} 1 & 0 & 0 \\ 2 & 1 & 0 \\ -1 & 3 & 1 \end{pmatrix}, \qquad U = \begin{pmatrix} 1 & 3 & -1 \\ 0 & 2 & 6 \\ 0 & 0 & -23 \end{pmatrix}.
+\]
+Control: $\det A = \det U = 1 \cdot 2 \cdot (-23) = -46 \neq 0$, coherente con que $A$ es inversible.
+\end{ejemplo}
+
+\begin{truco}
+\begin{itemize}
+\item \textbf{Doolittle:} $L$ lleva \emph{unos} en la diagonal y los multiplicadores \emph{con su signo tal cual} (el que aparece en $F_i \leftarrow F_i - m_{ij}F_j$). No confundir con cambiarles el signo.
+\item \textbf{Verificación barata:} $\det(A) = \prod U_{ii}$. Si $A$ es inversible, ningún $U_{ii}$ debe ser $0$.
+\item \textbf{Pivote nulo al final} ($U_{nn}=0$): no requiere permutar, indica $A$ singular. Un pivote nulo \emph{en el medio} sí obliga a permutar (PLU).
+\item \textbf{Sistema con varios $B$:} conviene $LU$ una sola vez y reusar; cada nuevo $B$ cuesta solo dos sustituciones triangulares.
+\item \textbf{Orden de las sustituciones:} primero $LZ=PB$ (adelante, porque $L$ tiene la diagonal abajo-izquierda), después $UX=Z$ (atrás).
+\end{itemize}
+\end{truco}
+
+
+\section{Factorización QR y Cholesky}
+
+\begin{teoria}
+\textbf{Factorización QR.} Para $A \in \R^{n \times m}$ con columnas linealmente independientes se busca
+\[
+A = QR, \qquad Q^T Q = I,\quad R \text{ triangular superior}.
+\]
+Las columnas de $Q$ forman un conjunto \emph{ortonormal}; cuando $A$ es cuadrada de rango completo, $Q$ es \textbf{ortogonal} ($Q^T Q = Q Q^T = I$, luego $Q^{-1} = Q^T$). Se construye ortonormalizando las columnas de $A$ por \textbf{Gram--Schmidt}.
+
+\textbf{Gram--Schmidt.} Sean $a_1, \dots, a_k$ las columnas (LI) de $A$. Se construyen vectores ortogonales $u_j$ y luego se normalizan a $v_j = u_j / \norm{u_j}$:
+\begin{align*}
+u_1 &= a_1, \\
+u_j &= a_j - \sum_{i=1}^{j-1} \frac{\inner{a_j}{u_i}}{\inner{u_i}{u_i}}\, u_i \qquad (j \ge 2),
+\end{align*}
+donde $\dfrac{\inner{a_j}{u_i}}{\inner{u_i}{u_i}}\,u_i = \operatorname{Proy}_{u_i}(a_j)$ es la proyección de $a_j$ sobre $u_i$. Por construcción $\inner{u_i}{u_j} = 0$ para $i \neq j$. Entonces
+\[
+Q = \bigl(v_1 \mid v_2 \mid \cdots \mid v_k\bigr).
+\]
+
+\textbf{Cálculo de $R$.} Como $A = QR$ y $Q^T Q = I$,
+\[
+Q^T A = Q^T Q R = R \quad\Longrightarrow\quad R = Q^T A.
+\]
+$R$ es triangular superior, con
+\[
+R_{ii} = \norm{u_i}, \qquad R_{ij} = \inner{a_j}{v_i}\ \ (i < j).
+\]
+Si $A$ es singular (columnas dependientes), alguna $u_j = 0$ y aparece una fila nula en $R$; para tener $Q$ ortogonal completa se completa la base con vectores ortonormales del complemento (por ejemplo, de $\Nuc(A^T) = \Imag(A)^\perp$).
+
+\textbf{Resolver $AX = B$ con $QR$.} De $QRX = B$: como $Q^{-1} = Q^T$,
+\[
+Z = Q^T B, \qquad RX = Z \quad(\text{sustitución hacia atrás}).
+\]
+Esto también resuelve el problema de \emph{cuadrados mínimos} $\min \norm{AX - B}$: la solución cumple las ecuaciones normales $R X = Q^T B$.
+
+\textbf{Factorización de Cholesky.} Si $A$ es \emph{simétrica y definida positiva} (spd), admite
+\[
+A = L L^T,
+\]
+con $L$ triangular inferior de diagonal positiva (única). Es esencialmente ``media LU'' aprovechando la simetría, y cuesta la mitad. Una matriz simétrica es definida positiva $\iff$ todos sus autovalores son $> 0$, o equivalentemente (criterio de Sylvester) todos sus menores principales líderes son $> 0$. En particular, $A^T A$ es siempre simétrica semidefinida positiva, y definida positiva exactamente cuando $A$ tiene columnas LI (núcleo trivial).
+\end{teoria}
+
+\begin{receta}
+\textbf{Factorización $A = QR$ por Gram--Schmidt.}
+\begin{enumerate}
+\item Tomar las columnas $a_1, \dots, a_k$ de $A$.
+\item $u_1 = a_1$; normalizar $v_1 = u_1/\norm{u_1}$. Anotar $R_{11} = \norm{u_1}$.
+\item Para $j = 2, \dots, k$: restar a $a_j$ sus proyecciones sobre los $v_1,\dots,v_{j-1}$ ya calculados,
+  \[
+  u_j = a_j - \sum_{i<j} \inner{a_j}{v_i}\, v_i,
+  \]
+  normalizar $v_j = u_j/\norm{u_j}$. (Los coeficientes $\inner{a_j}{v_i}$ son las entradas $R_{ij}$; $R_{jj} = \norm{u_j}$.)
+\item Formar $Q = (v_1 \mid \cdots \mid v_k)$ y $R = Q^T A$.
+\item \emph{Verificar}: $Q^T Q = I$ y $QR = A$.
+\end{enumerate}
+
+\textbf{Cholesky (si $A$ es spd).} Resolver por igualación de $A = LL^T$ columna a columna:
+\[
+L_{jj} = \sqrt{A_{jj} - \textstyle\sum_{s<j} L_{js}^2}, \qquad
+L_{ij} = \frac{1}{L_{jj}}\Bigl(A_{ij} - \textstyle\sum_{s<j} L_{is} L_{js}\Bigr)\ (i>j).
+\]
+\end{receta}
+
+\begin{ejemplo}{IP Tema II, Ej.\ 2b (QR de una $2\times 2$)}
+Factorizar $A = \begin{pmatrix} 0.55 & 1.1 \\ 1.1 & 0.8 \end{pmatrix}$. Columnas $a_1 = (0.55,\,1.1)$, $a_2 = (1.1,\,0.8)$.
+
+\textbf{Primera columna.} $u_1 = a_1$, con
+\[
+R_{11} = \norm{u_1} = \sqrt{0.55^2 + 1.1^2} = 0.55\sqrt{5} \approx 1.2298, \qquad v_1 = \frac{1}{\sqrt{5}}(1,\,2).
+\]
+\textbf{Segunda columna.} La proyección usa
+\[
+R_{12} = \inner{a_2}{v_1} = \frac{1.1 + 1.6}{\sqrt{5}} = \frac{2.7}{\sqrt{5}} \approx 1.2075,
+\]
+\[
+u_2 = a_2 - R_{12}\, v_1 = (0.56,\,-0.28), \qquad R_{22} = \norm{u_2} = \frac{1.4}{\sqrt{5}} \approx 0.6261,
+\]
+\[
+v_2 = \frac{u_2}{R_{22}} = \frac{1}{\sqrt{5}}(2,\,-1).
+\]
+Resultado:
+\[
+Q = \frac{1}{\sqrt{5}}\begin{pmatrix} 1 & 2 \\ 2 & -1 \end{pmatrix} \approx \begin{pmatrix} 0.4472 & 0.8944 \\ 0.8944 & -0.4472 \end{pmatrix}, \qquad R = \begin{pmatrix} 1.2298 & 1.2075 \\ 0 & 0.6261 \end{pmatrix}.
+\]
+Verificación: $Q^T Q = I$ y $QR = A$. (Nota: distintas rutinas pueden devolver signos de columna opuestos; acá $R_{ii} > 0$ como pide la receta de Gram--Schmidt.)
+\end{ejemplo}
+
+\begin{ejemplo}{Pizarrón Clase 8 (QR de una $3\times 2$)}
+Factorizar $A = \begin{pmatrix} 1 & 2 \\ 2 & 3 \\ 2 & 1 \end{pmatrix}$, con $a_1 = (1,2,2)$, $a_2 = (2,3,1)$. Como $A \in \R^{3\times 2}$, sale $Q \in \R^{3\times 2}$ y $R \in \R^{2\times 2}$.
+
+\[
+u_1 = a_1 = (1,2,2), \qquad \norm{u_1} = 3.
+\]
+\[
+u_2 = a_2 - \frac{\inner{a_2}{u_1}}{\inner{u_1}{u_1}}\,u_1 = (2,3,1) - \frac{2+6+2}{9}(1,2,2).
+\]
+Tras simplificar queda $u_2 \propto (0,-1,1)$, y en efecto $\inner{u_1}{u_2} = 0 - 2 + 2 = 0$. Normalizando:
+\[
+v_1 = \frac{1}{3}(1,2,2), \qquad v_2 = \frac{1}{\sqrt{2}}(0,-1,1),
+\]
+\[
+Q = \begin{pmatrix} 1/3 & 0 \\ 2/3 & -1/\sqrt{2} \\ 2/3 & 1/\sqrt{2} \end{pmatrix}, \qquad R = Q^T A.
+\]
+La condición esencial que se verifica es $Q^T Q = I_2$: las dos columnas son ortonormales.
+\end{ejemplo}
+
+\begin{truco}
+\begin{itemize}
+\item \textbf{Verificación obligada de QR:} $Q^T Q = I$ (columnas ortonormales) y $QR = A$. Si $Q$ es cuadrada, además $QQ^T = I$.
+\item \textbf{$R$ se calcula sin proyectar de nuevo:} $R = Q^T A$. Su diagonal es $R_{ii} = \norm{u_i}$ y encima $R_{ij} = \inner{a_j}{v_i}$; debajo de la diagonal es $0$ (control de que no te equivocaste).
+\item \textbf{Columna dependiente} $\Rightarrow$ $u_j = 0$ y $R_{jj} = 0$ (fila nula en $R$): señal de que $A$ es singular / rango deficiente. No dividas por $0$; completá $Q$ con un vector ortonormal del complemento si se pide $Q$ ortogonal completa.
+\item \textbf{Normalizar al final o sobre la marcha:} conviene trabajar con los $u_j$ (sin normalizar) para las proyecciones y normalizar recién al armar $Q$; evita arrastrar raíces.
+\item \textbf{Cholesky solo si spd:} conviene chequear simetría y menores líderes positivos (Sylvester) antes de intentar $A = LL^T$; si algún radicando sale negativo, $A$ no era definida positiva.
+\item \textbf{QR resuelve cuadrados mínimos:} para ajustar un modelo lineal en los parámetros, armar la matriz de diseño $A$, factorizar $A=QR$ y resolver $RX = Q^T B$ hacia atrás.
+\end{itemize}
+\end{truco}

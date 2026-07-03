@@ -1,0 +1,82 @@
+\newpage
+\section{Apéndice A — Formulario relámpago}
+
+\begin{multicols}{2}\small
+\textbf{Complejos.} $z=a+bi=r e^{i\theta}$, $r=\abs{z}=\sqrt{a^2+b^2}$, $\theta=\arg z$.
+De Moivre: $z^n=r^n e^{in\theta}$. Raíces $n$-ésimas: $z_k=r^{1/n}e^{i(\theta+2\pi k)/n}$, $k=0,\dots,n-1$.
+$\overline{z}=a-bi$, $z\overline z=\abs z^2$.
+
+\smallskip
+\textbf{Producto interno / norma.} $\norm v=\sqrt{\inner v v}$. Cauchy--Schwarz: $\abs{\inner u v}\le\norm u\,\norm v$.
+Ortogonal: $\inner u v=0$. Proyección: $\operatorname{proy}_u v=\dfrac{\inner v u}{\inner u u}\,u$.
+
+\smallskip
+\textbf{Gram--Schmidt.} $u_k=v_k-\sum_{j<k}\dfrac{\inner{v_k}{u_j}}{\inner{u_j}{u_j}}u_j$; luego normalizar $q_k=u_k/\norm{u_k}$.
+
+\smallskip
+\textbf{TL.} Teorema de las dimensiones: $\dim\Nuc(T)+\dim\Imag(T)=\dim V$.
+Matriz asociada $M_{B'B}(T)$: columnas $=[T(v_j)]_{B'}$. Inyectiva $\iff\Nuc(T)=\{0\}$.
+
+\smallskip
+\textbf{Diagonalización.} $p_A(\lambda)=\det(\lambda I-A)$. $A=PDP^{-1}$, $P=[\,v_1\cdots v_n\,]$ autovectores, $D=\diag(\lambda_i)$.
+$m_g(\lambda)=\dim\Nuc(A-\lambda I)\le m_a(\lambda)$. Diagonalizable $\iff m_g=m_a$ para todo $\lambda$.
+
+\smallskip
+\textbf{LU / PLU.} $A=LU$ (Doolittle: $L$ unitriangular inferior, $U$ triangular superior). Con pivoteo: $PA=LU$.
+
+\smallskip
+\textbf{QR / Cholesky.} $A=QR$, $Q$ ortonormal, $R$ triangular superior con $r_{ii}>0$.
+Cholesky: $A=LL^{T}$ si $A$ es simétrica definida positiva.
+
+\smallskip
+\textbf{SVD.} $A=U\Sigma V^{T}$. $\sigma_i=\sqrt{\lambda_i(A^{T}A)}$, columnas de $V$ autovectores de $A^{T}A$, $u_i=\dfrac{1}{\sigma_i}Av_i$.
+$\rango(A)=\#\{\sigma_i>0\}$. Condición: $\kappa_2(A)=\sigma_{\max}/\sigma_{\min}$.
+
+\smallskip
+\textbf{Pseudoinversa / MMCC.} $A^{+}=V\Sigma^{+}U^{T}$. Solución de $\min\norm{Ax-b}$: $x=A^{+}b$, o ecuaciones normales $A^{T}A\,x=A^{T}b$ (resolubles por Cholesky).
+
+\smallskip
+\textbf{Fourier (período $T$).} $f(x)=a_0+\sum_{n\ge1}\!\big[a_n\cos\tfrac{2\pi n x}{T}+b_n\sin\tfrac{2\pi n x}{T}\big]$,
+$a_0=\tfrac1T\!\int_T f$, $a_n=\tfrac2T\!\int_T f\cos\tfrac{2\pi n x}{T}$, $b_n=\tfrac2T\!\int_T f\sin\tfrac{2\pi n x}{T}$.
+Exponencial: $c_n=\tfrac1T\!\int_T f\,e^{-i2\pi n x/T}$.
+Convergencia (Dirichlet): la serie converge a $\tfrac12\big(f(x^+)+f(x^-)\big)$.
+
+\smallskip
+\textbf{Transformada de Fourier.} $\hat f(\omega)=\displaystyle\int_{-\infty}^{\infty} f(t)\,e^{-i\omega t}\,dt$ (convención de la cátedra).
+
+\smallskip
+\textbf{Diferencias finitas (calor $u_t=\alpha u_{xx}$, Euler implícito).}
+$-r\,u_{i-1}^{k+1}+(1+2r)u_i^{k+1}-r\,u_{i+1}^{k+1}=u_i^{k}$, con $r=\alpha\,\Delta t/h^2$. Sistema tridiagonal; bordes Dirichlet fijan $u$, Neumann usan nodo fantasma.
+\end{multicols}
+
+\newpage
+\section{Apéndice B — Banco de práctica (30 modelos oficiales)}
+
+Todos con resolución verificada en la wiki (\texttt{wiki/parciales/}). Recomendado: intentar cada uno en frío y verificar con la resolución.
+
+\begin{center}\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Grupo & Cantidad & Qué entrena \\
+\midrule
+Primer Parcial (IP I–IX) & 9 & TL (Ej.1), diagonalización con $k$ (Ej.2), QR/LU/SVD (Ej.3–4) \\
+Segundo Parcial (IIP I,III–VI) & 5 & Series de Fourier (Ej.1), TF (Ej.2), diferencias finitas (Ej.3) \\
+Recuperatorio (Tema XIII) & 1 & Diagonalización con parámetro \\
+Final (Temas I–XI, XI', XIV) & 13 & Mezcla: TL + Fourier + SVD/QR/PLU + diferencias finitas \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Ver el análisis transversal completo (qué cae con qué frecuencia, matrices repetidas) en \texttt{wiki/parciales/patrones} y el árbol tema$\to$página en \texttt{wiki/00-mapa-temas}.
+
+\section*{Checklist del día del examen}
+\addcontentsline{toc}{subsection}{Checklist del día del examen}
+\begin{enumerate}
+\item \textbf{TL}: armar matriz asociada por columnas, calcular $\Nuc$ e $\Imag$, chequear teorema de dimensiones.
+\item \textbf{Diagonalización}: $p_A(\lambda)=\det(\lambda I-A)$; para cada $\lambda$ comparar $m_g$ vs $m_a$; cuidado con autovalores complejos (no diagonalizable en $\R$).
+\item \textbf{QR}: Gram--Schmidt sin olvidar normalizar; verificar $Q^TQ=I$.
+\item \textbf{SVD}: $\sigma_i=\sqrt{\lambda_i(A^TA)}$ ordenados de mayor a menor; $u_i=Av_i/\sigma_i$.
+\item \textbf{Fourier}: identificar período y paridad; $a_0=$ valor medio; usar convergencia al punto medio en saltos.
+\item \textbf{Diferencias finitas}: $r=\alpha\Delta t/h^2$; armar la matriz tridiagonal; aplicar bien las condiciones de borde.
+\item Verificar dimensiones y unidades en cada paso; dejar constancia de las cuentas de calculadora.
+\end{enumerate}
