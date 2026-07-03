@@ -47,7 +47,8 @@ def serie_trig():
     step("Coefs")
     a0 = (2 / T) * integrate(f, a, b)
     print("a0={:.4g}".format(a0))
-    print("a0/2={:.4g}".format(a0 / 2))
+    # cte = a0/2 = (1/T)int f = valor medio = el TERMINO CONSTANTE de la serie.
+    print("=>cte={:.4g}".format(a0 / 2))
     pause()
     for n in range(1, N + 1):
         an = (2 / T) * integrate(lambda t: f(t) * math.cos(n * w0 * t), a, b)
@@ -84,8 +85,10 @@ def convergencia():
     w0 = 2 * PI / T
     t0 = ask_float("t0:")
     eps = 1e-4
-    fp = f(t0 + eps)
-    fm = f(t0 - eps)
+    # Periodizamos las muestras a [a,b) para detectar bien el salto en los
+    # bordes del periodo (antes f(t0-eps) se salia del dominio y daba mal).
+    fp = f(a + ((t0 + eps - a) % T))
+    fm = f(a + ((t0 - eps - a) % T))
     ft = (fp + fm) / 2
     print("x(t0+)={:.4g}".format(fp))
     print("x(t0-)={:.4g}".format(fm))

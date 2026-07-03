@@ -1,0 +1,208 @@
+/* ============================================================================
+   StudyVaults — theme de Obsidian (identidad completa: toda la app)
+   Firma DESIGN.md §12: serif Newsreader · mono JetBrains · coral #f47c59.
+   Todo el chrome (titlebar, ribbon, sidebar, tabs, status bar) + contenido.
+   Los acentos leen --sv-accent → una variante por disciplina recolorea la app.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- ICONOS -- */
+:root{
+  --sv-i-folder:      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z'/%3E%3C/svg%3E");
+  --sv-i-folder-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 14 1.5-2.9A2 2 0 0 1 9.24 10H21a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2'/%3E%3C/svg%3E");
+  --sv-i-file:        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z'/%3E%3Cpath d='M14 2v5h5M9 13h6M9 17h4'/%3E%3C/svg%3E");
+  --sv-i-pdf:         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z'/%3E%3Cpath d='M14 2v5h5'/%3E%3Cpath d='M8.5 13.5h1a1 1 0 0 1 0 3h-1zM14 13.5v3M14 15h1.5'/%3E%3C/svg%3E");
+  --sv-i-image:       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='18' x='3' y='3' rx='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21'/%3E%3C/svg%3E");
+  --sv-i-canvas:      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='7' height='7' x='3' y='3' rx='1'/%3E%3Crect width='7' height='7' x='14' y='14' rx='1'/%3E%3Cpath d='M10 6.5h4M6.5 10v4'/%3E%3C/svg%3E");
+}
+
+/* ---------------------------------------------------------------- TOKENS -- */
+.theme-dark{
+  --sv-accent:#f47c59; --sv-accent-2:#ffa184; --sv-on-accent:#1a0d07;
+  --background-primary:#17120e;
+  --background-primary-alt:#1c1610;
+  --background-secondary:#130f0b;
+  --background-secondary-alt:#0f0c08;
+  --background-modifier-border:#ffffff14;
+  --background-modifier-border-hover:#ffffff26;
+  --background-modifier-hover:#ffffff0d;
+  --background-modifier-active-hover:#ffffff14;
+  --divider-color:#ffffff12;
+  --text-normal:#efe7dd; --text-muted:#a89a8c; --text-faint:#6f645a;
+  --text-on-accent:var(--sv-on-accent);
+  --text-selection:color-mix(in srgb,var(--sv-accent) 26%,transparent);
+  --code-background:#0f0c09;
+  --nav-indentation-guide-color:#ffffff12;
+  --titlebar-background:#120e0a;
+  --titlebar-background-focused:#141009;
+}
+.theme-light{
+  --sv-accent:#cf5230; --sv-accent-2:#e0673f; --sv-on-accent:#ffffff;
+  --background-primary:#f6f0e7;
+  --background-primary-alt:#efe8dc;
+  --background-secondary:#efe7da;
+  --background-secondary-alt:#e7dccb;
+  --background-modifier-border:#2a1e1218;
+  --background-modifier-border-hover:#2a1e1230;
+  --background-modifier-hover:#2a1e120a;
+  --background-modifier-active-hover:#2a1e1212;
+  --divider-color:#2a1e1214;
+  --text-normal:#2c2219; --text-muted:#7c6d5d; --text-faint:#a99b8b;
+  --text-on-accent:#ffffff;
+  --text-selection:color-mix(in srgb,var(--sv-accent) 20%,transparent);
+  --code-background:#efe7d8;
+  --nav-indentation-guide-color:#2a1e1214;
+  --titlebar-background:#efe7da;
+  --titlebar-background-focused:#f2ebdf;
+}
+body{
+  /* firma tipográfica (pisa las vars reales de Obsidian) */
+  --font-text:'Newsreader','Iowan Old Style','Palatino Linotype',Georgia,serif;
+  --font-interface:'Newsreader','Iowan Old Style',Georgia,serif;
+  --font-monospace:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --font-text-size:17px;
+  /* acentos nativos → siguen a --sv-accent (!important para ganarle al
+     accent-color default de Obsidian, que si no deja los toggles violetas) */
+  --text-accent:var(--sv-accent) !important;
+  --text-accent-hover:var(--sv-accent-2) !important;
+  --interactive-accent:var(--sv-accent) !important;
+  --interactive-accent-hover:var(--sv-accent-2) !important;
+  --link-color:var(--sv-accent) !important;
+  --link-color-hover:var(--sv-accent-2) !important;
+  --icon-color:var(--text-muted);
+  --icon-color-hover:var(--text-normal);
+  --icon-color-active:var(--sv-accent);
+  --tag-color:var(--sv-accent);
+  --nav-icon-color:color-mix(in srgb,var(--sv-accent) 52%,var(--text-muted));
+  --collapse-icon-color:var(--text-faint);
+  --scrollbar-thumb-bg:#80808033;
+  --scrollbar-active-thumb-bg:#80808066;
+}
+
+/* ---------------------------------------------------------------- TITLEBAR */
+.titlebar{ background:var(--titlebar-background); border-bottom:1px solid var(--divider-color); }
+.titlebar .tl-dots i:nth-child(1){ background:var(--sv-accent); }
+.titlebar .tl-dots i:nth-child(2){ background:#7fd6a3; }
+.titlebar .tl-dots i:nth-child(3){ background:color-mix(in srgb,var(--text-muted) 60%,transparent); }
+.titlebar-text,.titlebar-inner{ font-family:var(--font-monospace); font-size:11px; letter-spacing:.08em; color:var(--text-muted); text-transform:uppercase; }
+
+/* ---------------------------------------------------------------- RIBBON -- */
+.side-dock-ribbon,.workspace-ribbon{
+  background:var(--background-secondary-alt);
+  border-right:1px solid var(--divider-color);
+}
+.side-dock-ribbon .rb{ color:var(--icon-color); }
+.side-dock-ribbon .rb:hover{ background:var(--background-modifier-hover); color:var(--icon-color-hover); }
+.side-dock-ribbon .rb.is-active{ color:var(--sv-accent); background:color-mix(in srgb,var(--sv-accent) 14%,transparent); }
+
+/* -------------------------------------------------------------- SIDEBARS -- */
+.mod-left-split,.mod-right-split{ background:var(--background-secondary); }
+.mod-left-split{ border-right:1px solid var(--divider-color); }
+.mod-right-split{ border-left:1px solid var(--divider-color); }
+.nav-header .nb{ color:var(--icon-color); }
+.nav-header .nb:hover{ background:var(--background-modifier-hover); color:var(--icon-color-hover); }
+
+/* items del árbol */
+.tree-item-self{ color:var(--text-muted); font-family:var(--font-interface); }
+.nav-folder-title{ color:var(--text-normal); font-weight:500; }
+.tree-item-self:hover{ background:var(--background-modifier-hover); color:var(--text-normal); }
+.nav-file-title.is-active,.tree-item-self.is-active{
+  background:color-mix(in srgb,var(--sv-accent) 13%,transparent);
+  color:var(--text-normal);
+  box-shadow:inset 2px 0 0 var(--sv-accent);
+}
+.collapse-icon{ color:var(--collapse-icon-color); }
+.nav-folder-children{ border-left:1px solid var(--nav-indentation-guide-color); }
+.nav-file-tag{ color:var(--sv-accent); font-family:var(--font-monospace); font-weight:600; }
+
+/* iconos de carpeta/archivo (mask-image, técnica sin plugins) */
+.nav-folder-title-content::before,
+.nav-file-title-content::before{
+  content:""; display:inline-block; width:1em; height:1em;
+  margin-right:.5em; flex:0 0 auto; vertical-align:-.16em;
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-position:center; mask-position:center;
+  -webkit-mask-size:contain; mask-size:contain;
+}
+.nav-folder-title-content::before{ background-color:var(--nav-icon-color); -webkit-mask-image:var(--sv-i-folder); mask-image:var(--sv-i-folder); }
+.nav-folder-title:not(.is-collapsed) > .nav-folder-title-content::before{ -webkit-mask-image:var(--sv-i-folder-open); mask-image:var(--sv-i-folder-open); }
+.nav-file-title-content::before{ background-color:var(--text-faint); -webkit-mask-image:var(--sv-i-file); mask-image:var(--sv-i-file); }
+.nav-file-title.is-active .nav-file-title-content::before{ background-color:var(--sv-accent); }
+/* por extensión */
+.nav-file-title[data-path$=".pdf"] .nav-file-title-content::before{ -webkit-mask-image:var(--sv-i-pdf); mask-image:var(--sv-i-pdf); background-color:color-mix(in srgb,var(--sv-accent) 60%,var(--text-faint)); }
+.nav-file-title[data-path$=".png"] .nav-file-title-content::before,
+.nav-file-title[data-path$=".jpg"] .nav-file-title-content::before,
+.nav-file-title[data-path$=".jpeg"] .nav-file-title-content::before,
+.nav-file-title[data-path$=".webp"] .nav-file-title-content::before{ -webkit-mask-image:var(--sv-i-image); mask-image:var(--sv-i-image); }
+.nav-file-title[data-path$=".canvas"] .nav-file-title-content::before{ -webkit-mask-image:var(--sv-i-canvas); mask-image:var(--sv-i-canvas); }
+
+/* ------------------------------------------------------------------ TABS -- */
+.workspace-tab-header-container{ background:var(--background-secondary-alt); border-bottom:1px solid var(--divider-color); }
+.workspace-tab-header{ color:var(--text-faint); border-right:1px solid var(--divider-color); font-family:var(--font-interface); }
+.workspace-tab-header:hover{ color:var(--text-muted); background:var(--background-modifier-hover); }
+.workspace-tab-header.is-active{
+  color:var(--text-normal); background:var(--background-primary);
+  box-shadow:inset 0 2px 0 var(--sv-accent);
+}
+.workspace-tab-header.is-active .wth-icon{ color:var(--sv-accent); opacity:1; }
+
+/* ---------------------------------------------------------------- CONTENT */
+.view-content{ background:var(--background-primary); }
+.markdown-preview-view,.markdown-rendered{ color:var(--text-normal); font-family:var(--font-text); }
+
+.inline-title{
+  font-family:var(--font-text); font-weight:600; font-size:2.1em;
+  letter-spacing:-.02em; color:var(--text-normal); margin-bottom:.35em;
+}
+/* propiedades / metadata */
+.metadata-container{
+  border:1px solid var(--divider-color); border-radius:10px;
+  background:var(--background-secondary); padding:6px 12px; margin-bottom:1.4em;
+}
+.metadata-property{ display:flex; gap:12px; padding:3px 0; font-size:13.5px; }
+.metadata-property-key{ font-family:var(--font-monospace); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-faint); min-width:88px; }
+.metadata-property-value{ color:var(--text-muted); }
+
+.markdown-rendered h1,.markdown-rendered h2,.markdown-rendered h3,.markdown-rendered h4{
+  font-family:var(--font-text); letter-spacing:-.015em; color:var(--text-normal);
+}
+.markdown-rendered h2{ padding-bottom:.28em; border-bottom:1px solid color-mix(in srgb,var(--sv-accent) 26%,transparent); }
+.markdown-rendered h2::before{ content:""; display:inline-block; width:.5em; height:.5em; margin-right:.5em; background:var(--sv-accent); transform:rotate(45deg); vertical-align:.06em; }
+.markdown-rendered h3{ color:color-mix(in srgb,var(--text-normal) 80%,var(--sv-accent)); }
+
+.markdown-rendered a.internal-link,.markdown-rendered a.external-link{ color:var(--sv-accent); text-decoration:none; border-bottom:1px solid color-mix(in srgb,var(--sv-accent) 45%,transparent); }
+.markdown-rendered a:hover{ border-bottom-color:var(--sv-accent); }
+.markdown-rendered :not(pre) > code{ font-family:var(--font-monospace); font-size:.84em; background:var(--code-background); border:1px solid var(--divider-color); border-radius:5px; padding:.05em .4em; color:var(--sv-accent-2); }
+.markdown-rendered .tag{ font-family:var(--font-monospace); font-size:.74em; color:var(--sv-accent); background:color-mix(in srgb,var(--sv-accent) 12%,transparent); border:1px solid color-mix(in srgb,var(--sv-accent) 26%,transparent); border-radius:999px; padding:.1em .6em; }
+
+/* callouts */
+.markdown-rendered .callout{
+  border:1px solid color-mix(in srgb,rgb(var(--callout-color)) 30%,transparent);
+  border-left:3px solid rgb(var(--callout-color)); border-radius:10px;
+  background:color-mix(in srgb,rgb(var(--callout-color)) 9%,var(--background-primary));
+}
+.markdown-rendered .callout-title{ font-family:var(--font-monospace); font-size:.78em; letter-spacing:.08em; text-transform:uppercase; }
+
+/* code block */
+.markdown-rendered pre{ background:var(--code-background); border:1px solid var(--divider-color); border-radius:10px; }
+.markdown-rendered pre code{ font-family:var(--font-monospace); font-size:.85em; }
+
+/* tablas */
+.markdown-rendered table{ border-collapse:collapse; }
+.markdown-rendered th,.markdown-rendered td{ border:1px solid var(--divider-color); }
+.markdown-rendered thead th{ font-family:var(--font-monospace); font-size:.78em; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); background:var(--background-secondary); }
+
+.markdown-rendered blockquote{ border-left:2px solid color-mix(in srgb,var(--sv-accent) 50%,transparent); color:var(--text-muted); font-style:italic; }
+
+/* -------------------------------------------------------------- OUTLINE --- */
+.pane-title{ font-family:var(--font-monospace); color:var(--text-faint); }
+.outline .o{ color:var(--text-muted); font-family:var(--font-interface); }
+.outline .o:hover{ background:var(--background-modifier-hover); color:var(--text-normal); }
+.outline .o::before{ content:""; display:inline-block; width:.4em; height:.4em; margin-right:.55em; border-radius:50%; background:color-mix(in srgb,var(--sv-accent) 60%,transparent); vertical-align:.12em; }
+
+/* ------------------------------------------------------------- STATUS BAR - */
+.status-bar{ background:var(--background-secondary); border-top:1px solid var(--divider-color); }
+.status-bar-item{ font-family:var(--font-monospace); font-size:11px; letter-spacing:.03em; color:var(--text-faint); }
+.status-bar-item:first-child{ color:var(--sv-accent); }
+
+/* ---------------------------------------------------------------- MISC ---- */
+::selection{ background:var(--text-selection); }

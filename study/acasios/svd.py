@@ -5,6 +5,9 @@ from io_util import (clr, pause, ask_int, read_mat, show_mat, show_vec,
 import mat
 import diag
 
+# Para la captura a archivo: svd llama a diag (que imprime autovalores, etc.).
+_CAP_HELPERS = (diag,)
+
 def svd():
     n = ask_int("filas A:")
     m = ask_int("cols A:")

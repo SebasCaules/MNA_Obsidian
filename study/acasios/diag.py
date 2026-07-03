@@ -12,6 +12,13 @@ def eigvals_2x2(A):
     disc = tr * tr - 4 * de
     print("tr={:.4g}".format(tr))
     print("det={:.4g}".format(de))
+    # det~0 -> L es factor comun: p(L)=L^2-tr*L=L(L-tr)
+    scl = 1.0 + abs(a) + abs(b) + abs(c) + abs(d)
+    if abs(de) < 1e-7 * scl:
+        print("det~0: L factor")
+        print("p(L)=L(L-tr)")
+        print("L=0, L={:.4g}".format(tr))
+        return [tr, 0.0] if tr >= 0 else [0.0, tr]
     print("disc={:.4g}".format(disc))
     if disc < -1e-10:
         print("autoval cpx:")
@@ -41,6 +48,31 @@ def eigvals_3x3(A):
     print("a={:.4g}".format(a))
     print("b={:.4g}".format(b))
     print("c={:.4g}".format(c))
+    # c~0 (det A=0) -> L es factor comun:
+    # p(L)=L^3+a*L^2+b*L = L(L^2+a*L+b)
+    # Resolvemos el cuadratico exacto (evita ruido de Cardano).
+    scl = 1.0 + abs(a) + abs(b)
+    if abs(c) < 1e-7 * scl:
+        print("c~0: L factor")
+        print("p=L(L^2+aL+b)")
+        disc2 = a * a - 4 * b
+        print("disc2={:.4g}".format(disc2))
+        if disc2 < -1e-10:
+            print("L=0 y 2 cpx:")
+            re = -a / 2
+            im = (-disc2) ** 0.5 / 2
+            print("Re={:.4g}".format(re))
+            print("Im=+-{:.4g}".format(im))
+            return None
+        sd2 = max(0.0, disc2) ** 0.5
+        r1 = (-a + sd2) / 2
+        r2 = (-a - sd2) / 2
+        lams = [0.0, r1, r2]
+        for i in range(len(lams)):
+            for j in range(i + 1, len(lams)):
+                if lams[j] > lams[i]:
+                    lams[i], lams[j] = lams[j], lams[i]
+        return lams
     # depresion: L = y - a/3
     p = b - a * a / 3.0
     q = 2 * a ** 3 / 27.0 - a * b / 3.0 + c
@@ -73,11 +105,14 @@ def eigvals_3x3(A):
                 return -((-x) ** (1.0 / 3.0)) if x < 0 else x ** (1.0 / 3.0)
             u = cbrt(u3)
             v = cbrt(v3)
-            roots = [u + v]
-            # las otras dos son complejas conjugadas
-            re = -(u + v) / 2
-            print("L1(real)={:.4g}".format(re + (u + v)))
+            # OJO: u+v es raiz de la cubica DEPRIMIDA (en y). El autovalor es
+            # lambda = y - a/3. Antes no se deshacia la depresion -> imprimia mal.
+            real_root = (u + v) - a / 3.0          # autovalor real
+            re = -(u + v) / 2.0 - a / 3.0           # Re de las complejas
+            im = (3.0 ** 0.5) / 2.0 * abs(u - v)    # parte imaginaria
+            print("L1(real)={:.4g}".format(real_root))
             print("L2,3 Re={:.4g}".format(re))
+            print("   Im=+-{:.4g}".format(im))
             return None
         else:
             # 3 reales pero p>0 raro
@@ -129,9 +164,9 @@ def cluster_eigvals(lams, tol=1e-6):
             clusters.append((L, 1))
     return clusters
 
-def diagonalizar():
-    n = ask_int("n(2 o 3):")
-    A = read_mat(n, n, "A")
+def analizar(A, n):
+    # Analisis de diagonalizacion de una matriz YA armada (numerica).
+    # Lo usa diagonalizar() y tambien param.py (hallar a,b y diagonalizar).
     show_mat(A, "A")
     step("P(L) caract.")
     if n == 2:
@@ -193,6 +228,11 @@ def diagonalizar():
     diff = max(abs(AP[i][j] - PD[i][j]) for i in range(n) for j in range(n))
     print("|AP-PD|={:.4g}".format(diff))
     pause()
+
+def diagonalizar():
+    n = ask_int("n(2 o 3):")
+    A = read_mat(n, n, "A")
+    analizar(A, n)
 
 def run():
     # Un solo worker: se corre y el script corta (scroll ^ para revisar).

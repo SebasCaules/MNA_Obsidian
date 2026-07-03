@@ -166,12 +166,19 @@ def show_mat(M, label="", lw=LW):
 
 
 def show_vec(v, label="", lw=LW):
-    if label:
-        print(label + ":")
     if not v:
-        print("()")
+        print((label + ": ()") if label else "()")
         return
     cells = [fmt_num(x) for x in v]
+    # Compacto: "label: a b c" en UNA sola linea si entra en lw. Ahorra una
+    # fila por vector; como la shell solo scrollea vertical, cada fila cuenta.
+    if label:
+        one = label + ": " + " ".join(cells)
+        if len(one) <= lw:
+            print(one)
+            return
+        print(label + ":")
+    # Si no entra, los valores se parten en varias lineas de <=lw.
     line = ""
     for c in cells:
         nxt = (line + " " + c) if line else c
@@ -202,3 +209,87 @@ def menu_pick(options, title=""):
         if 1 <= n <= len(options):
             return n - 1
         print("?")
+
+
+# ---- Captura de salida -> archivo (para revisar con scroll en el editor) ----
+# La shell solo scrollea vertical y corta a 21 cols. El editor de Python SI
+# scrollea izq/der, asi que volcamos toda la resolucion a un .py (texto, NO
+# Python valido: solo para mirar) afuera de la carpeta de los scripts.
+#
+# Compatible con el MicroPython recortado de la Casio: NO usa "import builtins"
+# ni *args/**kwargs (el parser de la Casio los rechaza -> "invalid syntax").
+# Guardamos el print real y reemplazamos el nombre 'print' en los globals de
+# los modulos que imprimen (io_util + el modulo del ejercicio en uso).
+_orig_print = print   # print real, capturado al importar io_util
+_LOG = []
+_SENT = []            # sentinela de "argumento ausente" (identidad unica)
+
+
+def _tee(a=_SENT, b=_SENT, c=_SENT, d=_SENT, e=_SENT, f=_SENT):
+    # Reemplazo de print: imprime igual Y guarda la linea en el buffer.
+    # Hasta 6 args posicionales (el codigo nunca pasa mas, ni sep=/end=).
+    parts = []
+    for x in (a, b, c, d, e, f):
+        if x is _SENT:
+            break
+        parts.append(str(x))
+    line = " ".join(parts)
+    _orig_print(line)
+    _LOG.append(line)
+
+
+def _cap_mods(mod):
+    # Lista de modulos cuyo 'print' hay que reemplazar: el del ejercicio y los
+    # ayudantes que ese modulo llama y que tambien imprimen (los declara en su
+    # atributo _CAP_HELPERS, p.ej. param/svd usan diag).
+    if mod is None:
+        return []
+    ms = [mod]
+    extra = getattr(mod, "_CAP_HELPERS", None)
+    if extra:
+        for h in extra:
+            ms.append(h)
+    return ms
+
+
+def cap_start(mod=None):
+    # Arranca a duplicar print() en el buffer. Reemplaza 'print' en io_util y,
+    # en el modulo del ejercicio (+ sus ayudantes con prints directos).
+    global print
+    del _LOG[:]
+    print = _tee
+    for m in _cap_mods(mod):
+        try:
+            m.print = _tee
+        except Exception:
+            pass
+
+
+def cap_stop(mod=None):
+    # Restaura el print real.
+    global print
+    print = _orig_print
+    for m in _cap_mods(mod):
+        try:
+            m.print = _orig_print
+        except Exception:
+            pass
+
+
+def cap_save(ej, titulo=""):
+    # Vuelca el buffer a ejN.py AFUERA de la carpeta (../). Si no puede, al lado.
+    # Devuelve la ruta usada o None. El contenido NO es Python valido.
+    head = "# Ej " + str(ej)
+    if titulo:
+        head += " - " + titulo
+    body = head + "\n" + "\n".join(_LOG) + "\n"
+    name = "ej" + str(ej) + ".py"
+    for p in ("../" + name, name):
+        try:
+            f = open(p, "w")
+            f.write(body)
+            f.close()
+            return p
+        except Exception:
+            continue
+    return None
