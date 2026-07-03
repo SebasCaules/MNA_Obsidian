@@ -3,8 +3,10 @@ tags: [parcial, ip, autovectores, diagonalizacion, qr, plu, fourier, serie-trigo
 fuente: raw/Practicas/Modelos_Examenes/MNA_IP_Tema_VIII.pdf
 tipo: ip
 tema: 8
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[ip-tema-08-resolucion]]**
 
 # Parcial de Métodos Numéricos Avanzados — Tema VIII
 

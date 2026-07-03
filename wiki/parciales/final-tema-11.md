@@ -3,8 +3,10 @@ tags: [final, transformaciones-lineales, diagonalizacion, subespacios, sistemas-
 fuente: raw/Practicas/Modelos_Examenes/MNA_Final_Tema_XI.pdf
 tipo: final
 tema: 11
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[final-tema-11-resolucion]]**
 
 # Examen Final de Métodos Numéricos Avanzados — Tema XI
 

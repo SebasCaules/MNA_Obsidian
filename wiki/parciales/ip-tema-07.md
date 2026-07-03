@@ -3,8 +3,10 @@ tags: [parcial, ip, autovectores, diagonalizacion, transformaciones-lineales, fo
 fuente: raw/Practicas/Modelos_Examenes/MNA_IP_Tema_VII.pdf
 tipo: ip
 tema: 7
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[ip-tema-07-resolucion]]**
 
 # Primer Parcial de Métodos Numéricos Avanzados — Tema VII
 

@@ -1,0 +1,20 @@
+/* GENERADO por install.mjs — variante 'exactas' aplicada a toda la vault */
+/* ============================================================================
+   Variante EXACTAS — MNA · Proba   ·   acento azul + papel milimetrado
+   Activar por nota:  cssclasses: [sv-exactas]
+   ========================================================================== */
+
+.theme-dark  { --sv-accent:#8fd0f4; --sv-accent-2:#bfe4fb; --sv-on-accent:#08161f; }
+.theme-light { --sv-accent:#1f6aa0; --sv-accent-2:#2f83bf; --sv-on-accent:#ffffff; }
+
+/* glow de acento arriba a la derecha + grilla estilo blueprint */
+.markdown-reading-view .markdown-preview-view{
+  background-image:
+    radial-gradient(80% 55% at 100% 0%, color-mix(in srgb,var(--sv-accent) 9%,transparent), transparent 66%),
+    linear-gradient(color-mix(in srgb,var(--sv-accent) 15%,transparent) 1px,transparent 1px),
+    linear-gradient(90deg,color-mix(in srgb,var(--sv-accent) 15%,transparent) 1px,transparent 1px),
+    linear-gradient(color-mix(in srgb,var(--sv-accent) 7%,transparent) 1px,transparent 1px),
+    linear-gradient(90deg,color-mix(in srgb,var(--sv-accent) 7%,transparent) 1px,transparent 1px);
+  background-size:auto,96px 96px,96px 96px,24px 24px,24px 24px;
+  background-attachment:fixed,scroll,scroll,scroll,scroll;
+}

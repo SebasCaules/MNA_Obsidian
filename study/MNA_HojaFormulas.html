@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>MNA · Hoja de fórmulas (2 carillas A4)</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    macros: {
+      R: "\\mathbb{R}", C: "\\mathbb{C}",
+      sen: "\\operatorname{sen}",
+      pmat: ["\\begin{pmatrix}#1\\end{pmatrix}", 1],
+      smat: ["\\bigl(\\begin{smallmatrix}#1\\end{smallmatrix}\\bigr)", 1],
+      sinc: "\\operatorname{sinc}",
+      diag: "\\operatorname{diag}",
+      rg: "\\operatorname{rg}",
+      Nuc: "\\operatorname{Nu}",
+      Imm: "\\operatorname{Im}"
+    }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  @page { size: A4; margin: 9mm 10mm; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Charter","Source Serif Pro","Georgia",serif;
+    font-size: 8.4pt;
+    line-height: 1.25;
+    color: #111;
+  }
+  .page {
+    column-count: 2;
+    column-gap: 5mm;
+    column-rule: .3pt solid #ccc;
+  }
+  .pagebreak { page-break-before: always; }
+  h1 {
+    font-size: 10.5pt;
+    margin: 0 0 3pt 0;
+    color: #0d2c52;
+    column-span: all;
+    border-bottom: .8pt solid #0d2c52;
+    padding-bottom: 1pt;
+  }
+  h1 .sub { font-size: 7.8pt; color: #555; font-weight: normal; float: right; margin-top:2pt; }
+  h2 {
+    font-size: 9pt;
+    margin: 5pt 0 2pt 0;
+    color: #0d2c52;
+    border-left: 2pt solid #0d2c52;
+    padding-left: 4pt;
+    break-after: avoid;
+  }
+  p { margin: 1.5pt 0; }
+  ul, ol { margin: 1pt 0; padding-left: 14pt; }
+  li { margin: 0; }
+  .ej {
+    border-left: 1.5pt solid #1f6f3b; background: #f3faf5;
+    padding: 2pt 5pt; margin: 2pt 0; break-inside: avoid;
+    font-size: 8.1pt;
+  }
+  .ej b { color: #145b2c; }
+  .tip {
+    border-left: 1.5pt solid #8a2a1a; background: #fbeae5;
+    padding: 1pt 5pt; margin: 2pt 0; font-size: 7.9pt;
+  }
+  .tip b { color: #8a2a1a; }
+  table {
+    border-collapse: collapse; width: 100%;
+    margin: 2pt 0; font-size: 7.8pt;
+  }
+  th, td { border: .3pt solid #aab; padding: 1pt 3pt; text-align: left; vertical-align: top; }
+  th { background: #eef3fb; color: #0d2c52; font-weight: 600; }
+  mjx-container { font-size: 92% !important; }
+  mjx-container[display="true"] { margin: 1.5pt 0 !important; }
+  /* evitar overflow horizontal de ecuaciones */
+  mjx-container[display="true"] {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  .small { font-size: 7.6pt; color: #555; }
+</style>
+</head>
+<body>
+
+<!-- ====================== CARILLA 1 ====================== -->
+<div class="page">
+
+<h1>MNA · Hoja de fórmulas <span class="sub">los 10 ejercicios que más caen</span></h1>
+
+<!-- ============== 0 ============== -->
+<h2>0 · Recordatorios clave</h2>
+<ul>
+<li>$\rg A+\dim\Nuc A=n$ (cols de $A$). $T$ diag. $\iff m_g(\lambda)=m_a(\lambda)\ \forall\lambda$.</li>
+<li>$p_A(\lambda)=\det(\lambda I-A)$. Para $3\times3$: $\lambda^3-\operatorname{tr}A\,\lambda^2+s_2\,\lambda-\det A$.</li>
+<li>$A$ ortogonal: $A^TA=I$ (cols son BON). $A$ simétrica $\Rightarrow$ autoesp. $\perp$ (espectral).</li>
+</ul>
+
+<!-- ============== 1 TL ============== -->
+<h2>1 · TL: núcleo, imagen, antiimagen</h2>
+<ol>
+<li>Armar $A$ con cols $T(e_1),T(e_2),T(e_3)$.</li>
+<li><b>Núcleo:</b> Gauss en $AX=0$.</li>
+<li><b>Imagen:</b> cols con pivote; $\dim\Imm=\rg A$.</li>
+<li><b>Antiimagen</b> de $b$: $AX=b$. Sol $=x_p+\Nuc T$.</li>
+<li>Con parámetro $k$: hallar $k$ con $\det=0$ y analizar.</li>
+</ol>
+<div class="ej"><b>IP I.</b> $T(x,y,z)=(2x{-}y{+}z,\,x{+}y{-}z,\,{-}x{+}y{+}z)$.
+$\det A=4\ne0\Rightarrow\Nuc=\{0\},\,\Imm=\R^3$.
+Antiim. $(1,1,{-}2)$: $x{=}\tfrac23,y{=}{-}\tfrac12,z{=}{-}\tfrac56$.</div>
+
+<!-- ============== 2 DIAG ============== -->
+<h2>2 · Diagonalización con parámetro</h2>
+<ol>
+<li>$p_A(\lambda)$ factorizado.</li>
+<li>Hallar $k$ con raíz múltiple.</li>
+<li>Raíces simples $\Rightarrow$ diagonaliza.</li>
+<li>Raíz múltiple: si $\dim S_\lambda=m_a\Rightarrow$ sí; si no, no.</li>
+<li>Si diag.: $P=(v_1|v_2|v_3)$, $D=\diag(\lambda_1,\lambda_2,\lambda_3)$.</li>
+</ol>
+<div class="ej"><b>IP I.</b> $A=\smat{1&0&1\\0&k&1\\0&9&k}$,
+$p_A=(\lambda{-}1)(\lambda{-}k{-}3)(\lambda{-}k{+}3)$.
+Conflictos: $k{=}{-}2$ o $k{=}4$ (en ambos $\dim S_1=1\ne2$).
+<b>Diag.</b> $\iff k\notin\{{-}2,4\}$.
+Para $k=3$: $\lambda=0,1,6$; $v_0=(3,1,{-}3),\,v_1=(1,0,0),\,v_6=(3,5,15)$.</div>
+
+<!-- ============== 3 QR ============== -->
+<h2>3 · QR (Gram–Schmidt)</h2>
+<p>$u_1=a_1$, $v_1=u_1/\|u_1\|$. Luego:</p>
+$$u_k=a_k-\sum_{i<k}\langle a_k,v_i\rangle v_i,\quad v_k=u_k/\|u_k\|$$
+<p>$Q=(v_1|\dots|v_m),\ R=Q^TA$ (triang. sup., $r_{ii}=\|u_i\|$).</p>
+<div class="ej"><b>Ej.</b> $A=\smat{1&1\\0&1\\1&0}$. $u_1=(1,0,1),\,\|u_1\|=\sqrt2$.<br>
+$\langle a_2,v_1\rangle=\tfrac{1}{\sqrt2}$, $u_2=(\tfrac12,1,{-}\tfrac12)$, $\|u_2\|=\sqrt{3/2}$.<br>
+$R=\smat{\sqrt2 & 1/\sqrt2\\ 0 & \sqrt{3/2}}$.</div>
+
+<!-- ============== 4 PLU ============== -->
+<h2>4 · PLU (Doolittle)</h2>
+<ol>
+<li>Llevar a $U$ con $F_i\leftarrow F_i-m_{ij}F_j$.</li>
+<li>Guardar $m_{ij}$ debajo de la diagonal en $L$ (1 en diagonal).</li>
+<li>Pivote $0$ $\Rightarrow$ permutar filas (queda $PA=LU$).</li>
+</ol>
+<div class="ej"><b>Ej.</b> $A=\smat{2&1&-1\\1&-3&5\\4&3&7}$, $m_{21}{=}\tfrac12,\,m_{31}{=}2,\,m_{32}{=}{-}\tfrac27$.<br>
+$U=\smat{2&1&-1\\0&-7/2&11/2\\0&0&74/7}$,
+$L=\smat{1&0&0\\1/2&1&0\\2&-2/7&1}$.</div>
+
+<!-- ============== 5 SVD ============== -->
+<h2>5 · SVD $A=U\Sigma V^T$</h2>
+<ol>
+<li>$A^TA$ → autovalores $\lambda_i\ge0$, $\sigma_i=\sqrt{\lambda_i}$ (de mayor a menor).</li>
+<li>Autovectores normalizados → cols de $V$.</li>
+<li>$u_i=\dfrac{Av_i}{\sigma_i}$ para $\sigma_i>0$; completar $U$ a BON de $\R^n$.</li>
+<li>$\Sigma\in\R^{n\times m}$: $\sigma_i$ en diagonal, ceros en lo demás.</li>
+</ol>
+<div class="ej"><b>Ej.</b> $A=\smat{3&2&2\\2&3&-2}$, $A^TA$ tiene $\lambda{=}25,9,0$ $\Rightarrow\sigma_1{=}5,\sigma_2{=}3$.<br>
+$v_1{=}\tfrac1{\sqrt2}(1,1,0)$, $v_2{=}\tfrac1{3\sqrt2}(1,{-}1,4)$, $v_3{=}\tfrac13({-}2,2,1)$.<br>
+$u_1{=}\tfrac1{\sqrt2}(1,1)$, $u_2{=}\tfrac1{\sqrt2}(1,{-}1)$. $\Sigma=\smat{5&0&0\\0&3&0}$.</div>
+
+<!-- ============== 6 PSEUDOINV ============== -->
+<h2>6 · Pseudoinversa $A^+$</h2>
+<p>Vía SVD: $A^+=V\Sigma^+U^T$ (transponer $\Sigma$ y $\sigma_i\to1/\sigma_i$).</p>
+<p>Si cols LI: $A^+=(A^TA)^{-1}A^T$. Si filas LI: $A^+=A^T(AA^T)^{-1}$.</p>
+
+<!-- ============== 7 MMCC ============== -->
+<h2>7 · Cuadrados mínimos por QR</h2>
+<p>Ajustar $y=af(x)+bg(x)+\dots$: armar
+$A=\smat{f(x_1)&g(x_1)\\ \vdots&\vdots}$, $b=(y_i)$.</p>
+<p>Ec. normales: $A^TA\,X=A^Tb$, o $Rx=Q^Tb$ con $A=QR$.</p>
+<div class="ej"><b>IP I·4.</b> $y=a\cos x+b\sen x$ en $(0,0.97),(\pi/4,1.42),(\pi,{-}1.04)$:<br>
+$A=\smat{1&0\\ \tfrac{\sqrt2}{2}&\tfrac{\sqrt2}{2}\\ -1&0}$, $A^TA=\smat{5/2&1/2\\1/2&1/2}$, $A^Tb=\smat{2.01\\1.00}$.</div>
+
+<!-- ============== 8 CAMBIO BASE ============== -->
+<h2>8 · Cambio de base</h2>
+<p>$M_{EB}$ tiene en cols los vectores de $B$ escritos en $E$.</p>
+<p>$[v]_B=M_{EB}^{-1}[v]_E$. $M(T)_{B_2B_1}$ col $j$ = $[T(b_j^{(1)})]_{B_2}$.</p>
+<p>Autovector en bases distintas: $M(T)_{B_1B_2}[v]_{B_1}=\lambda[v]_{B_2}$.</p>
+<div class="tip"><b>Truco repetido.</b> Con $B=\{(0,0,1),(1,0,0),(1,{-}1,0)\}$ (sale en Final III·1, IX·1, X·1).</div>
+
+</div><!-- /page 1 -->
+
+
+<!-- ====================== CARILLA 2 ====================== -->
+<div class="pagebreak"></div>
+<div class="page">
+
+<h1>MNA · Hoja de fórmulas (2/2) <span class="sub">Fourier · TF · DF</span></h1>
+
+<!-- ============== 9 SERIE ============== -->
+<h2>9 · Serie trigonométrica de Fourier</h2>
+<p>$T$-periódica, $\omega_0=2\pi/T$:</p>
+$$x(t)=\tfrac{a_0}{2}+\sum_{n\ge1}\!\bigl[a_n\cos(n\omega_0t)+b_n\sen(n\omega_0t)\bigr]$$
+$$a_n=\tfrac{2}{T}\!\int_T\! x\cos(n\omega_0t)dt,\ \ b_n=\tfrac{2}{T}\!\int_T\! x\sen(n\omega_0t)dt$$
+<table>
+<tr><th>simetría</th><th>resultado</th></tr>
+<tr><td>par</td><td>$b_n=0$</td></tr>
+<tr><td>impar</td><td>$a_n=0$ y $a_0=0$</td></tr>
+<tr><td>media nula</td><td>$a_0=0$</td></tr>
+</table>
+<p><b>Derivar la serie</b> ($y=x'$ con $x$ continua y per.):
+$a_n^{y}=n\omega_0\,b_n^{x},\ b_n^{y}={-}n\omega_0\,a_n^{x}$.</p>
+<p><b>Exponencial:</b> $x=\sum c_n e^{in\omega_0 t}$, $c_n=\tfrac1T\!\int_T x\,e^{-in\omega_0t}dt$.</p>
+
+<div class="ej"><b>Final II.</b> $f(x)=1{-}x$ en $(0,1)$, $T=1$, $\omega_0=2\pi$.<br>
+$a_0=1$, $a_n=0$, $b_n=\dfrac1{\pi n}$ $\Rightarrow f=\tfrac12+\sum\dfrac{\sen(2\pi nx)}{\pi n}$.</div>
+
+<div class="tip"><b>Dirichlet.</b> En continuidad: SF$=f(x_0)$. En salto: SF$=\tfrac12[f(x_0^+)+f(x_0^-)]$.<br>
+Ej: $f{=}1{-}x$ per. en $x=0$ → SF$=\tfrac12$.</div>
+
+<!-- ============== 10 TF ============== -->
+<h2>10 · Transformada de Fourier</h2>
+$$F(\omega)=\int_{-\infty}^{\infty}\!\!f(t)\,e^{-i\omega t}\,dt$$
+<table>
+<tr><th>$f(t)$</th><th>$F(\omega)$</th></tr>
+<tr><td>$e^{-at}u(t),\,a>0$</td><td>$1/(a+i\omega)$</td></tr>
+<tr><td>$e^{-a|t|}$</td><td>$2a/(a^2+\omega^2)$</td></tr>
+<tr><td>pulso ancho $a$</td><td>$a\,\sinc(\omega a/2)$</td></tr>
+<tr><td>triáng. $\Lambda_n$</td><td>$\sinc^2(\omega n/2)$</td></tr>
+<tr><td>$e^{-t^2}$</td><td>$\sqrt\pi\,e^{-\omega^2/4}$</td></tr>
+<tr><td>$\delta(t)$</td><td>$1$</td></tr>
+</table>
+<p><b>Props.</b> $f(t{-}t_0)\to e^{-i\omega t_0}F$; $e^{i\omega_0 t}f\to F(\omega{-}\omega_0)$; $f(at)\to\tfrac1{|a|}F(\omega/a)$; $f'\to i\omega F$; $f*g\to FG$.</p>
+<div class="ej"><b>Ej.</b> $x=e^{-at}u(t)$: $F=\int_0^\infty\! e^{-(a+i\omega)t}dt=\dfrac{1}{a+i\omega}$.</div>
+<div class="tip"><b>Pulso polinomial</b> (p.ej. $t-t^2$ en $[0,1]$): integrar por partes 2 veces; quedan $\sinc$ y $e^{-i\omega}$.</div>
+
+<!-- ============== 11 DF ============== -->
+<h2>11 · Diferencias finitas implícitas · calor</h2>
+<p>$u_t=\alpha u_{xx}$ en $[0,L]$. 4 nodos internos: $h=L/5$, $r=\alpha k/h^2$.</p>
+<p><b>Esquema (Backward Euler):</b></p>
+$$-r\,u_{i-1}^{n+1}+(1{+}2r)u_i^{n+1}-r\,u_{i+1}^{n+1}=u_i^n$$
+<p>Matriz $4\times4$ tridiagonal: diagonal $(1{+}2r)$, sub/superdiagonal $-r$. Resolver $M\vec u^{n+1}=\vec u^n+\vec b$ cada paso.</p>
+<table>
+<tr><th>borde</th><th>tratamiento</th></tr>
+<tr><td>Dirichlet $u(0){=}g_0$</td><td>sumar $r\,g_0$ a la fila 1 ($\vec b$)</td></tr>
+<tr><td>Neumann $u_x(0){=}0$</td><td>fantasma $u_{-1}{=}u_1$; agregar nodo $u_0$ (sistema crece)</td></tr>
+<tr><td>convección $+u_x$</td><td>centrado $(u_{i+1}{-}u_{i-1})/(2h)$ en cada ec.</td></tr>
+</table>
+<div class="ej"><b>IIP IV·b.</b> $u_x(0){=}0,\ u(1){=}0,\ u(x,0){=}\cos x$, $h{=}1/5$.<br>
+Incógnitas $u_0..u_4$ (5 por Neumann), $u_5{=}0$. CI: $u_i^0=\cos(i/5)$.</div>
+
+<!-- ============== 12 EDO ============== -->
+<h2>12 · EDO 2do orden → sistema + DF</h2>
+<p>$\ddot x+f(x,\dot x,t)=0$. Sea $x_1=x,\,x_2=\dot x$:</p>
+$$\dot x_1=x_2,\quad \dot x_2=-f(x_1,x_2,t)$$
+<p><b>Backward Euler</b> (paso $h$):</p>
+$$\begin{cases}x_1^{n+1}-h\,x_2^{n+1}=x_1^n\\ x_2^{n+1}+h\,f(\cdot)=x_2^n\end{cases}$$
+<p>CI: $x_1^0=x(0),\ x_2^0=\dot x(0)$. Lineal $\Rightarrow$ $2\times2$ por paso; no lineal $\Rightarrow$ Newton.</p>
+
+<!-- ============== 13 REPETIDOS ============== -->
+<h2>13 · Que se repiten literales</h2>
+<table>
+<tr><th>dato</th><th>dónde</th></tr>
+<tr><td>$\smat{2&8&k\\-1&-4&0\\k+3&12&2k}$</td><td>IP III·1, IP VI·1, Final VIII·1</td></tr>
+<tr><td>$\smat{1&0&0\\2&-1&0\\-4&0&-1}$</td><td>IP VI·2, Final IV·3, VII</td></tr>
+<tr><td>$\smat{0.92&1.44\\1.44&0.08}$</td><td>IP I·3, Final I·4</td></tr>
+<tr><td>$\smat{2&k{-}2&0\\0&3&k{-}1\\0&0&3}$</td><td>IP III·2, Final XIV·2</td></tr>
+<tr><td>$B{=}\{(0,0,1),(1,0,0),(1,{-}1,0)\}$</td><td>Final III·1, IX·1, X·1</td></tr>
+<tr><td>$f(x){=}1{-}x,\,f(x){=}f(x{+}1)$</td><td>Final II, IV, VI, VII, XI</td></tr>
+<tr><td>$u_t{=}u_{xx}$ con 4 nodos</td><td>IIP IV, VI; Final V, VI, IX, X, XI</td></tr>
+</table>
+
+<!-- ============== 14 TRAMPAS ============== -->
+<h2>14 · Trampas comunes</h2>
+<ul>
+<li>SVD: $\sigma_i>0$ siempre; signos en $U,V$. $\det A=\pm\prod\sigma_i$.</li>
+<li>Pseudoinversa cumple Penrose: $AA^+A=A$, $A^+AA^+=A^+$, simétricas $AA^+,\,A^+A$.</li>
+<li>$A$ simétrica con autovs. distintos: ya están $\perp$, sólo normalizar.</li>
+<li>Fourier: aprovechar simetría <i>antes</i> de integrar.</li>
+<li>TF de soporte $[0,L]$: integrar de $0$ a $L$ (no de $-\infty$).</li>
+<li>DF Neumann: el sistema crece de $N$ a $N{+}1$ (nodo fantasma).</li>
+<li>PLU: $L$ guarda $+m_{ij}$ (resta $m_{ij}F_j$ a $F_i$).</li>
+</ul>
+
+</div><!-- /page 2 -->
+
+</body>
+</html>

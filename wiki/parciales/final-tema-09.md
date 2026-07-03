@@ -3,8 +3,10 @@ tags: [final, transformaciones-lineales, cambio-base, svd, diferencias-finitas, 
 fuente: raw/Practicas/Modelos_Examenes/MNA_Final_Tema_IX.pdf
 tipo: final
 tema: 9
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[final-tema-09-resolucion]]**
 
 # Examen Final de Métodos Numéricos Avanzados — Tema IX
 

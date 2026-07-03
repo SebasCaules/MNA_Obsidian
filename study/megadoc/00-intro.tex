@@ -1,0 +1,62 @@
+\section*{Cómo usar este megadoc}
+\addcontentsline{toc}{section}{Cómo usar este megadoc}
+
+Este documento reúne \textbf{todo lo que necesitás para resolver el final de MNA 2026} (álgebra lineal avanzada + Fourier). Está organizado por tema, y en cada uno vas a encontrar tres tipos de caja:
+
+\begin{itemize}
+\item \colorbox{cazul!12}{\textbf{Teoría esencial}} — definiciones, teoremas y fórmulas que hay que tener a mano.
+\item \colorbox{cverde!14}{\textbf{Receta de examen}} — los pasos concretos para resolver ese tipo de ejercicio, en orden.
+\item \colorbox{cnaranja!16}{\textbf{Ejemplo resuelto}} — un ejercicio \emph{real} de examen resuelto de punta a punta (con el examen de origen indicado).
+\end{itemize}
+
+\noindent Los ejemplos salen de los \textbf{30 modelos de examen oficiales} (IP/IIP/Final), cuyas resoluciones fueron verificadas numéricamente con \texttt{numpy}/\texttt{sympy}. Al final hay un \textbf{apéndice} con el banco de práctica y un formulario relámpago.
+
+\begin{truco}
+\textbf{Sobre los ``finales viejos''.} Los finales históricos 2009--2022 que circulan (código \emph{Métodos Numéricos K}) son de un \textbf{programa distinto}: miden métodos numéricos clásicos (interpolación, Newton--Raphson, optimización, EDOs). \textbf{No entran en tu final.} Tu final es el de los 30 modelos: álgebra lineal + Fourier. Los pocos ejercicios de esos finales que sí aplican (cuadrados mínimos, SVD, diagonalización) están en la wiki \texttt{finales-historicos/banco-en-programa}.
+\end{truco}
+
+\section*{Mapa de temas y prioridades}
+\addcontentsline{toc}{section}{Mapa de temas y prioridades}
+
+Frecuencia con la que cae cada tema en los 30 modelos (fuente: análisis transversal de la wiki):
+
+\begin{center}\small
+\begin{tabular}{clc}
+\toprule
+\# & Tema & Aparición en parciales/finales \\
+\midrule
+1 & Números complejos & Baja (herramienta) \\
+2 & Vectores en $\K^n$, PI, normas, ortogonalidad & Como sub-paso \\
+3 & Matrices y determinantes & Baja directa; alta como sub-paso \\
+4 & Subespacios, base y dimensión & Media \\
+5 & \textbf{TL: núcleo, imagen, matriz asociada} & \textbf{9/9 IP Ej.1; 9/13 Finales} \\
+6 & Cambio de base $M_{BB'}$ & IP IV, VII; Finales III/IX/X \\
+7 & \textbf{Diagonalización (con parámetro $k$)} & \textbf{7/9 IP Ej.2} \\
+8 & LU / PLU (Doolittle) & 4/9 IP \\
+9 & \textbf{QR (Gram--Schmidt)} & \textbf{6/9 IP Ej.2--3} \\
+10 & \textbf{SVD} & 3/9 IP; 9/13 Finales \\
+11 & Pseudoinversa Moore--Penrose & Sub-paso de SVD/MMCC \\
+12 & Cuadrados mínimos & IP I, II Ej.4 \\
+13 & \textbf{Series de Fourier} & \textbf{5/5 IIP Ej.1} \\
+14 & \textbf{Transformada de Fourier} & \textbf{5/5 IIP Ej.2} \\
+15 & \textbf{EDPs por diferencias finitas} & \textbf{4/5 IIP Ej.3} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textbf{Prioridad alta (cubren $\sim$80\%):} TL (\#5), diagonalización (\#7), QR (\#9), SVD (\#10). Si el final incluye la parte de IIP, sumar Fourier series (\#13), TF (\#14) y diferencias finitas (\#15).
+
+\begin{truco}
+\textbf{Matrices/funciones que se repiten literalmente} entre exámenes (conviene reconocerlas):
+\[
+\begin{pmatrix}2&8&k\\-1&-4&0\\k+3&12&2k\end{pmatrix}\ (\text{IP III, VI, Final VIII}),\quad
+\begin{pmatrix}1&0&0\\2&-1&0\\-4&0&-1\end{pmatrix}\ (\text{IP VI, Final IV}),
+\]
+\[
+\begin{pmatrix}0.92&1.44\\1.44&0.08\end{pmatrix}\ (\text{IP I, Final I}),\quad
+\begin{pmatrix}2&k-2&0\\0&3&k-1\\0&0&3\end{pmatrix}\ (\text{IP III, Final XIV}).
+\]
+Base $B=\{(0,0,1),(1,0,0),(1,-1,0)\}$ (Finales III, IX, X). Función $f(x)=1-x$ con $f=f(x+1)$ (5 finales).
+\end{truco}
+
+\newpage

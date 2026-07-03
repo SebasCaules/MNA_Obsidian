@@ -16,8 +16,11 @@ window.MathJax = {
       norm: ["\\left\\|#1\\right\\|", 1],
       pinv: "^{+}", adj: "\\operatorname{adj}",
       rg: "\\operatorname{rg}", nul: "\\operatorname{nul}",
-      Span: "\\operatorname{gen}", tr: "\\operatorname{tr}",
-      MB: ["M_{#1#2}", 2]
+      Span: "\\operatorname{gen}", gen: "\\operatorname{gen}",
+      diag: "\\operatorname{diag}",
+      Im: "\\operatorname{Im}",
+      tr: "\\operatorname{tr}",
+      MB: ["M_{#1\\,#2}", 2]
     }
   },
   svg: { fontCache: 'global' },
@@ -283,6 +286,59 @@ window.MathJax = {
     border-top: 1pt solid var(--rule);
     margin: 14pt 0;
   }
+  /* Abbr tooltip: hover or tap shows full meaning */
+  abbr[title] {
+    border-bottom: 1pt dotted var(--accent2);
+    text-decoration: none;
+    cursor: help;
+    position: relative;
+    font-variant: none;
+  }
+  abbr[title]:hover::after,
+  abbr[title]:focus::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: white;
+    padding: 4pt 8pt;
+    border-radius: 3pt;
+    font-size: 9.5pt;
+    font-style: normal;
+    font-weight: 400;
+    white-space: nowrap;
+    z-index: 100;
+    margin-bottom: 3pt;
+    box-shadow: 0 2pt 6pt rgba(0,0,0,.18);
+    pointer-events: none;
+  }
+  abbr[title]:hover::before,
+  abbr[title]:focus::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4pt solid transparent;
+    border-top-color: var(--ink);
+    z-index: 100;
+    pointer-events: none;
+  }
+  /* Glossary box */
+  .glosario {
+    background: #fffaf0;
+    border: 1pt solid #e0c97a;
+    border-radius: 4pt;
+    padding: 10pt 14pt;
+    margin: 14pt 0;
+    font-size: 10.5pt;
+  }
+  .glosario h3 { margin-top: 0; color: #7a5a00; }
+  .glosario dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 3pt 12pt; }
+  .glosario dt { font-weight: 600; color: var(--accent); }
+  .glosario dd { margin: 0; }
   /* Bigger MathJax in display */
   mjx-container[display="true"] { margin: 8pt 0 !important; }
   @media print {
@@ -296,7 +352,33 @@ window.MathJax = {
 <h1>MNA · Guía del Parcial Central</h1>
 <div class="subtitle">
 ITBA · Métodos Numéricos Avanzados · 26-1C<br>
-Material para mecanizar el parcial: recetas paso a paso, ejercicios resueltos con todas las cuentas, formulario denso, trampas frecuentes y scripts Casio. Construido sobre 70 PDFs procesados (slides Unidad I-II + 9 clases + 10 pizarrones + 8 guías TP + 6 resueltos + 30 modelos de IP/IIP/Final).
+Material para mecanizar el parcial central (álgebra lineal numérica): recetas paso a paso, ejercicios resueltos con todas las cuentas, formulario denso, trampas frecuentes y scripts para la calculadora Casio.<br>
+<span class="small"><b>Alcance:</b> sólo temas que entran en el parcial central. Series y transformada de Fourier quedan fuera (entran únicamente en el Final).</span>
+</div>
+
+<div class="glosario">
+<h3>Glosario de abreviaturas</h3>
+<p class="small" style="margin-top:0">Todas las abreviaturas en el documento están subrayadas con puntitos: pasá el cursor por encima (o tocá en mobile) para ver el significado completo.</p>
+<dl>
+  <dt>TL</dt><dd>Transformación Lineal.</dd>
+  <dt>IP</dt><dd>Primer Parcial Integrador (parcial central; "IP" en parciales viejos = "<i>integrador primero</i>").</dd>
+  <dt>IIP</dt><dd>Segundo Parcial Integrador (no entra en el central, sólo Final).</dd>
+  <dt>TP</dt><dd>Trabajo Práctico (guías de ejercicios de la cátedra).</dd>
+  <dt>EDP</dt><dd>Ecuación en Derivadas Parciales.</dd>
+  <dt>EDO</dt><dd>Ecuación Diferencial Ordinaria.</dd>
+  <dt>MMCC</dt><dd>Mínimos Cuadrados (Method of Minimum Squares).</dd>
+  <dt>SVD</dt><dd>Singular Value Decomposition · Descomposición en Valores Singulares ($A = U\Sigma V^T$).</dd>
+  <dt>QR</dt><dd>Factorización en matriz ortonormal $Q$ por triangular superior $R$.</dd>
+  <dt>LU / PLU</dt><dd>Factorización Lower-Upper (triangular inferior por superior); PLU agrega permutación de filas.</dd>
+  <dt>GS</dt><dd>Gram-Schmidt (proceso de ortonormalización).</dd>
+  <dt>LI / LD</dt><dd>Linealmente Independiente / Linealmente Dependiente.</dd>
+  <dt>iso</dt><dd>Isomorfismo (transformación lineal biyectiva).</dd>
+  <dt>$N(T)$</dt><dd>Núcleo (kernel) de la transformación $T$.</dd>
+  <dt>$\Im(T)$</dt><dd>Imagen (rango como conjunto) de la transformación $T$.</dd>
+  <dt>$S_\lambda$</dt><dd>Autoespacio asociado al autovalor $\lambda$.</dd>
+  <dt>$m_a$ / $m_g$</dt><dd>Multiplicidad algebraica / geométrica de un autovalor.</dd>
+  <dt>$\rg(A)$</dt><dd>Rango de la matriz $A$ (dimensión de su imagen).</dd>
+</dl>
 </div>
 
 <div class="toc">
@@ -304,26 +386,24 @@ Material para mecanizar el parcial: recetas paso a paso, ejercicios resueltos co
 <ol>
 <li><a href="#mapa">Mapa del parcial · qué cae, cuánto pesa</a></li>
 <li><a href="#cronograma">Cronograma sugerido de estudio</a></li>
-<li><a href="#recetas">Recetas paso a paso (12 temas)</a>
+<li><a href="#recetas">Recetas paso a paso (10 temas)</a>
   <ol style="padding-left:16pt;">
   <li><a href="#r1">R1 · Transformaciones lineales</a></li>
   <li><a href="#r2">R2 · Diagonalización con parámetro</a></li>
   <li><a href="#r3">R3 · Cambio de base $M_{B_2 B_1}$</a></li>
-  <li><a href="#r4">R4 · Factorización LU / PLU</a></li>
-  <li><a href="#r5">R5 · Factorización QR (Gram-Schmidt)</a></li>
-  <li><a href="#r6">R6 · Descomposición SVD</a></li>
+  <li><a href="#r4">R4 · Factorización <abbr title="Lower-Upper: triangular inferior por superior">LU</abbr> / <abbr title="Permutación + Lower-Upper">PLU</abbr></a></li>
+  <li><a href="#r5">R5 · Factorización <abbr title="Matriz ortonormal Q por triangular superior R">QR</abbr> (Gram-Schmidt)</a></li>
+  <li><a href="#r6">R6 · Descomposición <abbr title="Singular Value Decomposition · Descomposición en Valores Singulares">SVD</abbr></a></li>
   <li><a href="#r7">R7 · Pseudoinversa Moore-Penrose</a></li>
-  <li><a href="#r8">R8 · Cuadrados mínimos</a></li>
-  <li><a href="#r9">R9 · Series de Fourier</a></li>
-  <li><a href="#r10">R10 · Transformada de Fourier</a></li>
-  <li><a href="#r11">R11 · EDPs · Diferencias finitas implícitas</a></li>
-  <li><a href="#r12">R12 · Subespacios paramétricos</a></li>
+  <li><a href="#r8">R8 · Cuadrados mínimos (<abbr title="Mínimos Cuadrados">MMCC</abbr>)</a></li>
+  <li><a href="#r9">R9 · <abbr title="Ecuaciones en Derivadas Parciales">EDPs</abbr> · Diferencias finitas implícitas</a></li>
+  <li><a href="#r10">R10 · Subespacios paramétricos</a></li>
   </ol>
 </li>
 <li><a href="#formulario">Formulario denso (referencia rápida)</a></li>
-<li><a href="#integrales">Tabla de integrales y derivadas útiles para Fourier</a></li>
+<li><a href="#trig">Valores e identidades trigonométricas</a></li>
 <li><a href="#repetidos">Matrices y funciones que aparecen literales en parciales</a></li>
-<li><a href="#trampas">Top 15 trampas que cuestan puntos</a></li>
+<li><a href="#trampas">Trampas que cuestan puntos</a></li>
 <li><a href="#casio">Scripts Casio · qué hace cada uno</a></li>
 <li><a href="#estrategia">Estrategia para el día del parcial</a></li>
 </ol>
@@ -342,19 +422,17 @@ Material para mecanizar el parcial: recetas paso a paso, ejercicios resueltos co
   <th style="width:12%;">Tiempo</th>
   <th style="width:30%;">Recurso</th>
 </tr>
-<tr><td>Ej. 1 IP</td><td>TL $\R^3\to\R^3$ por regla o por matriz con parámetro $k$: núcleo, imagen, antiimagen, condición de rango</td><td><b>9 / 9</b> IPs</td><td>10–12 min</td><td><a href="#r1">R1</a> · script <code>tl.py</code></td></tr>
-<tr><td>Ej. 2 IP</td><td>Diagonalización con parámetro $k$: hallar $k$ que diagonaliza, dar $P,D$ para un valor</td><td><b>7 / 9</b> IPs</td><td>15 min</td><td><a href="#r2">R2</a> · script <code>diag.py</code></td></tr>
-<tr><td>Ej. 3 IP</td><td>Factorización QR (a veces + PLU o SVD)</td><td>6 / 9 QR · 4 / 9 PLU · 3 / 9 SVD</td><td>12 min</td><td><a href="#r5">R5</a>, <a href="#r4">R4</a>, <a href="#r6">R6</a></td></tr>
-<tr><td>Ej. 4 IP <span class="badge badge-muted">opc.</span></td><td>Cuadrados mínimos por QR (3 puntos, modelo $y=af(x)+bg(x)$)</td><td>2 / 9</td><td>10 min</td><td><a href="#r8">R8</a> · <code>lsq.py</code></td></tr>
-<tr><td>Ej. 5 IP <span class="badge badge-muted">opc.</span></td><td>Subespacio paramétrico en $\mathbb{P}_2$ o $\R^{2\times 2}$</td><td>3 / 9</td><td>8 min</td><td><a href="#r12">R12</a></td></tr>
-<tr><td>Ej. 1 IIP</td><td>Serie trigonométrica de Fourier + inciso b) (convergencia / identidad numérica / derivar la serie)</td><td><b>5 / 5</b> IIPs</td><td>25 min</td><td><a href="#r9">R9</a> · <code>fs.py</code></td></tr>
-<tr><td>Ej. 2 IIP</td><td>Transformada continua de Fourier de pulso o decaimiento exponencial</td><td><b>5 / 5</b> IIPs</td><td>15 min</td><td><a href="#r10">R10</a> · <code>tf.py</code></td></tr>
-<tr><td>Ej. 3 IIP</td><td>Esquema implícito de diferencias finitas con 4 nodos (calor / onda / convección)</td><td>4 / 5 IIPs</td><td>20 min</td><td><a href="#r11">R11</a> · <code>edp.py</code></td></tr>
+<tr><td>Ej. 1</td><td><abbr title="Transformación Lineal">TL</abbr> $\R^3\to\R^3$ por regla o por matriz con parámetro $k$: núcleo, imagen, antiimagen, condición de rango</td><td><b>9 / 9</b> parciales</td><td>10–12 min</td><td><a href="#r1">R1</a> · script <code>tl.py</code></td></tr>
+<tr><td>Ej. 2</td><td>Diagonalización con parámetro $k$: hallar $k$ que diagonaliza, dar $P,D$ para un valor</td><td><b>7 / 9</b> parciales</td><td>15 min</td><td><a href="#r2">R2</a> · script <code>diag.py</code></td></tr>
+<tr><td>Ej. 3</td><td>Factorización <abbr title="Matriz ortonormal Q por triangular superior R">QR</abbr> (a veces combinada con <abbr title="Permutación + Lower-Upper">PLU</abbr> o <abbr title="Singular Value Decomposition · Descomposición en Valores Singulares">SVD</abbr>)</td><td>6 / 9 QR · 4 / 9 PLU · 3 / 9 SVD</td><td>12 min</td><td><a href="#r5">R5</a>, <a href="#r4">R4</a>, <a href="#r6">R6</a></td></tr>
+<tr><td>Ej. 4 <span class="badge badge-muted">opc.</span></td><td>Cuadrados mínimos (<abbr title="Mínimos Cuadrados">MMCC</abbr>) por QR (3 puntos, modelo $y=af(x)+bg(x)$)</td><td>2 / 9</td><td>10 min</td><td><a href="#r8">R8</a> · <code>lsq.py</code></td></tr>
+<tr><td>Ej. 5 <span class="badge badge-muted">opc.</span></td><td>Subespacio paramétrico en $\mathbb{P}_2$ o $\R^{2\times 2}$</td><td>3 / 9</td><td>8 min</td><td><a href="#r10">R10</a></td></tr>
+<tr><td>Ej. extra <span class="badge badge-muted">opc.</span></td><td>Esquema implícito de diferencias finitas con 4 nodos para una <abbr title="Ecuación en Derivadas Parciales">EDP</abbr> (calor / onda / convección)</td><td>poco frecuente en el central</td><td>20 min</td><td><a href="#r9">R9</a> · <code>edp.py</code></td></tr>
 </table>
 
 <div class="info">
-<span class="info-titulo">Insight clave</span>
-Las clases ingestadas (12 marzo → 14 mayo) cubren <b>hasta SVD y MMCC inclusive</b>, no llegan a Fourier ni EDPs. Si el "parcial central" se restringe a lo dictado en clase, los temas R9–R11 son <b>menos probables</b>. Pero como el usuario indicó "1er y 2do parcial como referencia", incluimos todo por las dudas.
+<span class="info-titulo">Alcance del parcial central</span>
+Las clases dictadas (12 marzo → 14 mayo) cubren <b>hasta <abbr title="Singular Value Decomposition · Descomposición en Valores Singulares">SVD</abbr> y <abbr title="Mínimos Cuadrados">MMCC</abbr> inclusive</b>. Las series y transformadas de Fourier <b>no forman parte del parcial central</b> (se evalúan únicamente en el Final), por eso esta guía las omite. Las <abbr title="Ecuaciones en Derivadas Parciales">EDPs</abbr> con diferencias finitas se incluyen como receta opcional (R9) por si la cátedra decide incluir un ejercicio puente.
 </div>
 
 <!-- ============================ CRONOGRAMA ============================ -->
@@ -365,10 +443,10 @@ Las clases ingestadas (12 marzo → 14 mayo) cubren <b>hasta SVD y MMCC inclusiv
 <table>
 <tr><th>Día</th><th>Bloque</th><th>Qué hacer</th><th>Material</th></tr>
 <tr><td>D-5</td><td>Pasada teórica</td><td>Leer las recetas R1, R2, R5, R6 (los temas más frecuentes). Entender qué pasos pide cada uno.</td><td>§3, R1–R2 + R5–R6</td></tr>
-<tr><td>D-4</td><td>Mecánica</td><td>Hacer <b>5 ejercicios completos</b> de TL (uno por inciso típico) y <b>3</b> de diagonalización con parámetro.</td><td>Guías TP IV, V; ejercicios resueltos.</td></tr>
-<tr><td>D-3</td><td>Factorizaciones</td><td>Hacer <b>2 QR</b>, <b>2 PLU</b>, <b>2 SVD</b> a mano. Comparar con scripts Casio.</td><td>Guías TP VI, VII; resueltos SVD + pseudoinversa.</td></tr>
-<tr><td>D-2</td><td>Fourier (si entra)</td><td>R9 y R10. <b>3 series</b> + <b>2 transformadas</b>. Si entra EDP, R11.</td><td>Guía VIII, IX; resueltos Fourier.</td></tr>
-<tr><td>D-1</td><td>Parciales viejos</td><td><b>1 IP completo</b> en tiempo real (2h). Corregir con esta guía y los scripts.</td><td><code>wiki/parciales/ip-tema-XX.md</code></td></tr>
+<tr><td>D-4</td><td>Mecánica</td><td>Hacer <b>5 ejercicios completos</b> de <abbr title="Transformación Lineal">TL</abbr> (uno por inciso típico) y <b>3</b> de diagonalización con parámetro.</td><td>Guías <abbr title="Trabajo Práctico">TP</abbr> IV, V; ejercicios resueltos.</td></tr>
+<tr><td>D-3</td><td>Factorizaciones</td><td>Hacer <b>2 <abbr title="Matriz ortonormal Q por triangular superior R">QR</abbr></b>, <b>2 <abbr title="Permutación + Lower-Upper">PLU</abbr></b>, <b>2 <abbr title="Singular Value Decomposition">SVD</abbr></b> a mano. Comparar con scripts Casio.</td><td>Guías <abbr title="Trabajo Práctico">TP</abbr> VI, VII; resueltos SVD + pseudoinversa.</td></tr>
+<tr><td>D-2</td><td>Pseudoinversa + cuadrados mínimos</td><td>Hacer <b>2 pseudoinversas</b> (una full rank, una vía SVD) y <b>2 ajustes</b> por mínimos cuadrados con QR.</td><td>R7, R8; resueltos de pseudoinversa.</td></tr>
+<tr><td>D-1</td><td>Parciales viejos</td><td><b>1 parcial central completo</b> en tiempo real (2h). Corregir con esta guía y los scripts.</td><td><code>wiki/parciales/ip-tema-XX.md</code></td></tr>
 <tr><td>Día parcial</td><td>Repaso</td><td>Leer solo §4 (formulario), §7 (trampas) y §8 (estrategia). No tocar ejercicios.</td><td>—</td></tr>
 </table>
 
@@ -388,7 +466,7 @@ Las clases ingestadas (12 marzo → 14 mayo) cubren <b>hasta SVD y MMCC inclusiv
 
 <!-- ========== R1: TRANSFORMACIONES LINEALES ========== -->
 <div class="receta" id="r1">
-<div class="receta-titulo">Transformaciones lineales <span style="opacity:.8;font-weight:400;font-size:10.5pt;">— núcleo, imagen, antiimagen</span></div>
+<div class="receta-titulo">Transformaciones lineales (<abbr title="Transformación Lineal">TL</abbr>) <span style="opacity:.8;font-weight:400;font-size:10.5pt;">— núcleo, imagen, antiimagen</span></div>
 <div class="receta-cuerpo">
 
 <h4>Cómo se reconoce</h4>
@@ -408,7 +486,7 @@ Las clases ingestadas (12 marzo → 14 mayo) cubren <b>hasta SVD y MMCC inclusiv
 </ul>
 
 <h4>Idea matemática</h4>
-<p>Toda TL queda totalmente determinada por su matriz asociada en una base elegida. Una vez que tenés $A$, todas las preguntas se reducen a problemas de sistemas lineales: $N(T) = \{X : AX = 0\}$ es el núcleo del sistema homogéneo; $\Im(T) = \gen(\text{columnas de }A)$; antiimagen de $w$ = soluciones de $AX = [w]_{B_2}$.</p>
+<p>Toda <abbr title="Transformación Lineal">TL</abbr> queda totalmente determinada por su matriz asociada en una base elegida. Una vez que tenés $A$, todas las preguntas se reducen a problemas de sistemas lineales: $N(T) = \{X : AX = 0\}$ es el núcleo del sistema homogéneo; $\Im(T) = \gen(\text{columnas de }A)$; antiimagen de $w$ = soluciones de $AX = [w]_{B_2}$.</p>
 
 <div class="info">
 <span class="info-titulo">Convención clave</span>
@@ -429,7 +507,7 @@ $A = \MB{B_2}{B_1}(T)$ significa que $A$ <b>recibe coordenadas en $B_1$ y devuel
 </ol>
 
 <div class="ej">
-<div class="ej-titulo">TL con parámetro · típico Ej. 1 de IP</div>
+<div class="ej-titulo"><abbr title="Transformación Lineal">TL</abbr> con parámetro · típico Ej. 1 del <abbr title="Primer Parcial Integrador (parcial central)">IP</abbr></div>
 <div class="ej-cuerpo">
 <p><b>Enunciado.</b> Sea $T:\R^3\to\R^3$ con matriz canónica $A = \pmat{2 & 8 & k \\ -1 & -4 & 0 \\ k+3 & 12 & 2k}$.</p>
 <p>a) Hallar los valores de $k\in\R$ tal que $\dim \Im(T) = 1$. b) Para $k = 0$, dar base de $N(T)$.</p>
@@ -698,7 +776,7 @@ $\MB{B_2}{B_1}$ traduce de $B_1$ a $B_2$. Si querés ir en la dirección opuesta
 
 <!-- ========== R4: LU/PLU ========== -->
 <div class="receta" id="r4">
-<div class="receta-titulo">Factorización LU / PLU (Doolittle)</div>
+<div class="receta-titulo">Factorización <abbr title="Lower-Upper: triangular inferior por superior">LU</abbr> / <abbr title="Permutación + Lower-Upper">PLU</abbr> (Doolittle)</div>
 <div class="receta-cuerpo">
 
 <h4>Cómo se reconoce</h4>
@@ -779,7 +857,7 @@ Si hacés $F_i \leftarrow F_i - m_{ij} F_j$ (resta), entonces $L_{ij} = +m_{ij}$
 
 <!-- ========== R5: QR ========== -->
 <div class="receta" id="r5">
-<div class="receta-titulo">Factorización QR (Gram-Schmidt)</div>
+<div class="receta-titulo">Factorización <abbr title="Q ortonormal por R triangular superior">QR</abbr> (Gram-Schmidt)</div>
 <div class="receta-cuerpo">
 
 <h4>Cómo se reconoce</h4>
@@ -790,7 +868,7 @@ Si hacés $F_i \leftarrow F_i - m_{ij} F_j$ (resta), entonces $L_{ij} = +m_{ij}$
 
 <h4>Pasos mecánicos</h4>
 <ol class="steps">
-<li>Sean $a_1, a_2, \ldots, a_k$ las columnas de $A$ (suponer LI).</li>
+<li>Sean $a_1, a_2, \ldots, a_k$ las columnas de $A$ (suponer <abbr title="Linealmente Independientes">LI</abbr>).</li>
 <li>$u_1 = a_1$. Luego $v_1 = u_1 / \norm{u_1}$.</li>
 <li>$u_2 = a_2 - \langle a_2, v_1 \rangle\, v_1$. Luego $v_2 = u_2 / \norm{u_2}$.</li>
 <li>$u_3 = a_3 - \langle a_3, v_1 \rangle\, v_1 - \langle a_3, v_2 \rangle\, v_2$. $v_3 = u_3 / \norm{u_3}$.</li>
@@ -848,7 +926,9 @@ $$R = \pmat{\norm{u_1} & \langle a_2, v_1\rangle \\ 0 & \norm{u_2}} = \pmat{\sqr
 
 <div class="step">
 <span class="step-label">Paso 6 · Verificación</span>
-$Q R = \pmat{1/\sqrt2 \cdot \sqrt 2 + 1/\sqrt 6 \cdot 0 & 1/\sqrt 2 \cdot 1/\sqrt 2 + 1/\sqrt 6 \cdot \sqrt{3/2} \\ \vdots & \vdots} = \pmat{1 & \frac{1}{2} + \frac{1}{2} \\ \ldots}$, hace falta seguir, pero el chequeo numérico da $QR \approx A$ exacto. ✓
+La entrada $(1,1)$ de $QR$ es $\frac{1}{\sqrt 2}\cdot\sqrt 2 + \frac{1}{\sqrt 6}\cdot 0 = 1$.
+La entrada $(1,2)$ es $\frac{1}{\sqrt 2}\cdot\frac{1}{\sqrt 2} + \frac{1}{\sqrt 6}\cdot\sqrt{\tfrac{3}{2}} = \frac{1}{2} + \frac{1}{2} = 1$.
+Análogamente, las demás entradas coinciden con $A$, por lo que $QR = A$. ✓
 
 $Q^T Q = I_2$: $\langle v_1, v_1\rangle = 1$, $\langle v_2, v_2\rangle = 1$, $\langle v_1, v_2\rangle = 0$. ✓
 </div>
@@ -875,7 +955,7 @@ $Q^T Q$ debería ser la identidad. Si te queda diagonal con entradas distintas d
 
 <!-- ========== R6: SVD ========== -->
 <div class="receta" id="r6">
-<div class="receta-titulo">Descomposición SVD · $A = U \Sigma V^T$</div>
+<div class="receta-titulo">Descomposición <abbr title="Singular Value Decomposition · Descomposición en Valores Singulares">SVD</abbr> · $A = U \Sigma V^T$</div>
 <div class="receta-cuerpo">
 
 <h4>Cómo se reconoce</h4>
@@ -975,7 +1055,7 @@ No podés dividir por $0$ en $u_i = A v_i / \sigma_i$. Si el rango es $r < \min(
 <div class="receta-cuerpo">
 
 <h4>Cómo se reconoce</h4>
-<p>Te piden $A^+$ (la pseudoinversa) de una matriz. O te piden la solución de MMCC para $AX = B$ que usa la pseudoinversa.</p>
+<p>Te piden $A^+$ (la pseudoinversa) de una matriz. O te piden la solución de <abbr title="Mínimos Cuadrados">MMCC</abbr> para $AX = B$ que usa la pseudoinversa.</p>
 
 <h4>Tres caminos posibles</h4>
 <ol class="steps">
@@ -996,7 +1076,7 @@ No podés dividir por $0$ en $u_i = A v_i / \sigma_i$. Si el rango es $r < \min(
 
 <div class="trap">
 <span class="trap-titulo">Trampa · $(A^T A)^{-1}$ no siempre existe</span>
-Si las columnas de $A$ son LD (rango deficiente), $A^T A$ <b>no es invertible</b>. En ese caso, el único camino es vía SVD.
+Si las columnas de $A$ son <abbr title="Linealmente Dependientes">LD</abbr> (rango deficiente), $A^T A$ <b>no es invertible</b>. En ese caso, el único camino es vía <abbr title="Singular Value Decomposition">SVD</abbr>.
 </div>
 
 <h4>Script Casio</h4>
@@ -1009,7 +1089,7 @@ Si las columnas de $A$ son LD (rango deficiente), $A^T A$ <b>no es invertible</b
 
 <!-- ========== R8: MMCC ========== -->
 <div class="receta" id="r8">
-<div class="receta-titulo">Cuadrados mínimos por QR</div>
+<div class="receta-titulo">Cuadrados mínimos (<abbr title="Mínimos Cuadrados">MMCC</abbr>) por <abbr title="Q ortonormal por R triangular superior">QR</abbr></div>
 <div class="receta-cuerpo">
 
 <h4>Cómo se reconoce</h4>
@@ -1064,192 +1144,13 @@ Norma del residuo: $A X = (1, 0, -1)^T = b$. Residuo $0$ → ajuste perfecto (lo
 </div>
 </div>
 
-<!-- ========== R9: SERIES DE FOURIER ========== -->
+<!-- ========== R9 (era R11): EDP · Diferencias finitas implícitas ========== -->
 <div class="receta pagebreak" id="r9">
-<div class="receta-titulo">Series de Fourier · trigonométrica + exponencial</div>
+<div class="receta-titulo"><abbr title="Ecuaciones en Derivadas Parciales">EDPs</abbr> · Diferencias finitas implícitas con 4 nodos</div>
 <div class="receta-cuerpo">
 
 <h4>Cómo se reconoce</h4>
-<p>Te dan una función $x(t)$ periódica de período $T$ y te piden:</p>
-<ul>
-<li>Hallar su serie trigonométrica de Fourier.</li>
-<li>Hallar su serie exponencial (los $c_n$).</li>
-<li>Hallar la "forma de laboratorio" (amplitud-fase).</li>
-<li>Inciso b) típico: probar una identidad numérica (tipo $\sum 1/n^2 = \pi^2/6$) o derivar la serie término a término.</li>
-</ul>
-
-<h4>Forma trigonométrica</h4>
-<p>Sea $\omega_0 = 2\pi/T$. Entonces:</p>
-$$x(t) = \frac{a_0}{2} + \sum_{n=1}^\infty \bigl[a_n \cos(n \omega_0 t) + b_n \sen(n \omega_0 t)\bigr]$$
-$$a_n = \frac{2}{T} \int_T x(t) \cos(n \omega_0 t)\, dt, \quad b_n = \frac{2}{T} \int_T x(t) \sen(n \omega_0 t)\, dt$$
-<p>Con $a_0 = \dfrac{2}{T}\int_T x(t)\, dt$ (el promedio por $2$, así $a_0/2$ es el promedio de la función).</p>
-
-<h4>Forma exponencial</h4>
-$$x(t) = \sum_{n = -\infty}^\infty c_n\, e^{i n \omega_0 t}, \quad c_n = \frac{1}{T} \int_T x(t) e^{-i n \omega_0 t}\, dt.$$
-<p>Relaciones: $c_n = (a_n - i b_n)/2$, $c_0 = a_0/2$.</p>
-
-<h4>Forma de laboratorio</h4>
-$$x(t) = \frac{a_0}{2} + \sum_{n=1}^\infty A_n \cos(n \omega_0 t - \varphi_n)$$
-<p>con $A_n = \sqrt{a_n^2 + b_n^2}$ y $\varphi_n = \arctan(b_n / a_n)$ (en el cuadrante correcto).</p>
-
-<h4>Atajos por simetría</h4>
-<table>
-<tr><th>Si $x$ es...</th><th>Entonces</th></tr>
-<tr><td>par ($x(-t) = x(t)$)</td><td>$b_n = 0$ para todo $n$</td></tr>
-<tr><td>impar ($x(-t) = -x(t)$)</td><td>$a_n = 0$ para todo $n$ (incluido $a_0$)</td></tr>
-<tr><td>simetría de medio período: $x(t + T/2) = -x(t)$</td><td>solo armónicos impares ($a_{2k} = b_{2k} = 0$)</td></tr>
-</table>
-
-<div class="ej">
-<div class="ej-titulo">SF · $x(t) = t$ en $[-\pi, \pi]$, $T = 2\pi$</div>
-<div class="ej-cuerpo">
-
-<div class="step">
-<span class="step-label">Paso 1 · Observar simetría</span>
-$x(-t) = -t = -x(t)$ → función <b>impar</b>. Por lo tanto $a_n = 0$ para todo $n$. Solo hay que calcular $b_n$.
-</div>
-
-<div class="step">
-<span class="step-label">Paso 2 · Calcular $b_n$ por partes</span>
-$$b_n = \frac{1}{\pi} \int_{-\pi}^{\pi} t \sen(n t)\, dt = \frac{2}{\pi}\int_0^\pi t \sen(n t)\, dt$$
-(el integrando es par, multipliqué por 2 y reduje el dominio).
-
-Integración por partes: $u = t$, $du = dt$; $dv = \sen(nt) dt$, $v = -\cos(nt)/n$.
-$$\int t \sen(nt)\, dt = -\frac{t \cos(nt)}{n} + \frac{1}{n}\int \cos(nt)\, dt = -\frac{t \cos(nt)}{n} + \frac{\sen(nt)}{n^2}.$$
-
-Evaluamos en $[0, \pi]$:
-$$\left[-\frac{t \cos(nt)}{n} + \frac{\sen(nt)}{n^2}\right]_0^\pi = -\frac{\pi \cos(n\pi)}{n} + \frac{\sen(n\pi)}{n^2} - 0 = -\frac{\pi (-1)^n}{n}.$$
-
-Entonces $b_n = \dfrac{2}{\pi} \cdot \left(-\dfrac{\pi (-1)^n}{n}\right) = \dfrac{-2(-1)^n}{n} = \dfrac{2 \cdot (-1)^{n+1}}{n}$.
-</div>
-
-<div class="step">
-<span class="step-label">Paso 3 · Resultado</span>
-$$\boxed{x(t) \sim \sum_{n=1}^\infty \frac{2(-1)^{n+1}}{n} \sen(n t) = 2\left(\sen t - \frac{\sen 2t}{2} + \frac{\sen 3t}{3} - \ldots\right).}$$
-</div>
-
-<div class="step">
-<span class="step-label">Paso 4 · Inciso b típico: probar identidad</span>
-Si te piden probar $\sum \dfrac{(-1)^{n+1}}{n} \cdot \text{algo} = X$, evaluá la serie en un $t_0$ donde $x(t_0)$ sea conocido. Por ejemplo en $t_0 = \pi/2$:
-$$x(\pi/2) = \pi/2 = \sum_{n=1}^\infty \frac{2(-1)^{n+1}}{n} \sen(n\pi/2).$$
-$\sen(n\pi/2)$ vale $1, 0, -1, 0, 1, 0, -1, \ldots$ para $n = 1, 2, 3, \ldots$
-$$\pi/2 = 2\left(1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \ldots\right) \implies \sum_{k=0}^\infty \frac{(-1)^k}{2k+1} = \frac{\pi}{4} \quad \text{(serie de Leibniz)}.$$
-</div>
-</div>
-</div>
-
-<h4>Convergencia (Teorema de Dirichlet)</h4>
-<p>Si $x$ es seccionalmente continua y $x'$ también lo es en $[0, T]$, entonces la serie de Fourier converge:</p>
-<ul>
-<li>A $x(t)$ en los puntos donde $x$ es continua.</li>
-<li>Al <b>promedio</b> $\tfrac{1}{2}[x(t^+) + x(t^-)]$ en los puntos de discontinuidad de salto.</li>
-</ul>
-
-<div class="trap">
-<span class="trap-titulo">Trampa · paridad alrededor de $T/2$ vs alrededor de $0$</span>
-La paridad se mide alrededor del centro del intervalo de período elegido. Si te dan $x$ en $[0, T]$ y querés usar paridad, antes hay que centrar el intervalo: chequear si $x$ extendida a $[-T/2, T/2]$ por traslación es par o impar.
-</div>
-
-<div class="trap">
-<span class="trap-titulo">Trampa · función con discontinuidad en el borde</span>
-$f(x) = 1 - x$ en $[0, 1)$ con $f(x+1) = f(x)$ tiene salto en $x = 0$ (vale 1 por derecha y 0 por izquierda). La SF converge a $1/2$ en $x = 0$, no a $f(0) = 1$.
-</div>
-
-<h4>Script Casio</h4>
-<pre>main.py → 10) Series Fourier
-  9 funciones pre-cargadas (t, t^2, |t|, e^t, etc.)
-  Integra numéricamente (Simpson 400 paneles)
-  Devuelve a_n, b_n, c_n, y permite evaluar la suma parcial</pre>
-
-</div>
-</div>
-
-<!-- ========== R10: TF ========== -->
-<div class="receta" id="r10">
-<div class="receta-titulo">Transformada de Fourier continua</div>
-<div class="receta-cuerpo">
-
-<h4>Definiciones</h4>
-$$F(\omega) = \mathcal F\{x(t)\} = \int_{-\infty}^\infty x(t) e^{-i\omega t}\, dt, \quad x(t) = \frac{1}{2\pi}\int_{-\infty}^\infty F(\omega) e^{i\omega t}\, d\omega.$$
-
-<h4>Propiedades (todas memorizables)</h4>
-<table>
-<tr><th>Operación en tiempo</th><th>En frecuencia</th></tr>
-<tr><td>Linealidad: $a x(t) + b y(t)$</td><td>$a X(\omega) + b Y(\omega)$</td></tr>
-<tr><td>Traslación: $x(t - t_0)$</td><td>$e^{-i\omega t_0} X(\omega)$</td></tr>
-<tr><td>Modulación: $e^{i\omega_0 t} x(t)$</td><td>$X(\omega - \omega_0)$</td></tr>
-<tr><td>Escala: $x(at)$, $a \neq 0$</td><td>$\tfrac{1}{|a|} X(\omega/a)$</td></tr>
-<tr><td>Derivada: $x'(t)$</td><td>$i\omega X(\omega)$</td></tr>
-<tr><td>Convolución: $(x * y)(t)$</td><td>$X(\omega) Y(\omega)$</td></tr>
-<tr><td>Dualidad: $X(t)$</td><td>$2\pi\, x(-\omega)$</td></tr>
-</table>
-
-<h4>Pares útiles</h4>
-<table>
-<tr><th>$x(t)$</th><th>$F(\omega)$</th></tr>
-<tr><td>$e^{-at} u(t)$, $a > 0$</td><td>$1/(a + i\omega)$</td></tr>
-<tr><td>$\text{rect}_a(t)$ ($|t| \le a/2$)</td><td>$a\, \sinc(\omega a/2) = 2\sen(\omega a/2)/\omega$</td></tr>
-<tr><td>$\Lambda_n(t) = (n - |t|)/n^2$ p/ $|t| \le n$</td><td>$\sinc^2(\omega n/2)$</td></tr>
-<tr><td>$e^{-t^2}$ (gaussiana)</td><td>$\sqrt\pi\, e^{-\omega^2 / 4}$</td></tr>
-<tr><td>$\delta(t)$</td><td>$1$</td></tr>
-<tr><td>$1$ (constante)</td><td>$2\pi\, \delta(\omega)$</td></tr>
-</table>
-
-<div class="ej">
-<div class="ej-titulo">TF · pulso rectangular de ancho $a$</div>
-<div class="ej-cuerpo">
-<p><b>Enunciado.</b> Hallar $\mathcal F\{f(t)\}$ donde $f(t) = 1$ para $|t| \le a/2$ y $f(t) = 0$ fuera.</p>
-
-<div class="step">
-<span class="step-label">Paso 1 · Plantear la integral</span>
-$$F(\omega) = \int_{-a/2}^{a/2} e^{-i\omega t}\, dt = \left[\frac{e^{-i\omega t}}{-i\omega}\right]_{-a/2}^{a/2}$$
-$$= \frac{e^{-i\omega a/2} - e^{i\omega a/2}}{-i\omega} = \frac{e^{i\omega a/2} - e^{-i\omega a/2}}{i\omega}.$$
-</div>
-
-<div class="step">
-<span class="step-label">Paso 2 · Usar Euler</span>
-$e^{i\theta} - e^{-i\theta} = 2 i \sen\theta$. Entonces:
-$$F(\omega) = \frac{2 i \sen(\omega a/2)}{i\omega} = \frac{2 \sen(\omega a/2)}{\omega}.$$
-
-Multiplicando arriba y abajo por $a/2$:
-$$\boxed{F(\omega) = a \cdot \frac{\sen(\omega a/2)}{\omega a/2} = a\, \sinc(\omega a/2).}$$
-</div>
-
-<div class="step">
-<span class="step-label">Paso 3 · Espectro</span>
-$F$ es real (porque $f$ es par real). El módulo $|F(\omega)|$ tiene forma de $\sinc$ con cero en $\omega = 2\pi/a, 4\pi/a, \ldots$. La fase es 0 o $\pi$ según el signo de $\sinc$.
-</div>
-</div>
-</div>
-
-<h4>Estrategia para pulso polinómico</h4>
-<p>Si $x(t) = p(t)$ para $t \in [a, b]$ y $0$ fuera, con $p$ polinomio:</p>
-<ol>
-<li>Aplicar integración por partes <b>recursivamente</b>: cada vez que derivás $p$ baja un grado, cada vez que integrás $e^{-i\omega t}$ aparece $1/(-i\omega)$.</li>
-<li>Después de $\deg(p) + 1$ partes, el polinomio se anula y queda solo la frontera evaluada.</li>
-<li>Acumular los términos de frontera $e^{-i\omega a}$ y $e^{-i\omega b}$ con sus coeficientes.</li>
-</ol>
-
-<div class="trap">
-<span class="trap-titulo">Trampa · constante adelante en sinc</span>
-$\sinc(\omega a/2) = \sen(\omega a/2)/(\omega a/2)$ y vale 1 en $\omega = 0$. La fórmula $F(\omega) = a \sinc(\omega a/2)$ es equivalente a $2\sen(\omega a/2)/\omega$, pero la primera versión es la "forma estándar". Cuidado de no perder el factor $a$.
-</div>
-
-<h4>Script Casio</h4>
-<pre>main.py → 11) Transf Fourier
-  4 templates (rect, triángulo, exp decay, pulso polinómico)
-  Evalúa F(ω) en una grilla de ω</pre>
-
-</div>
-</div>
-
-<!-- ========== R11: EDP DIF FINITAS ========== -->
-<div class="receta" id="r11">
-<div class="receta-titulo">EDPs · Diferencias finitas implícitas con 4 nodos</div>
-<div class="receta-cuerpo">
-
-<h4>Cómo se reconoce</h4>
-<p>Te dan una EDP estándar:</p>
+<p>Te dan una <abbr title="Ecuación en Derivadas Parciales">EDP</abbr> estándar:</p>
 <ul>
 <li>Ecuación del calor: $u_t = \alpha u_{xx}$.</li>
 <li>Ecuación de la onda: $u_{tt} = c^2 u_{xx}$.</li>
@@ -1290,7 +1191,7 @@ $$-r u_{i-1}^{k+1} + (1 + 2r) u_i^{k+1} - r u_{i+1}^{k+1} = u_i^k.$$
 </ol>
 
 <div class="ej">
-<div class="ej-titulo">Calor con Dirichlet 4 nodos · típico Ej. 3 IIP</div>
+<div class="ej-titulo">Calor con Dirichlet 4 nodos · típico Ej. 3 del <abbr title="Segundo Parcial Integrador">IIP</abbr> / Final</div>
 <div class="ej-cuerpo">
 <p><b>Enunciado.</b> $u_t = u_{xx}$, $x \in [0, 1]$, $u(0, t) = u(1, t) = 0$, $u(x, 0) = \sen(\pi x)$. Esquema implícito con 4 nodos internos.</p>
 
@@ -1338,7 +1239,7 @@ Si pide <b>"calcular $\mathbf{u}^1$"</b>: dar $\Delta t$ concreto, calcular $r$ 
 <li><b>Neumann $u_x(0, t) = 0$</b>: nodo fantasma $u_{-1}^{k+1} = u_1^{k+1}$. Para el nodo 0 (que ahora es incógnita) la ecuación queda: $(1 + 2r) u_0^{k+1} - 2r u_1^{k+1} = u_0^k$. Cambia la primera fila de la matriz.</li>
 <li><b>Onda</b>: 3 niveles. $\mathbf{u}^{k+1}$ depende de $\mathbf{u}^k$ y $\mathbf{u}^{k-1}$. Para arrancar, asumir $u_t(x, 0) = 0$ → $\mathbf{u}^{-1} = \mathbf{u}^0$ o algo equivalente.</li>
 <li><b>Convección-difusión</b>: aparece $u_x$, que se discretiza centrada → la matriz tiene términos extra en las super- y sub-diagonales.</li>
-<li><b>EDO 2° orden → sistema</b>: $\ddot x + p \dot x + q x = f$ se reescribe como $\dot x_1 = x_2$, $\dot x_2 = -q x_1 - p x_2 + f$, y se aplica diferencias finitas implícitas al sistema.</li>
+<li><b><abbr title="Ecuación Diferencial Ordinaria">EDO</abbr> de 2° orden → sistema</b>: $\ddot x + p \dot x + q x = f$ se reescribe como $\dot x_1 = x_2$, $\dot x_2 = -q x_1 - p x_2 + f$, y se aplica diferencias finitas implícitas al sistema.</li>
 </ul>
 
 <h4>Algoritmo de Thomas (matriz tridiagonal)</h4>
@@ -1365,8 +1266,8 @@ Back substitution:
 </div>
 </div>
 
-<!-- ========== R12: SUBESPACIOS ========== -->
-<div class="receta" id="r12">
+<!-- ========== R10 (era R12): SUBESPACIOS ========== -->
+<div class="receta" id="r10">
 <div class="receta-titulo">Subespacios paramétricos</div>
 <div class="receta-cuerpo">
 
@@ -1494,25 +1395,7 @@ $H = \{(x, y) : x + y = 5\}$ NO es subespacio (no contiene al $0$). Verificar si
 </div>
 
 <div>
-<h4>Fourier (serie)</h4>
-<p>$\omega_0 = 2\pi/T$.</p>
-<p>$x = \dfrac{a_0}{2} + \sum [a_n \cos(n\omega_0 t) + b_n \sen(n\omega_0 t)]$.</p>
-<p>$a_n = \dfrac{2}{T}\int_T x \cos(n\omega_0 t) dt$.</p>
-<p>$c_n = \dfrac{1}{T}\int_T x e^{-in\omega_0 t} dt$. $c_n = (a_n - i b_n)/2$.</p>
-<p>Parseval: $\dfrac{1}{T}\int_T |x|^2 = \sum |c_n|^2$.</p>
-</div>
-
-<div>
-<h4>Fourier (transformada)</h4>
-<p>$F(\omega) = \int_{-\infty}^\infty x(t) e^{-i\omega t} dt$.</p>
-<p>$\mathcal F\{x'\} = i\omega F$.</p>
-<p>$\mathcal F\{x(t-t_0)\} = e^{-i\omega t_0} F$.</p>
-<p>$\mathcal F\{x * y\} = X Y$.</p>
-<p>Pares: $e^{-at}u \to 1/(a + i\omega)$; rect$_a \to a\sinc(\omega a/2)$; $e^{-t^2} \to \sqrt\pi e^{-\omega^2/4}$.</p>
-</div>
-
-<div>
-<h4>Dif. finitas implícitas · calor</h4>
+<h4>Diferencias finitas implícitas · calor</h4>
 <p>$r = \Delta t/h^2$.</p>
 <p>$(1 + 2r) u_i^{k+1} - r u_{i-1}^{k+1} - r u_{i+1}^{k+1} = u_i^k$.</p>
 <p>Matriz $M$ tridiagonal. Incondicionalmente estable.</p>
@@ -1529,33 +1412,12 @@ $H = \{(x, y) : x + y = 5\}$ NO es subespacio (no contiene al $0$). Verificar si
 <p>$y_k = 2\sqrt{-p/3}\cos\bigl(\tfrac13 \arccos(\tfrac{3q}{2p}\sqrt{-3/p}) - \tfrac{2\pi k}{3}\bigr)$.</p>
 </div>
 
-<div>
-<h4>Convergencia SF (Dirichlet)</h4>
-<p>Si $x$ seccional. cont. y $x'$ idem en $[0,T]$:</p>
-<ul>
-<li>En continuidad: SF $\to x(t)$.</li>
-<li>En salto: SF $\to \tfrac12[x(t^+) + x(t^-)]$.</li>
-</ul>
-<p>Para identidades: evaluar SF en $t_0$ con valor cerrado, despejar suma.</p>
 </div>
 
-</div>
+<!-- ============================ TRIGONOMETRÍA ============================ -->
+<h2 id="trig">5 · Valores e identidades trigonométricas</h2>
 
-<!-- ============================ INTEGRALES ============================ -->
-<h2 id="integrales">5 · Tabla de integrales y derivadas útiles para Fourier</h2>
-
-<table>
-<tr><th>Integral</th><th>Resultado</th></tr>
-<tr><td>$\int t \sen(nt)\, dt$</td><td>$-\dfrac{t \cos(nt)}{n} + \dfrac{\sen(nt)}{n^2} + C$</td></tr>
-<tr><td>$\int t \cos(nt)\, dt$</td><td>$\dfrac{t \sen(nt)}{n} + \dfrac{\cos(nt)}{n^2} + C$</td></tr>
-<tr><td>$\int t^2 \sen(nt)\, dt$</td><td>$-\dfrac{t^2 \cos(nt)}{n} + \dfrac{2 t \sen(nt)}{n^2} + \dfrac{2 \cos(nt)}{n^3} + C$</td></tr>
-<tr><td>$\int t^2 \cos(nt)\, dt$</td><td>$\dfrac{t^2 \sen(nt)}{n} + \dfrac{2 t \cos(nt)}{n^2} - \dfrac{2 \sen(nt)}{n^3} + C$</td></tr>
-<tr><td>$\int e^{at} \cos(bt)\, dt$</td><td>$\dfrac{e^{at}(a \cos bt + b \sen bt)}{a^2 + b^2} + C$</td></tr>
-<tr><td>$\int e^{at} \sen(bt)\, dt$</td><td>$\dfrac{e^{at}(a \sen bt - b \cos bt)}{a^2 + b^2} + C$</td></tr>
-<tr><td>$\int e^{at} t^n\, dt$</td><td>Por partes recursivo; baja grado de $t^n$.</td></tr>
-<tr><td>$\int_{-\infty}^\infty e^{-t^2}\, dt$</td><td>$\sqrt\pi$ (gaussiana base)</td></tr>
-<tr><td>$\int_{-\infty}^\infty e^{-(t + i\omega/2)^2}\, dt$</td><td>$\sqrt\pi$ (contorno gaussiano)</td></tr>
-</table>
+<p>Aparecen tanto en ejemplos de Cuadrados Mínimos (modelo $y = a\cos x + b\sen x$) como en autovectores/autovalores que contienen senos y cosenos. Tener a mano los valores notables ahorra errores aritméticos.</p>
 
 <h4>Valores notables</h4>
 <table>
@@ -1577,16 +1439,7 @@ $H = \{(x, y) : x + y = 5\}$ NO es subespacio (no contiene al $0$). Verificar si
 <li>$\sen a \cos b = \tfrac12[\sen(a+b) + \sen(a-b)]$.</li>
 <li>$\cos a \cos b = \tfrac12[\cos(a+b) + \cos(a-b)]$.</li>
 <li>$\sen a \sen b = \tfrac12[\cos(a-b) - \cos(a+b)]$.</li>
-<li>$e^{i\theta} = \cos\theta + i \sen\theta$. $\cos\theta = (e^{i\theta} + e^{-i\theta})/2$. $\sen\theta = (e^{i\theta} - e^{-i\theta})/(2i)$.</li>
-</ul>
-
-<h4>Sumas conocidas (para inciso b de SF)</h4>
-<ul>
-<li>$\sum_{n=1}^\infty \dfrac{1}{n^2} = \dfrac{\pi^2}{6}$ (Basel).</li>
-<li>$\sum_{n=1}^\infty \dfrac{(-1)^{n+1}}{n^2} = \dfrac{\pi^2}{12}$.</li>
-<li>$\sum_{n=0}^\infty \dfrac{(-1)^n}{2n+1} = \dfrac{\pi}{4}$ (Leibniz).</li>
-<li>$\sum_{n=1}^\infty \dfrac{1}{n^4} = \dfrac{\pi^4}{90}$.</li>
-<li>$\sum_{n=1}^\infty \dfrac{1}{(2n-1)^2} = \dfrac{\pi^2}{8}$.</li>
+<li>Fórmula de Euler: $e^{i\theta} = \cos\theta + i \sen\theta$. De ahí $\cos\theta = (e^{i\theta} + e^{-i\theta})/2$ y $\sen\theta = (e^{i\theta} - e^{-i\theta})/(2i)$.</li>
 </ul>
 
 <!-- ============================ REPETIDOS ============================ -->
@@ -1611,25 +1464,15 @@ $H = \{(x, y) : x + y = 5\}$ NO es subespacio (no contiene al $0$). Verificar si
 <li><b>$B = \{(0, 1, -1), (0, 0, 1), (1, 1, 0)\}$</b>: IP IV Ej. 1, IP VII Ej. 2 (mismas matrices + antiimagen $(0, 2, 1)$).</li>
 </ul>
 
-<h3>Funciones recurrentes (IIP / Final)</h3>
+<h3>Ejercicios recurrentes</h3>
 
 <ul>
-<li><b>$f(x) = 1 - x$ con $f(x+1) = f(x)$</b>: 5 finales. Inciso b) siempre pide convergencia en $x = 0$ y $x = 1/2$.
-<br><i>Resultado a saber</i>: $f \sim \dfrac{1}{2} + \sum_{n=1}^\infty \dfrac{\sen(2\pi n x)}{n\pi}$.</li>
-<li><b>$u_t = u_{xx}$ con esquema implícito 4 nodos</b>: IIP IV, IIP VI, Final V, VI, IX, X, XI(1). Variantes en condiciones de borde (Dirichlet / Neumann / Mixto) y condición inicial ($\sen, \cos, e^{-x}, x^2, e^{-x^2}, \ldots$).</li>
-<li><b>EDO 2° orden → sistema</b>: Final I (Duffing), Final II ($\ddot x + 2\dot x + 3x = e^{-t^2}$), Final III ($\ddot x + \dot x + 3x = \cos(t^2 + 1)$). Reescribir como $\dot x_1 = x_2$, $\dot x_2 = \ldots$ y aplicar dif. finitas.</li>
-<li><b>TF de pulso polinómico</b>: $(t-1)^2$, $t - t^2$, $1 - |t|$, $e^{-a|t|}$ con soporte truncado. Casi siempre integración por partes una o dos veces.</li>
-</ul>
-
-<h3>Casi-duplicados de parciales</h3>
-
-<ul>
-<li><b>IIP I ≡ IIP III</b> excepto la función del Ej. 1 ($e^t$ vs $t + 1$).</li>
-<li><b>IIP V ≡ IIP VI</b> excepto $\cos \leftrightarrow \sen$ y la EDP del Ej. 3 (onda vs convección-difusión).</li>
+<li><b>$u_t = u_{xx}$ con esquema implícito de 4 nodos</b>: aparece en varios finales como ejercicio puente al parcial central. Variantes en condiciones de borde (Dirichlet / Neumann / Mixto) y condición inicial ($\sen, \cos, e^{-x}, x^2, e^{-x^2}, \ldots$).</li>
+<li><b><abbr title="Ecuación Diferencial Ordinaria">EDO</abbr> de 2° orden → sistema</b>: ejemplos clásicos como Duffing, $\ddot x + 2\dot x + 3x = e^{-t^2}$, $\ddot x + \dot x + 3x = \cos(t^2 + 1)$. Reescribir como $\dot x_1 = x_2$, $\dot x_2 = \ldots$ y aplicar diferencias finitas implícitas al sistema.</li>
 </ul>
 
 <!-- ============================ TRAMPAS ============================ -->
-<h2 id="trampas">7 · Top 15 trampas que cuestan puntos</h2>
+<h2 id="trampas">7 · Trampas que cuestan puntos</h2>
 
 <div class="trap"><span class="trap-titulo">1 · Matriz asociada en base no canónica</span>
 Si $A = \MB{B_2}{B_1}(T)$, $A$ recibe coordenadas en $B_1$. Si te dan $v$ en canónica, pasalo a $B_1$ ANTES de multiplicar.</div>
@@ -1643,38 +1486,32 @@ $\det(\lambda I - A)$ y $\det(A - \lambda I)$ difieren en $(-1)^n$. La cátedra 
 <div class="trap"><span class="trap-titulo">4 · Autovalor doble en matriz no simétrica</span>
 Siempre calculá $\dim S_\lambda$ explícitamente. No asumas que diagonaliza solo porque "es real".</div>
 
-<div class="trap"><span class="trap-titulo">5 · Signo del multiplicador en LU</span>
+<div class="trap"><span class="trap-titulo">5 · Signo del multiplicador en <abbr title="Lower-Upper">LU</abbr></span>
 Si hacés $F_i \leftarrow F_i - m\, F_j$ (resta), $L_{ij} = +m$. El signo en $L$ es opuesto al de la operación.</div>
 
-<div class="trap"><span class="trap-titulo">6 · Olvidar normalizar en GS</span>
+<div class="trap"><span class="trap-titulo">6 · Olvidar normalizar en <abbr title="Gram-Schmidt">GS</abbr></span>
 Si $Q^T Q$ no es la identidad sino una diagonal con valores $\neq 1$, te olvidaste de dividir alguna columna por su norma.</div>
 
-<div class="trap"><span class="trap-titulo">7 · QR: usar $u_i$ en vez de $v_i$ en proyecciones</span>
-Cuando calculás $u_j = a_j - \sum \langle a_j, v_i\rangle v_i$, los $v_i$ son versores. Quedate con la versión normalizada.</div>
+<div class="trap"><span class="trap-titulo">7 · <abbr title="Factorización Q ortonormal por R triangular superior">QR</abbr>: usar $u_i$ en vez de $v_i$ en proyecciones</span>
+Cuando calculás $u_j = a_j - \sum \langle a_j, v_i\rangle v_i$, los $v_i$ son versores (vectores unitarios). Quedate con la versión normalizada.</div>
 
-<div class="trap"><span class="trap-titulo">8 · SVD: $\sigma_i$ desordenados</span>
+<div class="trap"><span class="trap-titulo">8 · <abbr title="Singular Value Decomposition">SVD</abbr>: $\sigma_i$ desordenados</span>
 $\sigma_1 \ge \sigma_2 \ge \ldots$ siempre. Si los ordenás mal, las columnas de $U$ y $V$ quedan desalineadas.</div>
 
 <div class="trap"><span class="trap-titulo">9 · SVD: dividir por $\sigma_i = 0$</span>
 Si $\rg A < \min(n, m)$, no podés usar $u_i = A v_i / \sigma_i$ con los $\sigma_i$ nulos. Completá esos $u_i$ desde el núcleo de $A^T$.</div>
 
 <div class="trap"><span class="trap-titulo">10 · Pseudoinversa con $A^T A$ no invertible</span>
-Si las columnas de $A$ son LD, $(A^T A)^{-1}$ no existe. Hay que ir vía SVD.</div>
+Si las columnas de $A$ son <abbr title="Linealmente Dependientes">LD</abbr>, $(A^T A)^{-1}$ no existe. Hay que ir vía SVD.</div>
 
-<div class="trap"><span class="trap-titulo">11 · Fourier: paridad alrededor de $T/2$ vs alrededor de $0$</span>
-La paridad se mide en el centro del período. Si el intervalo es $[0, T]$, la "función par" significa $x(t) = x(T - t)$, no $x(t) = x(-t)$.</div>
+<div class="trap"><span class="trap-titulo">11 · Diferencias finitas: signo del $r$</span>
+Para implícito hacia atrás, los términos $-r$ están en la matriz del lado izquierdo. Para explícito, están en el lado derecho (<abbr title="Right-Hand Side: lado derecho de la ecuación">RHS</abbr>).</div>
 
-<div class="trap"><span class="trap-titulo">12 · Fourier: discontinuidad en el borde</span>
-La SF en un punto de salto converge al promedio, no al valor de la función. Por ejemplo $f(x) = 1 - x$ en $[0, 1)$ con período $1$ tiene salto en $0$ y la SF vale $1/2$, no $1$.</div>
+<div class="trap"><span class="trap-titulo">12 · Diferencias finitas: arranque de <abbr title="Ecuación en Derivadas Parciales">EDP</abbr> de orden 2 en tiempo</span>
+Para $u_{tt}$, necesitás $\mathbf u^k$ y $\mathbf u^{k-1}$. Si te dan $u_t(x, 0)$, usá $u_t \approx (u^1 - u^{-1})/(2\Delta t)$ y despejá el nodo fantasma.</div>
 
-<div class="trap"><span class="trap-titulo">13 · Diferencias finitas: signo del $r$</span>
-Para implícito hacia atrás, los términos $-r$ están en la matriz del lado izquierdo. Para explícito, están en el RHS.</div>
-
-<div class="trap"><span class="trap-titulo">14 · Diferencias finitas: arranque de EDP de orden 2 en tiempo</span>
-Para $u_{tt}$, necesitás $\mathbf u^k$ y $\mathbf u^{k-1}$. Si te dan $u_t(x, 0)$, usá $u_t \approx (u^1 - u^{-1})/(2\Delta t)$ y despejá el fantasma.</div>
-
-<div class="trap"><span class="trap-titulo">15 · Cálculo de $\det 4 \times 4$ con Sarrus</span>
-Sarrus es SOLO para $3 \times 3$. Para $4 \times 4$ usá Laplace por una fila/col con ceros, o reducí a triangular y multiplicá las diagonales.</div>
+<div class="trap"><span class="trap-titulo">13 · Cálculo de $\det 4 \times 4$ con Sarrus</span>
+Sarrus es SÓLO para $3 \times 3$. Para $4 \times 4$ usá Laplace por una fila/columna con ceros, o reducí a triangular y multiplicá las diagonales.</div>
 
 <!-- ============================ CASIO ============================ -->
 <h2 id="casio">8 · Scripts Casio · qué hace cada uno</h2>
@@ -1683,19 +1520,19 @@ Sarrus es SOLO para $3 \times 3$. Para $4 \times 4$ usá Laplace por una fila/co
 
 <table>
 <tr><th>#</th><th>Archivo</th><th>Qué resuelve</th><th>Receta</th></tr>
-<tr><td>1</td><td><code>tl.py</code></td><td>TL: núcleo, imagen, antiimagen, matriz por regla, rango</td><td>R1</td></tr>
-<tr><td>2</td><td><code>diag.py</code></td><td>Diagonalización 2×2 / 3×3 (Cardano sobre cúbica, autovec por Gauss)</td><td>R2</td></tr>
+<tr><td>1</td><td><code>tl.py</code></td><td><abbr title="Transformación Lineal">TL</abbr>: núcleo, imagen, antiimagen, matriz por regla, rango</td><td>R1</td></tr>
+<tr><td>2</td><td><code>diag.py</code></td><td>Diagonalización 2×2 / 3×3 (Cardano sobre cúbica, autovectores por Gauss)</td><td>R2</td></tr>
 <tr><td>3</td><td><code>cb.py</code></td><td>Cambio de base $M_{B_2 B_1}(\text{id})$ + coordenadas</td><td>R3</td></tr>
 <tr><td>4</td><td><code>lu.py</code></td><td>$P A = L U$ con pivoteo parcial automático</td><td>R4</td></tr>
-<tr><td>5</td><td><code>qr.py</code></td><td>QR por GS clásico, imprime todos los $u_i, v_i$ y $\langle a, v\rangle$</td><td>R5</td></tr>
-<tr><td>6</td><td><code>svd.py</code></td><td>SVD vía $A^T A$ con autoval, autovec y $u_i = A v_i / \sigma_i$</td><td>R6</td></tr>
+<tr><td>5</td><td><code>qr.py</code></td><td><abbr title="Factorización Q ortonormal por R triangular superior">QR</abbr> por <abbr title="Gram-Schmidt">GS</abbr> clásico, imprime todos los $u_i, v_i$ y $\langle a, v\rangle$</td><td>R5</td></tr>
+<tr><td>6</td><td><code>svd.py</code></td><td><abbr title="Singular Value Decomposition">SVD</abbr> vía $A^T A$ con autovalores, autovectores y $u_i = A v_i / \sigma_i$</td><td>R6</td></tr>
 <tr><td>7</td><td><code>pinv.py</code></td><td>Pseudoinversa por fórmula directa según rango</td><td>R7</td></tr>
-<tr><td>8</td><td><code>lsq.py</code></td><td>MMCC: 5 modelos pre-cargados, devuelve coef + residuo</td><td>R8</td></tr>
+<tr><td>8</td><td><code>lsq.py</code></td><td><abbr title="Mínimos Cuadrados">MMCC</abbr>: 5 modelos pre-cargados, devuelve coeficientes + norma del residuo</td><td>R8</td></tr>
 <tr><td>9</td><td><code>cplx.py</code></td><td>Complejos: binómica↔polar, raíces $n$-ésimas, potencias</td><td>—</td></tr>
-<tr><td>10</td><td><code>fs.py</code></td><td>Series Fourier: 9 funciones pre-cargadas + custom, integra Simpson</td><td>R9</td></tr>
-<tr><td>11</td><td><code>tf.py</code></td><td>TF: pares cerrados + pulso polinómico numérico</td><td>R10</td></tr>
-<tr><td>12</td><td><code>edp.py</code></td><td>Dif. finitas implícitas: calor / onda / convección, Thomas</td><td>R11</td></tr>
+<tr><td>10</td><td><code>edp.py</code></td><td>Diferencias finitas implícitas: calor / onda / convección, algoritmo de Thomas</td><td>R9</td></tr>
 </table>
+
+<p class="small"><b>Nota:</b> los scripts <code>fs.py</code> (Series de Fourier) y <code>tf.py</code> (Transformada de Fourier) se omiten porque Fourier no entra en el parcial central; quedan disponibles en el directorio <code>study/casio/</code> para repaso del Final.</p>
 
 <h4>Convenciones de entrada</h4>
 <ul>

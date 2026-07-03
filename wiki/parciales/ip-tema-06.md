@@ -3,8 +3,10 @@ tags: [parcial, ip, transformaciones-lineales, nucleo, diagonalizacion, autovect
 fuente: raw/Practicas/Modelos_Examenes/MNA_IP_Tema_VI.pdf
 tipo: ip
 tema: 6
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[ip-tema-06-resolucion]]**
 
 # Primer Parcial de Métodos Numéricos Avanzados — Tema VI
 

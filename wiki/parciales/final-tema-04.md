@@ -3,8 +3,10 @@ tags: [final, transformaciones-lineales, nucleo-imagen, diagonalizacion, fourier
 fuente: raw/Practicas/Modelos_Examenes/MNA_Final_Tema_IV.pdf
 tipo: final
 tema: 4
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[final-tema-04-resolucion]]**
 
 # Examen Final de Métodos Numéricos Avanzados — Tema IV
 

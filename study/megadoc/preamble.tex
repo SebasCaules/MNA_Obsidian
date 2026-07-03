@@ -1,0 +1,61 @@
+\usepackage{fontspec}
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+
+\definecolor{cazul}{HTML}{1F4E79}
+\definecolor{cverde}{HTML}{1E7A46}
+\definecolor{cnaranja}{HTML}{B5651D}
+\definecolor{crojo}{HTML}{9B2226}
+\definecolor{cgris}{HTML}{F2F2F2}
+
+% ---- operadores y atajos (los agentes usan estos; NO redefinir) ----
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\inner}[2]{\left\langle #1,\, #2 \right\rangle}
+\DeclareMathOperator{\rango}{rango}
+\DeclareMathOperator{\Nuc}{Nu}
+\DeclareMathOperator{\Imag}{Im}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\diag}{diag}
+\newcommand{\adjm}[1]{#1^{*}}   % conjugada transpuesta / adjunta hermitica
+\DeclareMathOperator{\gen}{gen}
+
+% ---- cajas de estilo ----
+\newtcolorbox{teoria}{colback=cazul!5,colframe=cazul,boxrule=0.6pt,
+  left=3mm,right=3mm,top=2mm,bottom=2mm,breakable,
+  title={\textbf{Teoría esencial}},fonttitle=\bfseries\color{white}}
+\newtcolorbox{receta}{colback=cverde!6,colframe=cverde,boxrule=0.6pt,
+  left=3mm,right=3mm,top=2mm,bottom=2mm,breakable,
+  title={\textbf{Receta de examen}},fonttitle=\bfseries\color{white}}
+\newtcolorbox{ejemplo}[1]{colback=cnaranja!6,colframe=cnaranja,boxrule=0.6pt,
+  left=3mm,right=3mm,top=2mm,bottom=2mm,breakable,
+  title={\textbf{Ejemplo resuelto — #1}},fonttitle=\bfseries\color{white}}
+\newtcolorbox{truco}{colback=crojo!5,colframe=crojo,boxrule=0.6pt,
+  left=3mm,right=3mm,top=2mm,bottom=2mm,breakable,
+  title={\textbf{Trampa frecuente / truco}},fonttitle=\bfseries\color{white}}
+
+\titleformat{\section}{\Large\bfseries\color{cazul}}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{cazul!85}}{\thesubsection}{0.6em}{}
+\setlist[enumerate]{leftmargin=*,itemsep=1pt,topsep=2pt}
+\setlist[itemize]{leftmargin=*,itemsep=1pt,topsep=2pt}
+
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\color{cazul}MNA — Megadoc de estudio}
+\fancyhead[R]{\small\color{cazul}\leftmark}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}

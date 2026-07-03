@@ -3,8 +3,10 @@ tags: [parcial, recuperatorio, transformaciones-lineales, diagonalizacion, fouri
 fuente: raw/Practicas/Modelos_Examenes/MNA_Parcial_Tema_XIII.pdf
 tipo: parcial
 tema: 13
-tiene_resolucion: false
+tiene_resolucion: true
 ---
+
+> ✅ **Resolución completa (verificada): [[parcial-tema-13-resolucion]]**
 
 # Recuperatorio de Métodos Numéricos Avanzados — Tema XIII
 
